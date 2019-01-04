@@ -1,0 +1,30 @@
+{
+    "name": "Velocity Web Kit",
+    "version": "0.5",
+    "description": "Modifications for Easton Velocity web-based tools",
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "permissions": ["storage", "activeTab", "file:///home/shea/potd.txt"],
+    "commands": {
+        "copypotd": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y",
+                "mac": "Command+Shift+Y"
+            },
+            "description": "Toggle feature foo"
+        }
+    },    
+    "content_scripts": [
+        {
+            "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
+            "css": ["tickets.css"],
+            "js": ["tickets.js"]
+        }
+    ],
+    "page_action": {
+        "default_popup": "popup.html"
+    },
+    "manifest_version": 2
+}
