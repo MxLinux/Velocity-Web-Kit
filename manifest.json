@@ -6,7 +6,7 @@
         "scripts": ["background.js"],
         "persistent": false
     },
-    "permissions": ["storage", "activeTab", "file:///home/shea/potd.txt"],
+    "permissions": ["declarativeContent", "storage", "activeTab", "file:///home/shea/potd.txt"],
     "commands": {
         "copypotd": {
             "suggested_key": {
@@ -15,7 +15,7 @@
             },
             "description": "Toggle feature foo"
         }
-    },    
+    },
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
@@ -26,5 +26,8 @@
     "page_action": {
         "default_popup": "popup.html"
     },
+    "web_accessible_resources": [
+        "//Euserver_5/isp/Arris Files/*.txt"
+    ],
     "manifest_version": 2
 }
