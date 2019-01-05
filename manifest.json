@@ -21,6 +21,11 @@
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
             "css": ["tickets.css"],
             "js": ["tickets.js"]
+        },
+        {
+            "matches": ["https://noc.iglass.net/*modem*"],
+            "css": ["iglass.css"],
+            "js": ["iglass.js"]
         }
     ],
     "page_action": {

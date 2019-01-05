@@ -8,11 +8,16 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
   }]);
 });
 
-// UPSTREAM
-// var up = document.getElementsByClassName("ui-widget")[13]
-// var tx = up.getElementsByTagName("span")[1].innerText;
-// var usnr = up.getElementsByTagName("span")[3].innerText;
-// DOWNSTREAM
-// var down = document.getElementsByClassName("ui-widget")[18];
-// var rx = down.getElementsByTagName("span")[1].innerText;
-// var dsnr = down.getElementsByTagName("span")[3].innerText;
+chrome.commands.onCommand.addListener(function(command) {
+    if (command === "copypotd") {
+        // Filler code to copy to clipboard
+        var potd = "foo";
+        var potdNode = document.createElement("input");
+        document.body.appendChild(potdNode);
+        potdNode.setAttribute("id", "potd_id");
+        document.getElementById("potd_id").value=potd;
+        potdNode.select();
+        document.execCommand("copy");
+        document.body.removeChild(potdNode);
+    }
+  });
