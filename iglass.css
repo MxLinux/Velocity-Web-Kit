@@ -25,6 +25,9 @@ body {
 a {
     color: var(--color7) !important;
 }
+label {
+    color: var(--color15) !important;
+}
 /* CSS by ID */
 #customerLogoDiv {
     border: 0 !important;
@@ -33,6 +36,12 @@ a {
 #customerLogo img {
     visibility: hidden;
     height: 0;
+}
+#customerLogoDivider {
+    border: 0 !important;
+}
+#customerName {
+    margin-top: -40px !important;
 }
 #issLogoDiv {
     background-image: none !important;
