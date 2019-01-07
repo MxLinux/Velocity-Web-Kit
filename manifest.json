@@ -10,7 +10,7 @@
             "js": ["tickets.js"]
         },
         {
-            "matches": ["https://noc.iglass.net/*modem*"],
+            "matches": ["https://noc.iglass.net/jglass/igo/*"],
             "js": ["iglass.js"]
         },
         {
@@ -27,10 +27,7 @@
         }
     ],
     "web_accessible_resources": [
-        "//Euserver_5/isp/Arris Files/*.txt",
-        "file://///Euserver_5/isp/Arris_Files/*.txt",
-        "file:///home/shea/potd.txt",
-        "/home/shea/potd.txt"
+        "file://///Euserver_5/isp/Arris_Files/*.txt"
     ],
     "manifest_version": 2
 }

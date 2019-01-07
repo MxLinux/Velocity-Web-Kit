@@ -1,0 +1,92 @@
+/* Define Custom Colors */
+:root {
+    --color0: #3B4252;
+    --color1: #3B4252;
+    --color2: #434C5E;
+    --color3: #4C566A;
+    --color4: #D8DEE9;
+    --color5: #E5E9F0;
+    --color6: #ECEFF4;
+    --color7: #8FBCBB;
+    --color8: #88C0D0;
+    --color9: #81A1C1;
+    --color10: #5E81AC;
+    --color11: #BF616A;
+    --color12: #D08770;
+    --color13: #EBCB8B;
+    --color14: #A3BE8C;
+    --color15: #B48EAD;
+}
+/* CSS by Element */
+body {
+    background: var(--color0);
+    color: var(--color9) !important;
+}
+a {
+    color: var(--color7) !important;
+}
+/* CSS by ID */
+#customerLogoDiv {
+    border: 0 !important;
+    height: 0;
+}
+#customerLogo img {
+    visibility: hidden;
+    height: 0;
+}
+#issLogoDiv {
+    background-image: none !important;
+}
+#issLogoDiv img {
+    visibility: hidden;
+}
+.ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle {
+    padding-top: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    height: 20px;
+    font-size: 14px;
+    vertical-align: bottom;
+}
+.ui-widget-content {
+    background: var(--color3) !important;
+    color: var(--color8) !important;
+    border: 0 !important;
+}
+.ui-widget-header {
+    background: var(--color2) !important;
+    border: 0 !important;
+    color: var(--color10) !important;
+}
+/* CSS by Class */
+.green_text {
+    color: var(--color14) !important;
+}
+.yellow_text {
+    color: var(--color13) !important;
+}
+.red_text {
+    color: var(--color11) !important;
+}
+.green_highlight {
+    background: var(--color14) !important;
+}
+.yellow_highlight {
+    background: var(--color13) !important;
+}
+.red_highlight {
+    background: var(--color11) !important;
+}
+/* CSS by Unique Selector */
+p:nth-child(3) > a:nth-child(1) { /* Fixes "Welcome" too close to name */
+    padding-left: 3px;
+}
+
+p:nth-child(4) { /* Add a newline under Welcome line to even out spacing */
+    margin-top: 5px !important;
+}
+
+#menuBar > .ui-helper-clearfix { /* When we remove the EU logo in the top left, the menubar overlaps the top-right elements */
+    margin-top: 10px;
+}

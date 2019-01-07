@@ -1,7 +1,7 @@
 // We can load all the POTD files as an array and check them one at a time
 // if (location == file) can be nested in a for loop where file is then file[i]
 
-file = "file:///home/shea/potd.txt";
+file = "file://euserver_5/isp/Arris%20Files/Secure%20Password%20OT%20Day%20List%20Jan%20-%20Mar%202019.txt";
 
 var date = new Date();
 var month = (date.getMonth() + 1).toString();

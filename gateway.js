@@ -18,7 +18,7 @@ function getPOTD() {
             alert("Until I find a workaround, you will have to manually open the current POTD file from network storage just once per day so this script can access the password.");
         }
         else {
-            document.getElementById("password").value = potd;
+            document.getElementById("Password").value = potd;
             var inputs = document.getElementsByTagName("input");
             for (i = 0; i < inputs.length; i++) {
                 if (inputs[i].value === "Login") {
@@ -30,9 +30,12 @@ function getPOTD() {
 }
 
 if (match != null) {
-    var potd = true;
-    getPOTD();
-    document.getElementById("username").value = user;
+    if (location.port == 8080) {
+        var potd = true;
+        getPOTD();
+        document.getElementById('UserName').value = "technician";
+    }
+
 }
 else {
     console.log("Not a gateway login.")

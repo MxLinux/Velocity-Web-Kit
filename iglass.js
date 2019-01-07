@@ -1,12 +1,12 @@
+// WE MAY HAVE TO USE A FOR LOOP TO ITERATE THROUGH ALL APPLICABLE SECTIONS
+// CHECK FOR STRING IN ELEMENT 
 //UPSTREAM
-var up = document.getElementsByClassName("ui-widget")[13]
-var tx = up.getElementsByTagName("span")[1].innerText;
-var usnr = up.getElementsByTagName("span")[3].innerText;
+var tx = document.getElementsByClassName("clickForPopup")[0].getElementsByTagName("span")[0].innerText;
+var usnr = document.getElementsByClassName("clickForPopup")[1].getElementsByTagName("span")[0].innerText;
 
 //DOWNSTREAM
-var down = document.getElementsByClassName("ui-widget")[18];
-var rx = down.getElementsByTagName("span")[1].innerText;
-var dsnr = down.getElementsByTagName("span")[3].innerText;
+var rx = document.getElementsByClassName("clickForPopup")[2].getElementsByTagName("span")[0].innerText;
+var dsnr = document.getElementsByClassName("clickForPopup")[3].getElementsByTagName("span")[0].innerText;
 
 // As a string
 var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
