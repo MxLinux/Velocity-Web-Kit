@@ -82,11 +82,9 @@ a {
 p:nth-child(3) > a:nth-child(1) { /* Fixes "Welcome" too close to name */
     padding-left: 3px;
 }
-
 p:nth-child(4) { /* Add a newline under Welcome line to even out spacing */
     margin-top: 5px !important;
 }
-
 #menuBar > .ui-helper-clearfix { /* When we remove the EU logo in the top left, the menubar overlaps the top-right elements */
     margin-top: 10px;
 }
