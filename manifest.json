@@ -2,20 +2,7 @@
     "name": "Velocity Web Kit",
     "version": "0.5",
     "description": "Modifications for Easton Velocity web-based tools",
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
-    },
-    "permissions": ["declarativeContent", "storage", "activeTab", "file:///home/shea/potd.txt"],
-    "commands": {
-        "copypotd": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+Y",
-                "mac": "Command+Shift+Y"
-            },
-            "description": "Toggle feature foo"
-        }
-    },
+    "permissions": ["storage", "activeTab", "file:///home/shea/potd.txt"],
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
@@ -24,15 +11,26 @@
         },
         {
             "matches": ["https://noc.iglass.net/*modem*"],
-            "css": ["iglass.css"],
             "js": ["iglass.js"]
+        },
+        {
+            "matches": ["https://noc.iglass.net/*"],
+            "css": ["iglass.css"]
+        },
+        {
+            "matches": ["<all_urls>"],
+            "js": ["gateway.js"]
+        },
+        {
+            "matches": ["file:///*"],
+            "js": ["potd.js"]
         }
     ],
-    "page_action": {
-        "default_popup": "popup.html"
-    },
     "web_accessible_resources": [
-        "//Euserver_5/isp/Arris Files/*.txt"
+        "//Euserver_5/isp/Arris Files/*.txt",
+        "file://///Euserver_5/isp/Arris_Files/*.txt",
+        "file:///home/shea/potd.txt",
+        "/home/shea/potd.txt"
     ],
     "manifest_version": 2
 }

@@ -12,9 +12,8 @@ var dsnr = down.getElementsByTagName("span")[3].innerText;
 var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
 var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
 var signalstr = upstr + " || " + downstr;
-//alert(signalstr);
 
-var signalButton = "<button id='signalButton' onclick='copySignal()'>Copy Signals</button>";
+var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copySignal()'>Copy Signals</button>";
 document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
 
 var contentDiv = document.getElementById("content");
@@ -28,5 +27,4 @@ function copySignal() {
     signalArea.style.opacity = "0";
     signalArea.select();
     document.execCommand("copy");
-    alert('executed');
 }
