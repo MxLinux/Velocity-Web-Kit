@@ -25,9 +25,24 @@ body {
 }
 a {
     color: var(--color7) !important;
+    text-decoration: none !important;
+}
+input, textarea, select {
+    background: var(--color0) !important;
+    color: var(--color9) !important;
+    border-color: var(--color9) !important;
+    border: 1px solid !important;
 }
 label {
     color: var(--color15) !important;
+}
+legend {
+    background: var(--color3) !important;
+    color: var(--color9) !important;
+    border-color: var(--color9) !important;
+}
+td[role="row"] {
+    border: 2px solid !important;
 }
 /* CSS by ID */
 #customerLogoDiv {
@@ -49,11 +64,14 @@ label {
     margin-top: 20px !important;
 }
 .first-level {
-    background: var(--color2) !important
+    background: var(--color3) !important
 }
 #header {
     margin-top: -10px !important;
     margin-bottom: 20px !important;
+}
+.iglassForm {
+    margin-top: -5px !important;
 }
 #issLogoDiv {
     background-image: none !important;
@@ -62,10 +80,45 @@ label {
 #issLogoDiv img {
     visibility: hidden;
 }
+.mainmenu-div-outer, .mainmenu-div-outer-two-col, .mainmenu-div-inner {
+    background: var(--color3) !important;
+}
+.mainmenu-div-outer, .mainmenu-div-outer-two-col {
+    border: 2px solid var(--color2) !important;
+}
 #menuBar {
-    background: var(--color2) !important;
+    background: var(--color3) !important;
     background-image: none !important;
     border-radius: 5px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+#probationMain, #probationEmail, #probationReason {
+    background: var(--color3) !important;
+    color: var(--color9) !important;
+    border-color: var(--color9) !important;
+}
+#searchButton {
+    margin-left: 3px !important;
+    margin-top: -2px !important;
+    border: none !important;
+}
+#searchHelp {
+    margin-top: 5px !important;
+}
+.ui-button {
+    background: var(--color2) !important;
+    color: var(--color9) !important;
+    border: 0 !important;
+}
+.ui-state-default {
+    background: var(--color0) !important;
+    color: var(--color15) !important;
+    border: 2px solid var(--color9) !important;
+}
+.ui-state-highlight {
+    background: var(--color4) !important;
+    color: var(--color0) !important;
 }
 .ui-tabs-nav li {
     background: var(--color2) !important;
@@ -74,11 +127,14 @@ label {
 .ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle {
     padding-top: 10px;
     padding-left: 15px;
-    margin-bottom: 10px;
-    border-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
     height: 20px;
     font-size: 14px;
     vertical-align: bottom;
+    margin-top: 10px !important;
 }
 .ui-widget #interfaceToggle {
     margin-top: 10px !important;
@@ -95,10 +151,16 @@ label {
     padding-top: 3px !important;
     padding-bottom: 3px !important;
 }
+.ui-widget-subgroup {
+    background: var(--color0) !important;
+    border-color: var(--color9) !important;
+}
 #upPowerThreshold {
     padding-top: 10px !important;
 }
-/* CSS by Class */
+.blue_text {
+    color: var(--color9) !important;
+}
 .green_text {
     color: var(--color14) !important;
 }
@@ -108,7 +170,6 @@ label {
 .red_text {
     color: var(--color11) !important;
 }
-/* Colors in the signal gauge */
 .green_highlight {
     background: var(--color14) !important;
 }
@@ -130,13 +191,22 @@ li[id*="M_menu"] {
     margin-top: 10px;
 }
 p:nth-child(3) > a:nth-child(1) { /* Fixes "Welcome" too close to name */
-    padding-left: 3px;
+    padding-left: 5px;
 }
 p:nth-child(4) { /* Add a newline under Welcome line to even out spacing */
     margin-top: 5px !important;
 }
-.dataTables_wrapper tr:nth-child(even) {
+table.dataTable.display tr:nth-child(even), table.dataTable.display tr:nth-child(even) > .sorting_1 {
     background: var(--color2) !important;
+    border: 2px solid var(--color9) !important;
+}
+table.dataTable.display tr:nth-child(odd), table.dataTable.display tr:nth-child(odd) > .sorting_1 {
+    background: var(--color0) !important;
+    border: 2px solid var(--color9) !important;
+}
+#expandAll > .ui-button-icon {
+    height: 0 !important;
+    width: 0 !important;
 }
 .ui-widget:nth-child(6) > .ui-corner-bottom { /* Fix the awkward gap between upstream/downstream */
     border-bottom-right-radius: 0 !important;
