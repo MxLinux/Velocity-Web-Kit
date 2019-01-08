@@ -2,7 +2,7 @@
     "name": "Velocity Web Kit",
     "version": "0.5",
     "description": "Modifications for Easton Velocity web-based tools",
-    "permissions": ["storage", "activeTab", "file:///home/shea/potd.txt"],
+    "permissions": ["storage", "activeTab"],
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
@@ -16,18 +16,7 @@
         {
             "matches": ["https://noc.iglass.net/*"],
             "css": ["iglass.css"]
-        },
-        {
-            "matches": ["<all_urls>"],
-            "js": ["gateway.js"]
-        },
-        {
-            "matches": ["file:///*"],
-            "js": ["potd.js"]
         }
-    ],
-    "web_accessible_resources": [
-        "file://///Euserver_5/isp/Arris_Files/*.txt"
     ],
     "manifest_version": 2
 }
