@@ -21,6 +21,7 @@
 body {
     background: var(--color0);
     color: var(--color9) !important;
+    font-size: 12px !important;
 }
 a {
     color: var(--color7) !important;
@@ -39,15 +40,36 @@ label {
 }
 #customerLogoDivider {
     border: 0 !important;
+    height: 0 !important;
 }
 #customerName {
-    margin-top: -40px !important;
+    margin-top: -20px !important;
+}
+#customerStatusDiv {
+    margin-top: 20px !important;
+}
+.first-level {
+    background: var(--color2) !important
+}
+#header {
+    margin-top: -10px !important;
+    margin-bottom: 20px !important;
 }
 #issLogoDiv {
     background-image: none !important;
+    margin-top: 0 !important;
 }
 #issLogoDiv img {
     visibility: hidden;
+}
+#menuBar {
+    background: var(--color2) !important;
+    background-image: none !important;
+    border-radius: 5px !important;
+}
+.ui-tabs-nav li {
+    background: var(--color2) !important;
+    border: 0 !important;
 }
 .ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle {
     padding-top: 10px;
@@ -58,6 +80,9 @@ label {
     font-size: 14px;
     vertical-align: bottom;
 }
+.ui-widget #interfaceToggle {
+    margin-top: 10px !important;
+}
 .ui-widget-content {
     background: var(--color3) !important;
     color: var(--color8) !important;
@@ -67,6 +92,11 @@ label {
     background: var(--color2) !important;
     border: 0 !important;
     color: var(--color10) !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+#upPowerThreshold {
+    padding-top: 10px !important;
 }
 /* CSS by Class */
 .green_text {
@@ -78,6 +108,7 @@ label {
 .red_text {
     color: var(--color11) !important;
 }
+/* Colors in the signal gauge */
 .green_highlight {
     background: var(--color14) !important;
 }
@@ -88,12 +119,36 @@ label {
     background: var(--color11) !important;
 }
 /* CSS by Unique Selector */
+#content > .ui-helper-clearfix {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+li[id*="M_menu"] {
+    border: 0 !important;
+}
+#menuBar > .ui-helper-clearfix { /* When we remove the EU logo in the top left, the menubar overlaps the top-right elements */
+    margin-top: 10px;
+}
 p:nth-child(3) > a:nth-child(1) { /* Fixes "Welcome" too close to name */
     padding-left: 3px;
 }
 p:nth-child(4) { /* Add a newline under Welcome line to even out spacing */
     margin-top: 5px !important;
 }
-#menuBar > .ui-helper-clearfix { /* When we remove the EU logo in the top left, the menubar overlaps the top-right elements */
-    margin-top: 10px;
+.dataTables_wrapper tr:nth-child(even) {
+    background: var(--color2) !important;
+}
+.ui-widget:nth-child(6) > .ui-corner-bottom { /* Fix the awkward gap between upstream/downstream */
+    border-bottom-right-radius: 0 !important;
+}
+.ui-widget:nth-child(6) > .ui-corner-top {
+    border-top-right-radius: 0 !important;
+}
+.ui-widget:nth-child(8) > .ui-corner-bottom { /* Leave a gap before graphs, fix the awkward radius gap between upstream/downstream. */
+    margin-bottom: 10px !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+.ui-widget:nth-child(8) > .ui-corner-top { /* Leave a gap before graphs, fix the awkward radius gap between upstream/downstream. */
+    border-top-left-radius: 0 !important;
 }
