@@ -41,10 +41,10 @@ legend {
     color: var(--color9) !important;
     border-color: var(--color9) !important;
 }
-td[role="row"] {
-    border: 2px solid !important;
+/* CSS by ID/Class */
+.clearfix {
+    border: none !important;
 }
-/* CSS by ID */
 #customerLogoDiv {
     border: 0 !important;
     height: 0;
@@ -63,6 +63,10 @@ td[role="row"] {
 #customerStatusDiv {
     margin-top: 20px !important;
 }
+.dataTable tr, .dataTable td {
+    border: 2px solid var(--color9) !important;
+    font-size: 13px !important;
+}
 .first-level {
     background: var(--color3) !important
 }
@@ -80,11 +84,20 @@ td[role="row"] {
 #issLogoDiv img {
     visibility: hidden;
 }
+#loginInner {
+    border: 3px solid var(--color3) !important;
+}
+.mainmenu-div-inner * {
+    color: var(--color4) !important;
+}
 .mainmenu-div-outer, .mainmenu-div-outer-two-col, .mainmenu-div-inner {
     background: var(--color3) !important;
 }
 .mainmenu-div-outer, .mainmenu-div-outer-two-col {
     border: 2px solid var(--color2) !important;
+}
+.mainmenu-div-outer a, .mainmenu-div-outer-two-col a, .mainmenu-div-inner a {
+    background: var(--color3) !important;
 }
 #menuBar {
     background: var(--color3) !important;
@@ -93,12 +106,17 @@ td[role="row"] {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
+#menuBar a {
+    color: var(--color14) !important;
+    background: none !important;
+}
 #probationMain, #probationEmail, #probationReason {
     background: var(--color3) !important;
     color: var(--color9) !important;
     border-color: var(--color9) !important;
 }
 #searchButton {
+    background: none !important;
     margin-left: 3px !important;
     margin-top: -2px !important;
     border: none !important;
@@ -110,6 +128,13 @@ td[role="row"] {
     background: var(--color2) !important;
     color: var(--color9) !important;
     border: 0 !important;
+}
+.ui-button-icon-only {
+    border: 2px solid var(--color3) !important;
+    padding: 2px !important
+}
+.ui-corner-all {
+    border: 2px solid var(--color0) !important;
 }
 .ui-state-default {
     background: var(--color0) !important;
@@ -221,4 +246,7 @@ table.dataTable.display tr:nth-child(odd), table.dataTable.display tr:nth-child(
 }
 .ui-widget:nth-child(8) > .ui-corner-top { /* Leave a gap before graphs, fix the awkward radius gap between upstream/downstream. */
     border-top-left-radius: 0 !important;
+}
+#M_menu-network > .mainmenu-div-outer a, #M_menu-cpe > .mainmenu-div-outer a, #M_menu-DHCT > .mainmenu-div-outer a, #M_menu-DOCSIS > .mainmenu-div-outer a, #M_menu-NodePS > .mainmenu-div-outer a, #M_menu-vod > .mainmenu-div-outer a, #M_menu-reports > .mainmenu-div-outer a {
+    color: var(--color4) !important;
 }
