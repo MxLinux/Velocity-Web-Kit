@@ -204,6 +204,9 @@ legend {
 .red_highlight {
     background: var(--color11) !important;
 }
+#first-mach-id.yellow_highlight_mach {
+    background: var(--color0) !important;
+}
 /* CSS by Unique Selector */
 #content > .ui-helper-clearfix {
     margin-bottom: 10px;
