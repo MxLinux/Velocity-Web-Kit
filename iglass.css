@@ -149,7 +149,7 @@ legend {
     background: var(--color2) !important;
     border: 0 !important;
 }
-.ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle {
+.ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle, #tunerToggle {
     padding-top: 10px;
     padding-left: 15px;
     border-top-left-radius: 3px;
