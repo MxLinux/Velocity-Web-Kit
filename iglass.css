@@ -183,6 +183,13 @@ legend {
 #upPowerThreshold {
     padding-top: 10px !important;
 }
+.wijmo-wijmenu {
+    border: 2px solid var(--color0) !important;
+}
+.wijmo-wijmenu li, .wijmo-wijmenu a {
+    border: 0 !important;
+    background: none !important;
+}
 .blue_text {
     color: var(--color9) !important;
 }
@@ -209,6 +216,10 @@ legend {
     margin-bottom: 10px;
     margin-top: 10px;
 }
+#expandAll > .ui-button-icon {
+    height: 0 !important;
+    width: 0 !important;
+}
 li[id*="M_menu"] {
     border: 0 !important;
 }
@@ -228,10 +239,6 @@ table.dataTable.display tr:nth-child(even), table.dataTable.display tr:nth-child
 table.dataTable.display tr:nth-child(odd), table.dataTable.display tr:nth-child(odd) > .sorting_1 {
     background: var(--color0) !important;
     border: 2px solid var(--color9) !important;
-}
-#expandAll > .ui-button-icon {
-    height: 0 !important;
-    width: 0 !important;
 }
 .ui-widget:nth-child(6) > .ui-corner-bottom { /* Fix the awkward gap between upstream/downstream */
     border-bottom-right-radius: 0 !important;
