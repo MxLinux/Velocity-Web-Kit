@@ -1,6 +1,3 @@
-// WE MAY HAVE TO USE A FOR LOOP TO ITERATE THROUGH ALL APPLICABLE SECTIONS
-// CHECK FOR STRING IN ELEMENT 
-//UPSTREAM
 var tx = document.getElementsByClassName("clickForPopup")[0].getElementsByTagName("span")[0].innerText;
 var usnr = document.getElementsByClassName("clickForPopup")[1].getElementsByTagName("span")[0].innerText;
 
