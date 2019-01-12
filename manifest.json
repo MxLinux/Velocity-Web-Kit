@@ -16,6 +16,10 @@
         {
             "matches": ["https://noc.iglass.net/*"],
             "css": ["iglass.css"]
+        },
+        {
+            "matches":["https://noc.iglass.net/jglass/igo/devAction*"],
+            "css": ["iglass-events.css"]
         }
     ],
     "manifest_version": 2

@@ -2,12 +2,14 @@ var contentDiv = document.getElementById("content");
 var headerText = document.getElementsByClassName("ui-widget-header")[0].innerText;
 
 if (document.getElementsByClassName("clickForPopup").length > 0) {
-    var tx = document.getElementsByClassName("clickForPopup")[0].getElementsByTagName("span")[0].innerText;
-    var usnr = document.getElementsByClassName("clickForPopup")[1].getElementsByTagName("span")[0].innerText;
+    var signals = document.getElementsByClassName("clickForPopup");
+
+    var tx = signals[0].getElementsByTagName("span")[0].innerText;
+    var usnr = signals[1].getElementsByTagName("span")[0].innerText;
     
     //DOWNSTREAM
-    var rx = document.getElementsByClassName("clickForPopup")[2].getElementsByTagName("span")[0].innerText;
-    var dsnr = document.getElementsByClassName("clickForPopup")[3].getElementsByTagName("span")[0].innerText;
+    var rx = signals[2].getElementsByTagName("span")[0].innerText;
+    var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
     
     // As a string
     var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
@@ -16,10 +18,6 @@ if (document.getElementsByClassName("clickForPopup").length > 0) {
     
     var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copySignal()'>Copy Signals</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
-}
-else if (headerText.substring(0,12) === "Modem Events"){
-    document.getElementsByTagName("span").style.setAttribute("style", "background: #FFFFFF;")
-    console.log("Beep");
 }
 else {
     console.log("Not a modem page");
