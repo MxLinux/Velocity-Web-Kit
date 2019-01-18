@@ -11,14 +11,6 @@
         "scripts": ["background.js"],
         "persistent": true
     },
-    "commands": {
-        "copy-potd": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+Y"
-            }
-        },
-        "description": "Copy POTD"
-    },
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
