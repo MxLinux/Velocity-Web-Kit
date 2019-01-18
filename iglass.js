@@ -1,5 +1,4 @@
 var contentDiv = document.getElementById("content");
-var headerText = document.getElementsByClassName("ui-widget-header")[0].innerText;
 
 if (document.getElementsByClassName("clickForPopup").length > 0) {
     var signals = document.getElementsByClassName("clickForPopup");

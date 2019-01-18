@@ -2,7 +2,23 @@
     "name": "Velocity Web Kit",
     "version": "0.5",
     "description": "Modifications for Easton Velocity web-based tools",
-    "permissions": ["storage", "activeTab"],
+    "permissions": [
+        "storage", 
+        "activeTab",
+        "http://10.20.31.144/potd"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
+    "commands": {
+        "copy-potd": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y"
+            }
+        },
+        "description": "Copy POTD"
+    },
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
