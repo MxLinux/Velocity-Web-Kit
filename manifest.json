@@ -5,12 +5,8 @@
     "permissions": [
         "storage", 
         "activeTab",
-        "http://10.20.31.144/potd"
+        "http://127.0.0.1/potd"
     ],
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": true
-    },
     "content_scripts": [
         {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
@@ -26,8 +22,12 @@
             "css": ["iglass.css"]
         },
         {
-            "matches":["https://noc.iglass.net/jglass/igo/devAction*"],
+            "matches": ["https://noc.iglass.net/jglass/igo/devAction*"],
             "css": ["iglass-events.css"]
+        },
+        {
+            "matches": ["<all_urls>"],
+            "js": ["gateway.js"]
         }
     ],
     "manifest_version": 2
