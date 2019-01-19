@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(function() {
                 alert(txt);
             }
     };
-    xmlhttp.open("GET", "http://127.0.0.1:5000/potd", true);
+    xmlhttp.open("GET", "http://127.0.0.1/potd", true);
     xmlhttp.send();
     alert(xmlhttp.responseText);
 });
