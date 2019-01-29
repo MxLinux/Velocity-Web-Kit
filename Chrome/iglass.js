@@ -2,14 +2,19 @@ var contentDiv = document.getElementById("content");
 var outageDiv = document.getElementById("outages");
 
 if (typeof(outageDiv) != undefined && outageDiv != null) {
+    var outageCount = 0;
     for (i = 0; i < outageDiv.getElementsByTagName("li").length; i++) {
-        var text = outageDiv.getElementsByTagName("li")[i].innerText;
-        console.log(i + " : " + outageDiv.getElementsByTagName("li")[i].innerHTML);
-        var outTime = text.substr((text.length -6));
-        outTime = outTime.split(")");
+        // Get full outage string
+        var liStr = outageDiv.getElementsByTagName("li")[i].innerText;
+        var liHTML = outageDiv.getElementsByTagName("li")[i].innerHTML;
+        // Get just the outage length in hh:mm format
+        var spanStr = outageDiv.getElementsByTagName("span")[i].innerText;
+        console.log(i + " : " + liHTML);
+        console.log(spanStr);
         var timeArray = [0, 0, 0];
-        console.log(outTime[0]);
+        outageCount++;
     }
+    console.log(outageCount);
 }
 else {
     console.log("No outages reported");
