@@ -6,38 +6,55 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
     var mTotal = 0;
     var hTotal = 0;
     var dTotal = 0;
+    var min = 0;
+    var max = 0;
+    // Define an empty array of arrays for storing hour/minute pairs
+    // We'll use this to check for max and min outage time
+    var tArray = [[]];
     for (i = 0; i < outageDiv.getElementsByTagName("li").length; i++) {
         // Get full outage string
         var liStr = outageDiv.getElementsByTagName("li")[i].innerText;
         var liHTML = outageDiv.getElementsByTagName("li")[i].innerHTML;
         // Get just the outage length in hh:mm format
         var spanStr = outageDiv.getElementsByTagName("span")[i].innerText;
-        console.log(i + " : " + liHTML);
-        console.log(spanStr);
         // Split the outage time values by colon to get minute/hour/day values
         // We can't 
         var spanArray = spanStr.split(':');
-        if (spanArray.length == 3) {
-            var days = spanArray[0]; 
-            var hours = spanArray[1];
-            var minutes = spanArray[2];
-        }
-        else {
-            var hours = spanArray[0];
-            var minutes = spanArray[1];
-        }
-        mTotal += minutes
-        hTotal += hours
-        if (days != null && days != 0) {
-            dTotal += days;
-        }
-
-        console.log(spanStr.split(':')[0] + ' this should be before colon');
-        console.log(spanStr.split(':')[1] + ' this should be after colon');
-        var timeArray = [0, 0, 0];
+        var hours = spanArray[0];
+        var minutes = spanArray[1];
+        mTotal = Math.floor(parseInt(mTotal) + parseInt(minutes));
+        hTotal = Math.floor(parseInt(hTotal) + parseInt(hours));
         outageCount++;
+        // Add values to our array of arrays
+        // Assuming outage 1 is 0 hours 0 minutes and
+        // Assuming outage 2 is 0 hours 15 minutes and
+        // Assuming outage 3 is 4 hours 0 minutes this would look like
+        // [[0, 0, 0], [1, 0, 15], [2, 4, 0]]
+        tArray[i] = [];
+        tArray[i][0] = i;
+        tArray[i][1] = hours;
+        tArray[i][2] = minutes;
     }
-    console.log(outageCount);
+    if (mTotal > 60) {
+        var mHours = Math.floor(mTotal / 60);
+        var mExcess = Math.floor(mTotal % 60);
+        hTotal = Math.floor(mHours + hTotal)
+    }
+    else {
+        var mHours = 0;
+        var mExcess = mTotal;
+    }
+    if (hTotal > 24) {
+        var hDays = Math.floor(hTotal / 24);
+        var hExcess = Math.floor(hTotal % 24);
+        dTotal = hDays;
+    }
+    else {
+        var hExcess = hTotal;
+        dTotal = 0;
+    }
+    console.log(tArray);
+    console.log(outageCount + " outages totaling approximately " + dTotal + " days, " + hTotal + " hours and " + mExcess + " minutes.");
 }
 else {
     console.log("No outages reported");
