@@ -1,6 +1,26 @@
 var contentDiv = document.getElementById("content");
 var outageDiv = document.getElementById("outages");
 
+if (document.getElementsByClassName("clickForPopup").length > 0) {
+    var signals = document.getElementsByClassName("clickForPopup");
+    
+    // Upstream
+    var tx = signals[0].getElementsByTagName("span")[0].innerText;
+    var usnr = signals[1].getElementsByTagName("span")[0].innerText;
+    
+    //DOWNSTREAM
+    var rx = signals[2].getElementsByTagName("span")[0].innerText;
+    var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
+    
+    // As a string
+    var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
+    var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
+    var signalStr = upstr + " || " + downstr;
+    
+    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(signalStr, \"signals\")'>Copy Signals</button>";
+    document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
+}
+
 if (typeof(outageDiv) != undefined && outageDiv != null) {
     var outageCount = 0;
     var mTotal = 0;
@@ -17,11 +37,11 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         var liHTML = outageDiv.getElementsByTagName("li")[i].innerHTML;
         // Get just the outage length in hh:mm format
         var spanStr = outageDiv.getElementsByTagName("span")[i].innerText;
-        // Split the outage time values by colon to get minute/hour/day values
-        // We can't 
+        // Split the outage time values by colon to get minute/hour/day values as an array
         var spanArray = spanStr.split(':');
         var hours = spanArray[0];
         var minutes = spanArray[1];
+        var date = liStr.substr(4,8);
         mTotal = Math.floor(parseInt(mTotal) + parseInt(minutes));
         hTotal = Math.floor(parseInt(hTotal) + parseInt(hours));
         outageCount++;
@@ -34,6 +54,7 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         tArray[i][0] = i;
         tArray[i][1] = hours;
         tArray[i][2] = minutes;
+        tArray[i][3] = date;
     }
     if (mTotal > 60) {
         var mHours = Math.floor(mTotal / 60);
@@ -53,31 +74,12 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         var hExcess = hTotal;
         dTotal = 0;
     }
-    console.log(tArray);
-    console.log(outageCount + " outages totaling approximately " + dTotal + " days, " + hTotal + " hours and " + mExcess + " minutes.");
+    var outageStr = outageCount + " outages totaling approximately " + dTotal + " days, " + hExcess + " hours and " + mExcess + " minutes. First occurence: " + tArray[0][3] + ", last occurence: " + tArray[tArray.length - 1][3]
+    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(outageStr, \"outages\")'>Copy Outage Data</button>";
+    document.getElementById('signalButton').insertAdjacentElement('afterbegin', outageButton);
 }
 else {
     console.log("No outages reported");
-}
-
-if (document.getElementsByClassName("clickForPopup").length > 0) {
-    var signals = document.getElementsByClassName("clickForPopup");
-    
-    // Upstream
-    var tx = signals[0].getElementsByTagName("span")[0].innerText;
-    var usnr = signals[1].getElementsByTagName("span")[0].innerText;
-    
-    //DOWNSTREAM
-    var rx = signals[2].getElementsByTagName("span")[0].innerText;
-    var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
-    
-    // As a string
-    var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
-    var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
-    var signalstr = upstr + " || " + downstr;
-    
-    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(signalstr, \"signals\")'>Copy Signals</button>";
-    document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
 }
 
 function copyInfo(values, name) {
