@@ -59,7 +59,7 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
     if (mTotal > 60) {
         var mHours = Math.floor(mTotal / 60);
         var mExcess = Math.floor(mTotal % 60);
-        hTotal = Math.floor(mHours + hTotal)
+        hTotal = Math.floor(mHours + hTotal);
     }
     else {
         var mHours = 0;
@@ -74,13 +74,11 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         var hExcess = hTotal;
         dTotal = 0;
     }
-    var outageStr = outageCount + " outages totaling approximately " + dTotal + " days, " + hExcess + " hours and " + mExcess + " minutes. First occurence: " + tArray[0][3] + ", last occurence: " + tArray[tArray.length - 1][3]
-    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(outageStr, \"outages\")'>Copy Outage Data</button>";
-    document.getElementById('signalButton').insertAdjacentElement('afterbegin', outageButton);
+    var outageStr = outageCount + " outages totaling approximately " + dTotal + " days, " + hExcess + " hours and " + mExcess + " minutes. First occurence: " + tArray[0][3] + ", last occurence: " + tArray[tArray.length - 1][3] + ".";
+    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(outageStr, \"outagetxt\")'>Copy Outage Info</button>";
+    document.getElementById('expandAll').insertAdjacentHTML('beforebegin', outageButton);
 }
-else {
-    console.log("No outages reported");
-}
+
 
 function copyInfo(values, name) {
     var infoArea = document.createElement('textarea');
