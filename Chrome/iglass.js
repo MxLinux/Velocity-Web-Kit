@@ -38,6 +38,7 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         // Get just the outage length in hh:mm format
         var spanStr = outageDiv.getElementsByTagName("span")[i].innerText;
         // Split the outage time values by colon to get minute/hour/day values as an array
+        //TODO: Handle outage events in days
         var spanArray = spanStr.split(':');
         var hours = spanArray[0];
         var minutes = spanArray[1];

@@ -125,6 +125,9 @@ legend {
     color: var(--color14) !important;
     background: none !important;
 }
+#outageButton {
+    margin-left: 10px;
+}
 #probationMain, #probationEmail, #probationReason {
     background: var(--color3) !important;
     color: var(--color9) !important;
