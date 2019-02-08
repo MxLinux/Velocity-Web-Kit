@@ -84,7 +84,10 @@ legend {
     -webkit-filter: invert(80%) grayscale(50%) hue-rotate(170deg) saturate(60%) brightness(140%);
     filter: invert(80%) grayscale(50%) hue-rotate(170deg) saturate(60%) brightness(140%);
 }
-
+.mach-sprite {
+    -webkit-filter: grayscale(30%) hue-rotate(340deg) saturate(70%) brightness(120%);
+    filter: grayscale(30%) hue-rotate(340deg) saturate(70%) brightness(120%);
+}
 #header {
     margin-top: -10px !important;
     margin-bottom: 20px !important;
@@ -232,7 +235,14 @@ legend {
 .yellow_cell_highlight {
     background: var(--color13) !important;
 }
+.yellow_cell_highlight a {
+    background: var(--color13) !important;
+}
 .red_cell_highlight {
+    background: var(--color11) !important;
+    color: var(--color4) !important;
+}
+.red_cell_highlight a {
     background: var(--color11) !important;
     color: var(--color4) !important;
 }
