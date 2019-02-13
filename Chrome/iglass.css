@@ -105,6 +105,9 @@ legend {
 #loginInner {
     border: 3px solid var(--color3) !important;
 }
+#loginMessage {
+    color: var(--color11) !important;
+}
 .mainmenu-div-inner * {
     color: var(--color4) !important;
 }

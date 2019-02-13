@@ -1,27 +1,41 @@
+function copyData(values, name) {
+    var infoArea = document.createElement('textarea');
+    infoArea.id = name;
+    infoArea.value = values;
+    contentDiv.appendChild(infoArea);
+    infoArea.style.height = "0px";
+    infoArea.style.width = "0px";
+    infoArea.style.opacity = "0";
+    infoArea.select();
+    document.execCommand("copy");
+}
+
 var contentDiv = document.getElementById("content");
 var outageDiv = document.getElementById("outages");
 
 if (document.getElementsByClassName("clickForPopup").length > 0) {
     var signals = document.getElementsByClassName("clickForPopup");
-    
+
     // Upstream
     var tx = signals[0].getElementsByTagName("span")[0].innerText;
     var usnr = signals[1].getElementsByTagName("span")[0].innerText;
-    
+
     //DOWNSTREAM
     var rx = signals[2].getElementsByTagName("span")[0].innerText;
     var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
-    
+
     // As a string
     var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
     var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
     var signalStr = upstr + " || " + downstr;
-    
-    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(signalStr, \"signals\")'>Copy Signals</button>";
+    console.log(signalStr);
+
+    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copyData(signalStr, \"signals\")'>Copy Signals</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
 }
 
-if (typeof(outageDiv) != undefined && outageDiv != null) {
+if (typeof(outageDiv) !== undefined && outageDiv !== null) {
+    var i;
     var outageCount = 0;
     var mTotal = 0;
     var hTotal = 0;
@@ -76,19 +90,7 @@ if (typeof(outageDiv) != undefined && outageDiv != null) {
         dTotal = 0;
     }
     var outageStr = outageCount + " outages totaling approximately " + dTotal + " days, " + hExcess + " hours and " + mExcess + " minutes. First occurence: " + tArray[0][3] + ", last occurence: " + tArray[tArray.length - 1][3] + ".";
-    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyInfo(outageStr, \"outagetxt\")'>Copy Outage Info</button>";
+    console.log(outageStr);
+    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyData(outageStr, \"outagetxt\")'>Copy Outage Info</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', outageButton);
-}
-
-
-function copyInfo(values, name) {
-    var infoArea = document.createElement('textarea');
-    infoArea.id = name;
-    infoArea.value = values;
-    contentDiv.appendChild(infoArea);
-    infoArea.style.height = "0px";
-    infoArea.style.width = "0px";
-    infoArea.style.opacity = "0";
-    infoArea.select();
-    document.execCommand("copy");
 }
