@@ -8,6 +8,7 @@ function copyData(values, name) {
     infoArea.style.opacity = "0";
     infoArea.select();
     document.execCommand("copy");
+    return 0;
 }
 
 var contentDiv = document.getElementById("content");
@@ -30,8 +31,11 @@ if (document.getElementsByClassName("clickForPopup").length > 0) {
     var signalStr = upstr + " || " + downstr;
     console.log(signalStr);
 
-    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget' onclick='copyData(signalStr, \"signals\")'>Copy Signals</button>";
+    var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget'>Copy Signals</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
+    document.getElementById('signalButton').onclick = function() {
+        copyData(signalStr, 'signals');
+    };
 }
 
 if (typeof(outageDiv) !== undefined && outageDiv !== null) {
@@ -91,6 +95,9 @@ if (typeof(outageDiv) !== undefined && outageDiv !== null) {
     }
     var outageStr = outageCount + " outages totaling approximately " + dTotal + " days, " + hExcess + " hours and " + mExcess + " minutes. First occurence: " + tArray[0][3] + ", last occurence: " + tArray[tArray.length - 1][3] + ".";
     console.log(outageStr);
-    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget' onclick='copyData(outageStr, \"outagetxt\")'>Copy Outage Info</button>";
+    var outageButton = "<button id='outageButton' class='ui-button ui-corner-all ui-widget'>Copy Outage Info</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', outageButton);
+    document.getElementById('outageButton').onclick = function() {
+        copyData(outageStr, 'outagetxt');
+        };
 }
