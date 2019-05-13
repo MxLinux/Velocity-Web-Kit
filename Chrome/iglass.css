@@ -41,6 +41,11 @@ legend {
     color: var(--color9) !important;
     border-color: var(--color9) !important;
 }
+fieldset {
+    background: var(--color3) !important;
+    color: var(--color9) !important;
+    border-color: var(--color9) !important;
+}
 /* CSS by ID/Class */
 .clearfix {
     border: none !important;
@@ -139,11 +144,12 @@ legend {
     color: var(--color9) !important;
     border-color: var(--color9) !important;
 }
-#searchButton {
+#searchBar {
     background: none !important;
+}
+#searchButton {
     margin-left: 3px !important;
-    margin-top: -2px !important;
-    border: none !important;
+    border-color: var(--color9) !important;
 }
 #searchHelp {
     margin-top: 5px !important;
@@ -173,7 +179,7 @@ legend {
     background: var(--color2) !important;
     border: 0 !important;
 }
-.ui-widget #interfaceToggle, #cpeToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle, #tunerToggle {
+.ui-widget #interfaceToggle, #cpeToggle, #ethToggle, #wirelessToggle, #mocaToggle, #mtaToggle, #billToggle, #tunerToggle {
     padding-top: 10px;
     padding-left: 15px;
     border-top-left-radius: 3px;

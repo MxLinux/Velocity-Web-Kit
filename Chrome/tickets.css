@@ -31,6 +31,16 @@
 		margin-top: 16px;
 		margin-left: -9px;
 	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
+		margin-top: 16px;
+		margin-left: -9px;
+	}
 	#Label2 {
 		margin-top: 20px;
 	}
@@ -69,6 +79,16 @@
 		margin-top: -30px;
 	}
 	#RPX button {
+		margin-top: 13px;
+		margin-left: -4px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
 		margin-top: 13px;
 		margin-left: -4px;
 	}
@@ -114,6 +134,16 @@
 		margin-top: -30px;
 	}
 	#RPX button {
+		margin-top: 16px;
+		margin-left: 36px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
 		margin-top: 16px;
 		margin-left: 36px;
 	}
