@@ -78,12 +78,14 @@ function formatSSID(ssidObj) {
         console.log("Error, malformed SSID data: " + JSON.stringify(ssidDivs));
     }
     else {
-        var ssidObj = {
+        var cleanSSIDObj = {
+            // TODO: Trim "ID" from apName
             apName: ["SSID", ssidDivs[0].innerText.trim()],
-            apSec: ["Security", ssidDivs[1].innerText.trim()]
+            apSec: ["Security", ssidDivs[1].innerText.trim().split(" ")[0]]
         };
-        console.log(JSON.stringify(ssidObj.apName));
-        console.log(JSON.stringify(ssidObj.apSec));
+        for (property in cleanSSIDObj) {
+            console.log(cleanSSIDObj[property][0] + ": " + cleanSSIDObj[property][1]);
+        }
     }
 }
 
