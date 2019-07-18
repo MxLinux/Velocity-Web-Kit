@@ -11,26 +11,64 @@ function copyData(values, name) {
     return 0;
 }
 
+function formatRadio(radioObj) {
+    radioDivs = radioObj.getElementsByTagName("div");
+    if (radioDivs.length < 4) {
+        return("Error, malformed radio data.");
+    }
+    else {
+        var cleanRadioObj = {
+            radioNum: ["Radio Number", radioObj.getElementsByTagName("legend")[0].innerText.trim().split(" ")[1]],
+            radioChan: ["Wireless Channel", radioDivs[0].innerText.trim().split(" ")[0]],
+            radioBand: ["Wireless Frequency", radioDivs[1].innerText.trim().split(" ")[0] + "GHz"],
+            radioOutPwr: ["Transmit Power", radioDivs[3].innerText.trim().split(" ")[0] + "%"]
+        };
+        for (property in cleanRadioObj) {
+            console.log(cleanRadioObj[property][0] + ": " + cleanRadioObj[property][1]);
+        }
+    }
+}
+
+function formatSSID(ssidObj) {
+}
+
+function formatClient(clientObj) {
+}
+
+if (document.getElementById("wirelessToggle") != null) {
+    var clientDiv = document.getElementById("wirelessToggle").parentElement;
+    var wirelessFields = clientDiv.getElementsByTagName("fieldset");
+    console.log("Length of list is " + wirelessFields.length + " items");
+    clientNum = 0;
+ 
+    for (i = 0; i < wirelessFields.length; i++) {
+        if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5) === "Radio") {
+            console.log("We found a radio item at item number " + i);
+            formatRadio(wirelessFields.item(i))
+        }
+        else {
+            console.log(wirelessFields[i].innerHTML + "\n");
+        }
+    }
+}
+
 var contentDiv = document.getElementById("content");
 var outageDiv = document.getElementById("outages");
 
 if (document.getElementsByClassName("clickForPopup").length > 0) {
     var signals = document.getElementsByClassName("clickForPopup");
-
     // Upstream
     var tx = signals[0].getElementsByTagName("span")[0].innerText;
     var usnr = signals[1].getElementsByTagName("span")[0].innerText;
-
     //DOWNSTREAM
     var rx = signals[2].getElementsByTagName("span")[0].innerText;
     var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
-
     // As a string
-    var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
-    var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
-    var signalStr = upstr + " || " + downstr;
+    // TODO: This should just give values and the output should be 
+    var upstr = "TX: " + tx + ", uSNR: " + usnr;
+    var downstr = "RX: " + rx + ", dSNR: " + dsnr;
+    var signalStr = upstr + ", " + downstr;
     console.log(signalStr);
-
     var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget'>Copy Signals</button>";
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', signalButton);
     document.getElementById('signalButton').onclick = function() {
@@ -39,7 +77,6 @@ if (document.getElementsByClassName("clickForPopup").length > 0) {
 }
 
 if (typeof(outageDiv) !== undefined && outageDiv !== null) {
-    var i;
     var outageCount = 0;
     var mTotal = 0;
     var hTotal = 0;
@@ -75,7 +112,8 @@ if (typeof(outageDiv) !== undefined && outageDiv !== null) {
         tArray[i][2] = minutes;
         tArray[i][3] = date;
     }
-    if (mTotal > 60) {
+
+	if (mTotal > 60) {
         var mHours = Math.floor(mTotal / 60);
         var mExcess = Math.floor(mTotal % 60);
         hTotal = Math.floor(mHours + hTotal);
@@ -99,5 +137,5 @@ if (typeof(outageDiv) !== undefined && outageDiv !== null) {
     document.getElementById('expandAll').insertAdjacentHTML('beforebegin', outageButton);
     document.getElementById('outageButton').onclick = function() {
         copyData(outageStr, 'outagetxt');
-        };
+    };
 }
