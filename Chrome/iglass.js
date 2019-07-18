@@ -23,8 +23,7 @@ function copyData(values, name) {
 }
 
 // * * * * * * * * * * * * * * * * * * * * //
-//    Currently works for 1670/2470/2472   //
-//   Working on support for 3450 devices   //
+//     Working for 1670/2470/2472/3450     //
 // * * * * * * * * * * * * * * * * * * * * //
 
 function translateFrequency(frequencyValue) {
@@ -73,6 +72,7 @@ function formatRadio(radioObj) {
 }
 
 function formatSSID(ssidObj) {
+
 }
 
 function formatClient(clientObj) {
