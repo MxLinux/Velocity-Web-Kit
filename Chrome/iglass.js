@@ -45,7 +45,7 @@ function formatRadio(radioObj) {
     // Not all of the radio divs loaded, or we tried to format something
     // that doesn't contain radio info.
     if (radioDivs.length < 4) {
-        return("Error, malformed radio data.");
+        return("Error, malformed radio data: " + JSON.stringify(radioDivs));
     }
     else if (radioDivs.length == 4) {
         var cleanRadioObj = {
@@ -72,10 +72,44 @@ function formatRadio(radioObj) {
 }
 
 function formatSSID(ssidObj) {
-
+    // Not checked for completeness with all models, should be universal with our equipment thus far
+    ssidDivs = ssidObj.getElementsByTagName("div");
+    if (ssidDivs.length !== 2) {
+        console.log("Error, malformed SSID data: " + JSON.stringify(ssidDivs));
+    }
+    else {
+        var ssidObj = {
+            apName: ["SSID", ssidDivs[0].innerText.trim()],
+            apSec: ["Security", ssidDivs[1].innerText.trim()]
+        };
+        console.log(JSON.stringify(ssidObj.apName));
+        console.log(JSON.stringify(ssidObj.apSec));
+    }
 }
 
 function formatClient(clientObj) {
+    clientDivs = clientObj.getElementsByTagName("div");
+    if (clientDivs.length === 7) {
+        var cleanClientObj = {
+            clientMAC: ["MAC Address", clientDivs[2].innerText.trim().split(" ")[0]],
+            clientHostname: ["Hostname", clientDivs[0].innerText.trim().split(" ")[0]],
+            clientIPv4: ["IPv4"],
+            clientIPv6: ["IPv6"],
+            clientIPv6LinkLocal: ["IPv6 Link-Local"],
+            clientRSSI: ["RSSI"],
+            clientOnline: ["Online Status"]
+        };
+    }
+    else if (clientDivs.length == 5) {
+        var cleanClientObj = {
+            clientMAC: ["MAC Address"],
+            clientRSSI: ["RSSI"],
+            clientRetransmit: ["Retransmitted Packets"]
+        };
+    }
+    else {
+        console.log("Error, malformed SSID data: " + JSON.stringify(ssidDivs));
+    }
 }
 
 if (document.getElementById("wirelessToggle") != null) {
