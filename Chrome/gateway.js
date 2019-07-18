@@ -7,16 +7,15 @@ var match = site.match(regex);
 if (match != null) {
     // Wait 1 second before trying, elements on page take a while to load
     setTimeout(function() {
-        var loginNode_old = document.getElementById("Login");
-        var loginNode_new = document.getElementsByClassName("login-block");
-        // Make sure login div exists on this page/has loaded
-        if (typeof(loginNode_old) != 'undefined' && loginNode_old != null) {
+        if (document.getElementById("Login") != 'undefined' && document.getElementById("Login") != null) {
+            var loginNode_old = document.getElementById("Login");
+            // Make sure login div exists on this page/has loaded
             // Send XHR to the POTD-Web flask server
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
                 // Checks XHR status to determine that we have successfully loaded the POTD page
                 if (xhttp.readyState === 4) {
-                    xhttp.status === 200 ? console.log(xhttp.responseText) : console.error('Error')
+                    xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error')
                     // Fill out credentials 
                     document.getElementById('Password').value = "" + xhttp.responseText;
                     document.getElementById('UserName').value = "technician";
@@ -31,13 +30,13 @@ if (match != null) {
             xhttp.open("GET", "http://127.0.0.1/potd", true);
             xhttp.send();
         }
-        else if (typeof(loginNode_new) != 'undefined' && loginNode_new != null) {
-            console.log("NEW");
+        else if (document.getElementById("login-block") != 'undefined' && document.getElementById("login-block") != null) {
+            var loginNode_new = document.getElementsByClassName("login-block");
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
                 // Checks XHR status to determine that we have successfully loaded the POTD page
                 if (xhttp.readyState === 4) {
-                    xhttp.status === 200 ? console.log(xhttp.responseText) : console.error('Error')
+                    xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error.')
                     // Fill out credentials 
                     document.getElementById('password').value = "" + xhttp.responseText;
                     document.getElementById('username').value = "technician";
@@ -53,7 +52,8 @@ if (match != null) {
             xhttp.send();
         }
         else {
-            console.log("wtf");
+            // Not a login page, do nothing
+            void 0;
         }
     }, 1000);
 }
