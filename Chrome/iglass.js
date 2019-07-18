@@ -11,6 +11,54 @@ function copyData(values, name) {
     return 0;
 }
 
+function formatRadio(radioObj) {
+    radioDivs = radioObj.getElementsByTagName("div");
+    if (radioDivs.length < 4) {
+        return("Error, malformed radio data.");
+    }
+    else {
+        var cleanRadioObj = {
+            radioNum: radioObj.getElementsByTagName("legend")[0].innerText.trim(),
+            radioChan: radioDivs[0].innerText.trim(),
+            radioBand: radioDivs[1].innerText.trim(),
+            radioOutPwr: radioDivs[3].innerText.trim()
+        };
+
+        for (var property in cleanRadioObj) {
+            console.log(JSON.stringify(property));
+        }
+    }
+
+}
+
+function formatSSID(ssidObj) {
+
+}
+
+function formatClient(clientObj) {
+
+}
+
+if (document.getElementById("wirelessToggle") != null) {
+    var clientDiv = document.getElementById("wirelessToggle").parentElement;
+    var wirelessFields = clientDiv.getElementsByTagName("fieldset");
+    console.log("Length of list is " + wirelessFields.length + " items");
+    clientNum = 0;
+
+    for (i = 0; i < wirelessFields.length; i++) {
+        if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5) === "Radio") {
+            console.log("We found a radio item at item number " + i);
+            console.log(wirelessFields.item(i));
+            console.log(wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText);
+            formatRadio(wirelessFields[i]);
+        }
+        else {
+            console.log(wirelessFields[i].innerHTML + "\n");
+        }
+    }
+
+}
+
 var contentDiv = document.getElementById("content");
 var outageDiv = document.getElementById("outages");
 
@@ -26,9 +74,9 @@ if (document.getElementsByClassName("clickForPopup").length > 0) {
     var dsnr = signals[3].getElementsByTagName("span")[0].innerText;
 
     // As a string
-    var upstr = "Upstream Power: " + tx + ", SNR: " + usnr;
-    var downstr = "Downstream Power: " + rx + ", SNR: " + dsnr;
-    var signalStr = upstr + " || " + downstr;
+    var upstr = "TX: " + tx + ", uSNR: " + usnr;
+    var downstr = "RX: " + rx + ", dSNR: " + dsnr;
+    var signalStr = upstr + ", " + downstr;
     console.log(signalStr);
 
     var signalButton = "<button id='signalButton' class='ui-button ui-corner-all ui-widget'>Copy Signals</button>";
