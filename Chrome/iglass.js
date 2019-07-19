@@ -71,6 +71,10 @@ function formatRadio(radioObj) {
     }
 }
 
+function cleanAP(accessPoint) {
+    return(accessPoint.slice(0,-3));
+}
+
 function formatSSID(ssidObj) {
     // Not checked for completeness with all models, should be universal with our equipment thus far
     ssidDivs = ssidObj.getElementsByTagName("div");
@@ -78,10 +82,12 @@ function formatSSID(ssidObj) {
         console.log("Error, malformed SSID data: " + JSON.stringify(ssidDivs));
     }
     else {
+        var cleanAPStr = cleanAP(ssidDivs[0].innerText.trim());
+        var cleanSecStr = ssidDivs[1].innerText.trim().split(" ")[0]
         var cleanSSIDObj = {
             // TODO: Trim "ID" from apName
-            apName: ["SSID", ssidDivs[0].innerText.trim()],
-            apSec: ["Security", ssidDivs[1].innerText.trim().split(" ")[0]]
+            apName: ["SSID", cleanAPStr],
+            apSec: ["Security", cleanSecStr]
         };
         for (property in cleanSSIDObj) {
             console.log(cleanSSIDObj[property][0] + ": " + cleanSSIDObj[property][1]);
@@ -89,46 +95,37 @@ function formatSSID(ssidObj) {
     }
 }
 
+function sortClient() {
+    // If MAC exists as first element in any array inside our array of arrays
+    // Add MAC as a client to that array, or create an individual array per client
+    // And sort all at time of output
+}
+
 function formatClient(clientObj) {
     var clientDivs = clientObj.getElementsByTagName("div");
 
-    /* An array consisting of arrays
-       Since iGlass creates multiple instances for clients with multiple addresses,
-       This will group them into an array consisting of any available attributes
-       1670, 2470, 2472 provide much more information than 3450, so these attributes will
-       differ from model to model, with unpredictable results if any new models are introduced */
-
-    var sortedClients = [
-        []
-    ]
-
     if (clientDivs.length === 7) {
-        for (var div in clientDivs) {
-            if (typeof(clientDivs[div].innerText) != 'undefined') {
-                console.log("Thing: " + JSON.stringify(clientDivs[div].innerText));
-            } 
-        }
         var cleanClientObj = {
-            clientMAC: ["MAC Address", clientDivs[2].innerText.trim().split(" ")[0]],
-            clientHostname: ["Hostname", clientDivs[0].innerText.trim().split(" ")[0]],
-            clientIPv4: ["IPv4"],
-            clientIPv6: ["IPv6"],
-            clientIPv6LinkLocal: ["IPv6 Link-Local"],
-            clientRSSI: ["RSSI"],
-            clientOnline: ["Online Status"]
-        };
-        //console.log(JSON.stringify(cleanClientObj));
+            clientMAC: clientDivs[2].innerText.trim(),
+            clientVendor: "",
+            clientHostname: clientDivs[0].innerText.trim(),
+            clientIPv4: "",
+            clientIPv6: "",
+            clientIPv6LinkLocal: "",
+            clientRSSI: clientDivs[3].innerText.trim()
+        }
+        return(cleanClientObj);
     }
     else if (clientDivs.length == 5) {
         var cleanClientObj = {
-            clientMAC: ["MAC Address"],
-            clientRSSI: ["RSSI"],
-            clientRetransmit: ["Retransmitted Packets"]
-        };
-        console.log(JSON.stringify(cleanClientObj));
+            clientMAC: "",
+            clientRSSI: "",
+            clientVendor: ""
+        }
+        return(cleanClientObj);
     }
     else {
-        console.log("Error, malformed Client data: " + JSON.stringify(clientDivs));
+
     }
 }
 
@@ -136,6 +133,15 @@ if (document.getElementById("wirelessToggle") != null) {
     var clientDiv = document.getElementById("wirelessToggle").parentElement;
     var wirelessFields = clientDiv.getElementsByTagName("fieldset");
     clientNum = 0;
+    /* An array consisting of arrays
+    Since iGlass creates multiple instances for clients with multiple addresses,
+    This will group them into an array consisting of any available attributes
+    1670, 2470, 2472 provide much more information than 3450, so these attributes will
+    differ from model to model, with unpredictable results if any new models are introduced */
+
+    var sortedClients = [
+        []
+    ]
  
     for (i = 0; i < wirelessFields.length; i++) {
         if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5) === "Radio") {
@@ -146,12 +152,24 @@ if (document.getElementById("wirelessToggle") != null) {
             formatSSID(wirelessFields.item(i));
         }
         else if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 6) === "Client") {
-            formatClient(wirelessFields.item(i));
+            // Here we use the function formatClient to create a client object
+            // Then we'll take that client object, match for an existing object with matching MAC
+            var cleanClientObj = formatClient(wirelessFields.item(i));
+            for (item in sortedClients) {
+                if (sortedClients.length = 0) {
+                    console.log("Beep")
+                }
+                else {
+                    console.log("Hm");
+
+                }
+            }
         }
         else {
             console.log(wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5));
         }
     }
+    console.log(sortedClients);
 }
 
 // * * * * * * * * * * * * * * * * * * * * //
