@@ -90,8 +90,24 @@ function formatSSID(ssidObj) {
 }
 
 function formatClient(clientObj) {
-    clientDivs = clientObj.getElementsByTagName("div");
+    var clientDivs = clientObj.getElementsByTagName("div");
+
+    /* An array consisting of arrays
+       Since iGlass creates multiple instances for clients with multiple addresses,
+       This will group them into an array consisting of any available attributes
+       1670, 2470, 2472 provide much more information than 3450, so these attributes will
+       differ from model to model, with unpredictable results if any new models are introduced */
+
+    var sortedClients = [
+        []
+    ]
+
     if (clientDivs.length === 7) {
+        for (var div in clientDivs) {
+            if (typeof(clientDivs[div].innerText) != 'undefined') {
+                console.log("Thing: " + JSON.stringify(clientDivs[div].innerText));
+            } 
+        }
         var cleanClientObj = {
             clientMAC: ["MAC Address", clientDivs[2].innerText.trim().split(" ")[0]],
             clientHostname: ["Hostname", clientDivs[0].innerText.trim().split(" ")[0]],
@@ -101,6 +117,7 @@ function formatClient(clientObj) {
             clientRSSI: ["RSSI"],
             clientOnline: ["Online Status"]
         };
+        //console.log(JSON.stringify(cleanClientObj));
     }
     else if (clientDivs.length == 5) {
         var cleanClientObj = {
@@ -108,9 +125,10 @@ function formatClient(clientObj) {
             clientRSSI: ["RSSI"],
             clientRetransmit: ["Retransmitted Packets"]
         };
+        console.log(JSON.stringify(cleanClientObj));
     }
     else {
-        console.log("Error, malformed SSID data: " + JSON.stringify(ssidDivs));
+        console.log("Error, malformed Client data: " + JSON.stringify(clientDivs));
     }
 }
 
@@ -127,8 +145,11 @@ if (document.getElementById("wirelessToggle") != null) {
         else if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 4) === "SSID") {
             formatSSID(wirelessFields.item(i));
         }
-        else if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5) === "Client") {
+        else if (wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 6) === "Client") {
             formatClient(wirelessFields.item(i));
+        }
+        else {
+            console.log(wirelessFields.item(i).getElementsByTagName("legend").item(0).innerText.substring(0, 5));
         }
     }
 }
