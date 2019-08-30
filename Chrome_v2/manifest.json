@@ -1,0 +1,20 @@
+{
+    "name": "Velocity Web Kit",
+    "version": "0.0.1",
+    "description": "Modifications for Easton Velocity web-based tools",
+    "background": {
+        "scripts": ["static/js/background.js"],
+        "persistent": false
+    },
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://noc.iglass.net/jglass/igo/devInfo.htm*"],
+            "css": ["/static/css/iglass.css"],
+            "js": ["/static/js/iglass.js"]
+        }
+    ],
+    "manifest_version": 2
+}
