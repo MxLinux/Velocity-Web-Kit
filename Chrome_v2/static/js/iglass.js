@@ -56,18 +56,17 @@ const usErrored = document.querySelectorAll("div[title='Codewords per second dur
 const usOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].textContent.split("/")[2].trim().split(" ")[0];
 const usBWInUse = getElementsByText("Current Bandwidth (Mb/s)")[0].parentElement.textContent.trim().split("\n")[0];
 const usBWAllowed = getElementsByText("Max Bandwidth (Mb/s)")[0].parentElement.textContent.trim().split(" ")[0];
-
-// Need to account for flaps showing as "Not on list"; This impacts flapLast and flapTotal. flapLast will have to be "N/A" if flapTotal is set to 0
-// Make more dicts for that lol
+const dsPower = document.querySelectorAll("div[data-popupid='downPowerThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+const dsSNR = document.querySelectorAll("div[data-popupid='downSnrThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+const dsCorrected = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].getElementsByTagName("span")[0].textContent.trim();
+const dsErrored = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].getElementsByTagName("span")[1].textContent.trim();
+const dsOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].textContent.split("/")[2].trim().split(" ")[0];
+const dsBWInUse = getElementsByText("Current Bandwidth (Mb/s)")[1].parentElement.textContent.trim().split("\n")[0];
+const dsBWAllowed = getElementsByText("Max Bandwidth (Mb/s)")[1].parentElement.textContent.trim().split(" ")[0];
+// Current method of viewing FEC info has unknown iGlass bias. I am unable to figure out how they gather these numbers.
+// A more appropriate method would be to create an upstream object and a downstream object containing chan # accompanied by that channel's stats
 
 /*
-const dsPower;
-const dsSNR;
-const dsCorrected;
-const dsErrored;
-const dsOctets;
-const dsBWInUse;
-const dsBWAllowed;
 const histGraphObj = {}; // graphName:httpLink
 const ifEth = {}; // Some modems have more than one Ethernet interface
 const ifRF = {};
@@ -98,7 +97,14 @@ const modemObj = {
     "userrored": usErrored,
     "usoctets": usOctets,
     "usbandwidth": usBWInUse,
-    "usbandwidthallowed": usBWAllowed
+    "usbandwidthallowed": usBWAllowed,
+    "dspower": dsPower,
+    "dssnr" : dsSNR,
+    "dscorrected": dsCorrected,
+    "dserrored": dsErrored,
+    "dsoctets": dsOctets,
+    "dsbandwidth": dsBWInUse,
+    "dsbandwidthallowed": dsBWAllowed
 };
 
 // DEBUG: Remove me
