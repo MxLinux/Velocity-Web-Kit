@@ -34,32 +34,33 @@ const batteryDict = {
 }
 
 // Variable names explain themselves. 
-const _docsisVersion = document.querySelectorAll("span[title='Docsis Version']")[0].innerText.trim();
+const _docsisVersion = document.querySelectorAll("span[title='Docsis Version']")[0].textContent.trim();
 const docsisVersion = docsisDict[_docsisVersion];
-const modemModel = document.querySelectorAll("span[title='Model']")[0].innerText.trim();
-const modemMAC = document.querySelectorAll("div[data-toggle='modemToggle']")[0].innerText.slice(0,17);
-const modemLAN = document.querySelectorAll("a[title='click to Ping']")[0].innerText.trim();
-const modemUptime = document.querySelectorAll("label[for='muptime']")[0].parentNode.innerText.trim().split("\n")[0];
-const _collectionStatus = document.querySelectorAll("label[for='status']")[1].parentNode.innerText.split("(")[0];
+const modemModel = document.querySelectorAll("span[title='Model']")[0].textContent.trim();
+const modemMAC = document.querySelectorAll("div[data-toggle='modemToggle']")[0].textContent.trim().slice(0,17);
+const modemLAN = document.querySelectorAll("a[title='click to Ping']")[0].textContent.trim();
+const modemUptime = document.querySelectorAll("label[for='muptime']")[0].parentNode.textContent.trim().split("\n")[0].split("Uptime")[0].trim();
+const _collectionStatus = document.querySelectorAll("label[for='status']")[1].parentNode.textContent.trim().split("(")[0];
 const collectionStatus = collectionDict[_collectionStatus];
-const _registrationStatus = document.querySelectorAll("div[data-toggle='onlineToggle']")[0].innerText.split("\n")[0].trim();
+const _registrationStatus = document.querySelectorAll("div[data-toggle='onlineToggle']")[0].textContent.trim().split("\n")[0].trim();
 const registrationStatus = registrationDict[_registrationStatus];
-const eMTACapable = document.querySelectorAll("label[for='status']")[3].parentNode.innerText ? isMTA() : "No";
-const eMTAStatus = (eMTACapable === "Yes") ? eMTADict[document.querySelectorAll("label[for='status']")[3].parentNode.innerText.split("\n")[0].trim()] : "N/A"
-const flapRaw = document.querySelectorAll("div[data-toggle='flapToggle']")[0].innerText.split("\n")[0].trim();
-const flapNum = flapRaw.split(" ")[0];
-const batteryStatus = (eMTACapable === "Yes") ? batteryDict[document.querySelectorAll("label[for='battery']")[0].parentNode.innerText.split("\n")[0].trim()] : "N/A";
-const usPower = document.querySelectorAll("div[data-popupid='upPowerThreshold']")[0].getElementsByTagName("span")[0].innerText.trim();
-const usSNR = document.querySelectorAll("div[data-popupid='upSnrThreshold']")[0].getElementsByTagName("span")[0].innerText.trim();
-const usCorrected = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[0].innerText.trim();
-const usErrored = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[1].innerText.trim();
-const usOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].innerText.split("/")[2].split("\n")[0].trim();
-const usBWInUse = document.querySelectorAll("label[for='tx']")[0].parentNode.innerText.split("\n")[0].trim();
-const usBWAllowed = document.querySelectorAll("label");
+const eMTACapable = document.querySelectorAll("label[for='status']")[3].parentNode.textContent ? isMTA() : "No";
+const eMTAStatus = (eMTACapable === "Yes") ? eMTADict[document.querySelectorAll("label[for='status']")[3].parentNode.textContent.trim().split("\n")[0].split("MTA")[0].trim()] : "N/A"
+const flapLast = document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[1].trim().split("(")[1].split(" ")[0];
+const flapTotal = document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim();
+const batteryStatus = (eMTACapable === "Yes") ? batteryDict[document.querySelectorAll("label[for='battery']")[0].parentNode.textContent.trim().split("\n")[0].trim()] : "N/A";
+const usPower = document.querySelectorAll("div[data-popupid='upPowerThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+const usSNR = document.querySelectorAll("div[data-popupid='upSnrThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+const usCorrected = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[0].textContent.trim();
+const usErrored = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[1].textContent.trim();
+const usOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].textContent.split("/")[2].trim().split(" ")[0];
+const usBWInUse = document.querySelectorAll("label[for='tx']")[0].parentNode.textContent.trim().split("\n")[0];
+const usBWAllowed = getElementsByText("Max Bandwidth (Mb/s)")[0].parentNode.textContent.trim().split("\n")[0].split(" ")[0];
+
+// Need to account for flaps showing as "Not on list"; This impacts flapLast and flapTotal. flapLast will have to be "N/A" if flapTotal is set to 0
+// Make more dicts for that lol
 
 /*
-const usBWInUse;
-const usBWAllowed;
 const dsPower;
 const dsSNR;
 const dsCorrected;
@@ -88,8 +89,8 @@ const modemObj = {
     "registration": registrationStatus,
     "emta": eMTACapable,
     "emtastatus": eMTAStatus,
-    "flapsfull": flapRaw,
-    "flapsnum": flapNum,
+    "flaps": flapLast,
+    "flapstotal": flapTotal,
     "battery": batteryStatus,
     "uspower": usPower,
     "ussnr" : usSNR,
@@ -105,10 +106,16 @@ console.log(modemObj);
 
 // Functions
 function isMTA() {
-    if (document.querySelectorAll("label[for='status']")[3].innerText == "MTA Status") {
+    if (document.querySelectorAll("label[for='status']")[3].textContent == "MTA Status") {
         return("Yes");
     }
     else {
         return("No");
+    }
+}
+
+function getElementsByText(str, tag = "label") {
+    if(typeof(str) !== undefined) {
+        return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
     }
 }
