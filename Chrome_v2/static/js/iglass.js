@@ -23,7 +23,9 @@ const registrationDict = {
 
 const eMTADict = {
     "telephony-RegComplete": "Registration Complete",
+    "telephony-RegWithCallServer": "Registering with Call Server",
     "telephony-DHCP": "Obtaining eMTA IP Address",
+    "telephony-TFTP": "Downloading eMTA Configuration",
     "unknown": "Unknown"
 }
 
@@ -49,18 +51,31 @@ const eMTAStatus = (eMTACapable === "Yes") ? eMTADict[document.querySelectorAll(
 const flapTotal = (document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim() === "Not on list") ? 0 : document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim();
 const flapLast = (flapTotal instanceof String) ? document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[1].trim().split("(")[1].split(" ")[0] : "0";
 const batteryStatus = (eMTACapable === "Yes") ? batteryDict[document.querySelectorAll("label[for='battery']")[0].parentElement.textContent.trim().split("\n")[0].trim()] : "N/A";
+// Get the number of channels, create a us channels and ds channels property containing its own property/value pairs per channel
 const usPower = document.querySelectorAll("div[data-popupid='upPowerThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+
 const usSNR = document.querySelectorAll("div[data-popupid='upSnrThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+
 const usCorrected = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[0].textContent.trim();
+
 const usErrored = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].getElementsByTagName("span")[1].textContent.trim();
+
 const usOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[0].textContent.split("/")[2].trim().split(" ")[0];
+
 const usBWInUse = getElementsByText("Current Bandwidth (Mb/s)")[0].parentElement.textContent.trim().split("\n")[0];
+
 const usBWAllowed = getElementsByText("Max Bandwidth (Mb/s)")[0].parentElement.textContent.trim().split(" ")[0];
+
 const dsPower = document.querySelectorAll("div[data-popupid='downPowerThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+
 const dsSNR = document.querySelectorAll("div[data-popupid='downSnrThreshold']")[0].getElementsByTagName("span")[0].textContent.trim();
+
 const dsCorrected = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].getElementsByTagName("span")[0].textContent.trim();
+
 const dsErrored = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].getElementsByTagName("span")[1].textContent.trim();
+
 const dsOctets = document.querySelectorAll("div[title='Codewords per second during last poll interval.'")[1].textContent.split("/")[2].trim().split(" ")[0];
+
 const dsBWInUse = getElementsByText("Current Bandwidth (Mb/s)")[1].parentElement.textContent.trim().split("\n")[0];
 const dsBWAllowed = getElementsByText("Max Bandwidth (Mb/s)")[1].parentElement.textContent.trim().split(" ")[0];
 // Current method of viewing FEC info has unknown iGlass bias. I am unable to figure out how they gather these numbers.
