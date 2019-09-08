@@ -90,7 +90,7 @@ const upstreamDiv = document.querySelectorAll("#upstreamWidget")[0];
 const upstreamChannels = document.querySelectorAll("#upstreamWidget fieldset");
 const usBWInUse = upstreamDiv.querySelectorAll(".display-elem")[3].textContent.trim().split("\n")[0];
 const usBWAllowed = upstreamDiv.querySelectorAll(".display-elem")[4].textContent.trim().split(" ")[0];
-const upstreamObj = {
+const upstreamObject = {
     "usbandwidth": usBWInUse,
     "usbandwidthallowed": usBWAllowed,
 };
@@ -148,7 +148,7 @@ const downstreamDiv = document.querySelectorAll("#downstreamWidget")[0];
 const downstreamChannels = document.querySelectorAll("#downstreamWidget fieldset");
 const dsBWInUse = downstreamDiv.querySelectorAll(".display-elem")[4].textContent.trim().split("\n")[0];
 const dsBWAllowed = downstreamDiv.querySelectorAll(".display-elem")[5].textContent.trim().split(" ")[0];
-const downstreamObj = {
+const downstreamObject = {
     "dsbandwidth": dsBWInUse,
     "dsbandwidthallowed": dsBWAllowed
 };
@@ -201,16 +201,16 @@ function getChannelStats(upstreamNodeList, downstreamNodeList) {
         if(i != 0) {
             const channelIndex = "upstream" + i; // Channel 0 isn't really a thing, so...
             const currentChannel = upstreamNodeList[i];
-            upstreamObj[channelIndex] = {};
-            upstreamObj[channelIndex]["transmitfrequency"] = getTransmitChannelFrequency(currentChannel);
-            upstreamObj[channelIndex]["transmitwidth"] = getTransmitChannelWidth(currentChannel)
-            upstreamObj[channelIndex]["cmtsreceivepower"] = getCMTSReceivePower(currentChannel);
-            upstreamObj[channelIndex]["transmitchannelpower"] = getTransmitChannelPower(currentChannel);
-            upstreamObj[channelIndex]["transmitchannelsnr"] = getTransmitChannelSNR(currentChannel);
-            upstreamObj[channelIndex]["transmitchannelmicro"] = getTransmitChannelMicro(currentChannel);
-            upstreamObj[channelIndex]["transmitcorrected"] = getTransmitCorrected(currentChannel);
-            upstreamObj[channelIndex]["transmiterrored"] = getTransmitErrored(currentChannel);
-            upstreamObj[channelIndex]["transmitcodewords"] = getTransmitCodewords(currentChannel);
+            upstreamObject[channelIndex] = {};
+            upstreamObject[channelIndex]["transmitfrequency"] = getTransmitChannelFrequency(currentChannel);
+            upstreamObject[channelIndex]["transmitwidth"] = getTransmitChannelWidth(currentChannel)
+            upstreamObject[channelIndex]["cmtsreceivepower"] = getCMTSReceivePower(currentChannel);
+            upstreamObject[channelIndex]["transmitchannelpower"] = getTransmitChannelPower(currentChannel);
+            upstreamObject[channelIndex]["transmitchannelsnr"] = getTransmitChannelSNR(currentChannel);
+            upstreamObject[channelIndex]["transmitchannelmicro"] = getTransmitChannelMicro(currentChannel);
+            upstreamObject[channelIndex]["transmitcorrected"] = getTransmitCorrected(currentChannel);
+            upstreamObject[channelIndex]["transmiterrored"] = getTransmitErrored(currentChannel);
+            upstreamObject[channelIndex]["transmitcodewords"] = getTransmitCodewords(currentChannel);
         }
     }
 
@@ -218,22 +218,92 @@ function getChannelStats(upstreamNodeList, downstreamNodeList) {
         if(i != 0) {
             const channelIndex = "downstream" + i; // Channel 0 isn't really a thing, so...
             const currentChannel = downstreamNodeList[i];
-            downstreamObj[channelIndex] = {};
-            downstreamObj[channelIndex]["receivefrequency"] = getReceiveChannelFrequency(currentChannel);
-            downstreamObj[channelIndex]["receivewidth"] = getReceiveChannelWidth(currentChannel)
-            downstreamObj[channelIndex]["receivechannelpower"] = getReceiveChannelPower(currentChannel);
-            downstreamObj[channelIndex]["receivechannelsnr"] = getReceiveChannelSNR(currentChannel);
-            downstreamObj[channelIndex]["receivechannelmicro"] = getReceiveChannelMicro(currentChannel);
-            downstreamObj[channelIndex]["receivecorrected"] = getReceiveCorrected(currentChannel);
-            downstreamObj[channelIndex]["receiveerrored"] = getReceiveErrored(currentChannel);
-            downstreamObj[channelIndex]["receivecodewords"] = getReceiveCodewords(currentChannel);
+            downstreamObject[channelIndex] = {};
+            downstreamObject[channelIndex]["receivefrequency"] = getReceiveChannelFrequency(currentChannel);
+            downstreamObject[channelIndex]["receivewidth"] = getReceiveChannelWidth(currentChannel)
+            downstreamObject[channelIndex]["receivechannelpower"] = getReceiveChannelPower(currentChannel);
+            downstreamObject[channelIndex]["receivechannelsnr"] = getReceiveChannelSNR(currentChannel);
+            downstreamObject[channelIndex]["receivechannelmicro"] = getReceiveChannelMicro(currentChannel);
+            downstreamObject[channelIndex]["receivecorrected"] = getReceiveCorrected(currentChannel);
+            downstreamObject[channelIndex]["receiveerrored"] = getReceiveErrored(currentChannel);
+            downstreamObject[channelIndex]["receivecodewords"] = getReceiveCodewords(currentChannel);
         }
     }
 }
 
 getChannelStats(upstreamChannels, downstreamChannels);
 
-const modemObj = {
+function getInterfaceName(interfaceFieldset) {
+    const interfaceName = interfaceFieldset.querySelectorAll("legend")[0].textContent.trim().split(" ")[0];
+    return(interfaceName);
+}
+
+function getInterfaceMAC(interfaceFieldset) {
+    const interfaceMAC = interfaceFieldset.querySelectorAll(".display-elem")[0].textContent.trim().split(" ")[0];
+    return(interfaceMAC);
+}
+
+function getInterfaceStatus(interfaceFieldset) {
+    const interfaceStatus = interfaceFieldset.querySelectorAll(".display-elem")[1].textContent.trim().split("\n")[0];
+    return(interfaceStatus);
+}
+
+function getInterfaceIP(interfaceFieldset) {
+    const interfaceIP = interfaceFieldset.querySelectorAll("div")[5].textContent.trim().split(" ")[0];
+    return(interfaceIP);
+}
+
+function getInterfaceStats() {
+    const interfaceObject = {};
+    const _interfaceDiv = document.querySelectorAll("#interfaceToggle")[0];
+    const interfaceDiv = _interfaceDiv.nextElementSibling;
+    const interfaceFieldset = interfaceDiv.querySelectorAll("fieldset");
+    for (i = 0; i < interfaceFieldset.length; i++) {
+        const interfaceIndex = "interface" + i;
+        interfaceObject[interfaceIndex] = {};
+        interfaceObject[interfaceIndex]["interfacename"] = getInterfaceName(interfaceFieldset[i]);
+        interfaceObject[interfaceIndex]["interfacemac"] = getInterfaceMAC(interfaceFieldset[i]);
+        interfaceObject[interfaceIndex]["interfacestatus"] = getInterfaceStatus(interfaceFieldset[i]);
+        if(isMTA() == "Yes") {
+            interfaceObject[interfaceIndex]["interfaceip"] = getInterfaceIP(interfaceFieldset[i]);
+        }
+    }
+    return(interfaceObject);
+}
+
+function getCustomerName(billingFieldset) {
+    const customerName = billingFieldset.querySelectorAll(".display-elem")[2].textContent.trim().split(" Name")[0];
+    return(customerName);
+}
+
+function getCustomerAddress(billingFieldset) {
+    const customerAddress = billingFieldset.querySelectorAll(".display-elem")[1].textContent.trim().split(",")[0];
+    return(customerAddress);
+}
+
+function getCustomerLocationNumber(billingFieldset) {
+    const customerLocationNumber = billingFieldset.querySelectorAll(".display-elem")[0].textContent.trim().split(" ")[0];
+    return(customerLocationNumber);
+}
+
+function getCustomerNode(billingFieldset) {
+    const customerNode = billingFieldset.querySelectorAll(".display-elem")[3].textContent.trim().split(":::")[1].split(" ")[0];
+    return(customerNode);
+}
+
+function getBillingStats() {
+    const billingObject = {};
+    const _billingDiv = document.querySelectorAll("#billToggle")[0];
+    const billingDiv = _billingDiv.nextElementSibling;
+    const billingFieldset = billingDiv.querySelectorAll("fieldset")[0];
+    billingObject["customername"] = getCustomerName(billingFieldset);
+    billingObject["customerlocation"] = getCustomerLocationNumber(billingFieldset);
+    billingObject["customeraddress"] = getCustomerAddress(billingFieldset);
+    billingObject["customernode"] = getCustomerNode(billingFieldset);
+    return(billingObject);
+}
+
+const modemObject = {
     "model": modemModel,
     "docsis": docsisVersion,
     "macaddr": modemMAC,
@@ -246,9 +316,11 @@ const modemObj = {
     "lastflaps": flapLast,
     "flapstotal": flapTotal,
     "battery": batteryStatus,
-    "upstream": upstreamObj,
-    "downstream": downstreamObj
+    "upstream": upstreamObject,
+    "downstream": downstreamObject,
+    "interfaces": getInterfaceStats(),
+    "billing": getBillingStats()
 };
 
 // DEBUG: Remove me
-console.log(modemObj);
+console.log(modemObject);
