@@ -10,6 +10,7 @@
 // 7. Could definitely make it less ugly
 // 8. Direct integration into ticketing system. i.e., we store previous monitoring results in NFS why not make it accessible from ticketing
 //    And the current system of monitoring results is an email that gets dropped in a folder we don't have time to look at and sort through manually
+// 9. More intuitive overview of MoCA and wireless infrastructures in customer homes; i.e., we know which MoCA devices are connected and which should be, but aren't.
 
 // Anyways, moving on
 // Helper object to convert weird iGlass DOCSIS designation to a usable version number
@@ -32,7 +33,7 @@ const collectionDict = {
 const registrationDict = {
     "registrationComplete": "Online",
     "other": "Rebooting",
-    "unknown": "Cannot determine registration status"
+    "unknown": "Cannot Determine Registration Status"
 }
 
 const eMTADict = {
@@ -40,22 +41,18 @@ const eMTADict = {
     "telephony-RegWithCallServer": "Registering with Call Server",
     "telephony-DHCP": "Obtaining eMTA IP Address",
     "telephony-TFTP": "Downloading eMTA Configuration",
-    "unknown": "Unknown"
+    "unknown": "Cannot Determine Telephony Status"
 }
 
 const batteryDict = {
     "normal": "Healthy",
     "depleted": "Dead or Removed",
-    "unknown": "Unknown"
+    "unknown": "Cannot Determine Battery Health"
 }
 
-// Potentially global functions
-
-// https://stackoverflow.com/a/45089849
-function getElementsByText(str, tag = "label") {
-    if(typeof(str) !== undefined) {
-        return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
-    }
+const mocaDict = {
+    "disabled": "Disabled",
+    "linkUp": "Device(s) connected"
 }
 
 // Variable names explain themselves. 
@@ -303,6 +300,86 @@ function getBillingStats() {
     return(billingObject);
 }
 
+function getCPEInfo() {
+    const cpeObject = {};
+    const deviceFields = document.querySelectorAll("#cpeToggle")[0].nextElementSibling.querySelectorAll("fieldset");
+    const currentDevice = deviceFields[i];
+    for (i = 0; i < deviceFields.length; i++) {
+        const currentDevice = "cpe" + (i+1);
+        cpeObject[currentDevice] = {};
+        cpeObject[currentDevice]["ipaddress"] = deviceFields[i].querySelectorAll(".display-elem")[0].textContent.trim().split(" ")[0];
+        const cpeMAC = deviceFields[i].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0].split("\n")[0];
+        const cpeVendor = deviceFields[i].querySelectorAll(".display-elem")[2].textContent.trim().split("  ")[0];
+        if (cpeMAC !== "N/A") {
+            cpeObject[currentDevice]["macaddress"] = cpeMAC;
+            cpeObject[currentDevice]["vendor"] = cpeVendor;
+        }
+        else {
+            // It's not impossible that another device may show "N/A" for MAC/Vendor but definitely unlikely, this should be safe
+            // We just want to have the same MAC address for IPv6 of the gateway/router/firewall/whatever as the MAC for IPv4 of first value
+            // Which has so far always been the CPE WAN IP
+            cpeObject[currentDevice]["macaddress"] = deviceFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0].split("\n")[0];
+            cpeObject[currentDevice]["vendor"] = deviceFields[0].querySelectorAll(".display-elem")[2].textContent.trim().split("  ")[0];
+        }
+    }
+    return(cpeObject);
+}
+
+const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
+
+function hasMoCA() {
+    const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
+    return(ifMoCA);
+}
+
+function getMocaNodeInfo() {
+    const mocaObject = {};
+    const mocaFields = widgetMoCA.nextElementSibling.querySelectorAll("fieldset");
+    const mocaStatus = mocaDict[mocaFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0]];
+    if (mocaStatus === "Disabled") {
+        mocaObject["mocastatus"] = mocaStatus;
+        return(mocaObject);
+    }
+    else {
+        mocaObject["mocastatus"] = mocaStatus;
+        for (i = 1; i < mocaFields.length; i++) {
+            const currentField = "node" + i;
+            mocaObject[currentField] = {};
+            const mocaElements = mocaFields[i].querySelectorAll(".display-elem");
+            mocaObject[currentField]["macaddress"] = mocaElements[0].textContent.trim().split(" ")[0];
+            mocaObject[currentField]["snr"] = mocaElements[1].textContent.trim().split(" ")[0];
+            mocaObject[currentField]["rxpackets"] = mocaElements[2].textContent.trim().split(" ")[0];
+            mocaObject[currentField]["rxdrops"] = mocaElements[3].textContent.trim().split(" ")[0];
+        }
+        return(mocaObject);
+    }
+}
+
+const wirelessToggle = document.querySelectorAll("#wirelessToggle")[0];
+const wirelessDiv = wirelessToggle.nextElementSibling;
+
+function isGateway() {
+    const ifGateway = (wirelessToggle !== "undefined") ? "Yes" : "No";
+    return(ifGateway);
+}
+
+function generateGatewayObject() {
+    for (i = 0; i < wirelessDiv.length; i++) {
+        const currentDiv = wirelessDiv[i];
+        const wirelessItemLegendText = wirelessDiv[i].querySelectorAll("legend").textContent.trim().split("\n")[0];
+        if (wirelessItemLegendText.split(0,4) === "Radio") {
+            generateRadioObject(currentDiv);
+        }
+        else if (wirelessItemLegendText.split(0,3) === "SSID") {
+            generate
+        }
+        else if (wirelessItemLegendText.split(0,5) === "Client") {
+            generateClientObject(currentDiv);
+        }
+    }
+
+}
+
 const modemObject = {
     "model": modemModel,
     "docsis": docsisVersion,
@@ -319,7 +396,11 @@ const modemObject = {
     "upstream": upstreamObject,
     "downstream": downstreamObject,
     "interfaces": getInterfaceStats(),
-    "billing": getBillingStats()
+    "billing": getBillingStats(),
+    "cpe": getCPEInfo(),
+    "hasmoca": hasMoCA(),
+    "mocanodes": (hasMoCA() === "Yes") ? getMocaNodeInfo() : "N/A",
+    "gatewaydata": (isgateway() === "Yes") ? getGatewayInfo() : "N/A"
 };
 
 // DEBUG: Remove me
