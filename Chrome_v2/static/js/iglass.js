@@ -355,10 +355,8 @@ function getMocaNodeInfo() {
     }
 }
 
-const wirelessToggle = document.querySelectorAll("#wirelessToggle")[0];
-const wirelessDiv = wirelessToggle.nextElementSibling;
-
 function isGateway() {
+    const wirelessToggle = document.querySelectorAll("#wirelessToggle")[0];
     const ifGateway = (wirelessToggle !== "undefined") ? "Yes" : "No";
     return(ifGateway);
 }
@@ -371,7 +369,7 @@ function generateGatewayObject() {
             generateRadioObject(currentDiv);
         }
         else if (wirelessItemLegendText.split(0,3) === "SSID") {
-            generate
+            // thing
         }
         else if (wirelessItemLegendText.split(0,5) === "Client") {
             generateClientObject(currentDiv);
@@ -400,7 +398,7 @@ const modemObject = {
     "cpe": getCPEInfo(),
     "hasmoca": hasMoCA(),
     "mocanodes": (hasMoCA() === "Yes") ? getMocaNodeInfo() : "N/A",
-    "gatewaydata": (isgateway() === "Yes") ? getGatewayInfo() : "N/A"
+    "gatewaydata": (isGateway() === "Yes") ? getGatewayInfo() : "N/A"
 };
 
 // DEBUG: Remove me
