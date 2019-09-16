@@ -24,8 +24,9 @@ const docsisDict = {
 
 // Helper object to convert weird iGlass collection status designation to a usable collection status
 const collectionDict = {
-    "onlineTekAssigned": "Service Permitted",
-    "onlineNetAccessDisabled": "Collection Disconnect",
+    "onlineTekAssigned": "Online, service permitted",
+    "onlineKekAssigned": "Almost online, awaiting Traffic Encryption Key",
+    "onlineNetAccessDisabled": "Online, collection disconnect",
     "offline(1)": "Rebooting"
 }
 
@@ -33,21 +34,21 @@ const collectionDict = {
 const registrationDict = {
     "registrationComplete": "Online",
     "other": "Rebooting",
-    "unknown": "Cannot Determine Registration Status"
+    "unknown": "Cannot determine registration status"
 }
 
 const eMTADict = {
     "telephony-RegComplete": "Registration Complete",
-    "telephony-RegWithCallServer": "Registering with Call Server",
-    "telephony-DHCP": "Obtaining eMTA IP Address",
-    "telephony-TFTP": "Downloading eMTA Configuration",
-    "unknown": "Cannot Determine Telephony Status"
+    "telephony-RegWithCallServer": "Registering with call server",
+    "telephony-DHCP": "Obtaining eMTA IP address",
+    "telephony-TFTP": "Downloading eMTA configuration",
+    "unknown": "Cannot determine telephony status"
 }
 
 const batteryDict = {
     "normal": "Healthy",
-    "depleted": "Dead or Removed",
-    "unknown": "Cannot Determine Battery Health"
+    "depleted": "Dead or removed",
+    "unknown": "Cannot determine battery health"
 }
 
 const mocaDict = {
@@ -361,21 +362,23 @@ function isGateway() {
     return(ifGateway);
 }
 
-function generateGatewayObject() {
+function getGatewayObject() {
+    const SSIDObject = [];
+    const radioObject = [];
+    const clientObject = [];
     for (i = 0; i < wirelessDiv.length; i++) {
         const currentDiv = wirelessDiv[i];
         const wirelessItemLegendText = wirelessDiv[i].querySelectorAll("legend").textContent.trim().split("\n")[0];
         if (wirelessItemLegendText.split(0,4) === "Radio") {
-            generateRadioObject(currentDiv);
+           
         }
         else if (wirelessItemLegendText.split(0,3) === "SSID") {
-            // thing
+            
         }
         else if (wirelessItemLegendText.split(0,5) === "Client") {
-            generateClientObject(currentDiv);
+            
         }
     }
-
 }
 
 const modemObject = {
