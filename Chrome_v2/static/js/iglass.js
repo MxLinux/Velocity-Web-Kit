@@ -1,18 +1,3 @@
-// Reasons back-end access would be better:
-// 1. Faster than iGlass, faster than JavaScript
-// 2. Does iGlass charge per account? Per CPE?
-// 3. No stupid distracting averages of channel stats
-// 4. iGlass displays microreflections in units of ??? negative decibles relative to carrier ??? what is a negative unit ??? Just say i.e., -30
-//    Like why don't you want people to know what the data represents if they're supposed to be using it?
-// 5. If viewing a modem showing an upstream impairment, we could immediately initiate and display a poll of the node/child node for similarities
-//    This would help us determine whether the impairment is on the plant or customer premise
-// 6. Integration with Active Directory maybe
-// 7. Could definitely make it less ugly
-// 8. Direct integration into ticketing system. i.e., we store previous monitoring results in NFS why not make it accessible from ticketing
-//    And the current system of monitoring results is an email that gets dropped in a folder we don't have time to look at and sort through manually
-// 9. More intuitive overview of MoCA and wireless infrastructures in customer homes; i.e., we know which MoCA devices are connected and which should be, but aren't.
-
-// Anyways, moving on
 // Helper object to convert weird iGlass DOCSIS designation to a usable version number
 const docsisDict = {
     "docsis31": "3.1",
