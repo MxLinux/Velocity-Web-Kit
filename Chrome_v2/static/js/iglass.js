@@ -362,23 +362,43 @@ function isGateway() {
     return(ifGateway);
 }
 
-function getGatewayObject() {
-    const SSIDObject = [];
-    const radioObject = [];
-    const clientObject = [];
-    for (i = 0; i < wirelessDiv.length; i++) {
-        const currentDiv = wirelessDiv[i];
-        const wirelessItemLegendText = wirelessDiv[i].querySelectorAll("legend").textContent.trim().split("\n")[0];
-        if (wirelessItemLegendText.split(0,4) === "Radio") {
-           
+function getAPInfo() {
+    const dataObj = {};
+    const accessPointObj = {};
+    const radioObj = {};
+    const accessPointDiv = document.querySelectorAll("#wirelessToggle")[0].nextElementSibling;
+    const accessPointFieldsets = accessPointDiv.querySelectorAll("fieldset");
+    for (i=0; i < accessPointFieldsets.length; i++) {
+        const accessPointLegend = accessPointFieldsets[i].querySelectorAll("legend")[0];
+        if(accessPointLegend.textContent.trim().substring(0,5) == "Radio") {
+            // Development tested only on 3450 modem
+            // Maybe keep an object that will translate our conditional statements appropriately for each gateway
+            // Or CommScope could have mercy on the masses and provide tools and equipment with ANY degree of conformity
+            // TODO: Additional note, for at least 3450, have to check whether or not iGlass is able to resolve a vendor based on MAC OUI
+            // They don't fill unresolved vendors with "unknown", they just wholly exclude the div :eyeroll:
+            const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
+            radioObj[currentRadio] = {};
+            radioObj[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
         }
-        else if (wirelessItemLegendText.split(0,3) === "SSID") {
-            
+        else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
+            const currentSSID = "ssid" + accessPointLegend.textContent.trim().split(" ")[1];
+            radioObj[currentSSID] = {};
+            radioObj[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
         }
-        else if (wirelessItemLegendText.split(0,5) === "Client") {
-            
+        else if(accessPointLegend.textContent.trim().substring(0,6) == "Client") {
+            const currentClient = "client" + accessPointLegend.textContent.trim().split(" ")[1];
+            radioObj[currentClient] = {};
+            radioObj[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
+        }
+        else {
+            console.log(accessPointLegend.textContent.trim());
         }
     }
+    return(radioObj);
+}
+
+function getAPClientInfo() {
+
 }
 
 const modemObject = {
@@ -401,7 +421,7 @@ const modemObject = {
     "cpe": getCPEInfo(),
     "hasmoca": hasMoCA(),
     "mocanodes": (hasMoCA() === "Yes") ? getMocaNodeInfo() : "N/A",
-    "gatewaydata": (isGateway() === "Yes") ? getGatewayInfo() : "N/A"
+    "apdata": (isGateway() === "Yes") ? getAPInfo() : "N/A"
 };
 
 // DEBUG: Remove me
