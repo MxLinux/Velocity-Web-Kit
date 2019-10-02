@@ -342,7 +342,12 @@ function getMocaNodeInfo() {
             mocaObject[currentField]["rxpackets"] = mocaElements[2].textContent.trim().split(" ")[0];
             mocaObject[currentField]["rxdrops"] = mocaElements[3].textContent.trim().split(" ")[0];
         }
-        return(mocaObject);
+        if (typeof(mocaObject) != "undefined") {
+            return(mocaObject);
+        }
+        else {
+            return("N/A");
+        }
     }
 }
 
@@ -353,9 +358,9 @@ function isGateway() {
 }
 
 function getAPInfo() {
-    const dataObj = {};
-    const accessPointObj = {};
-    const radioObj = {};
+    const accessPointObject = {};
+    const radioObject = {};
+    const clientObject = {}
     const accessPointDiv = document.querySelectorAll("#wirelessToggle")[0].nextElementSibling;
     const accessPointFieldsets = accessPointDiv.querySelectorAll("fieldset");
     for (i=0; i < accessPointFieldsets.length; i++) {
@@ -367,30 +372,41 @@ function getAPInfo() {
             // TODO: Additional note, for at least 3450, have to check whether or not iGlass is able to resolve a vendor based on MAC OUI
             // They don't fill unresolved vendors with "unknown", they just wholly exclude the div :eyeroll:
             const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
-            radioObj[currentRadio] = {};
-            radioObj[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
-            radioObj[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
-            radioObj[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
+            radioObject[currentRadio] = {};
+            radioObject[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+            radioObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
+            radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
-            const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0];
-            radioObj[currentSSID] = {};
-            radioObj[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+            const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0].split("SSID ")[1];
+            accessPointObject[currentSSID] = {};
+            accessPointObject[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split("\n")[0].split(" ID")[0];
         }
         else if(accessPointLegend.textContent.trim().substring(0,6) == "Client") {
             const currentClient = "client" + accessPointLegend.textContent.trim().split(" ")[1];
-            radioObj[currentClient] = {};
-            radioObj[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
+            const clientSSID = accessPointLegend.textContent.trim();
+            const matchInParen = /\((.*)\)/;
+            clientObject[currentClient] = {};
+            clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
+            clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
+            clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
         }
         else {
             console.log(accessPointLegend.textContent.trim());
         }
     }
-    return(radioObj);
-}
-
-function getAPClientInfo() {
-
+    for (var client in clientObject) {
+        for (var ssid in accessPointObject) {
+            if (clientObject[client]["ssid"] === accessPointObject[ssid]["id"]) {
+                clientObject[client]["radionum"] = ssid.split("ssid")[1];
+            }
+            else {
+                //console.log(accessPointObject[ssid]["id"] + "+" + clientObject[client]["ssid"]);
+            }
+        }
+    }
+    const dataObject = {radioObject, accessPointObject, clientObject};
+    return(dataObject);
 }
 
 const modemObject = {
@@ -418,3 +434,6 @@ const modemObject = {
 
 // DEBUG: Remove me
 console.log(modemObject);
+
+// Clear the page, let's vomit all this data back out
+document.body.innerHTML = JSON.stringify(modemObject);

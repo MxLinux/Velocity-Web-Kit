@@ -11,6 +11,11 @@
     ],
     "content_scripts": [
         {
+            "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
+            "css": ["static/css/tickets.css"],
+            "js": ["static/js/tickets.js"]
+        },
+        {
             "matches": ["https://noc.iglass.net/jglass/igo/devInfo.htm*"],
             "css": ["/static/css/iglass.css"],
             "js": ["/static/js/iglass.js"]

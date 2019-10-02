@@ -1,0 +1,153 @@
+/* Window Default */
+@media only screen and (max-width: 830px) and (min-width: 830px) {
+	#iGlass {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#iGlass button {
+		margin-top: -3px;
+		margin-left: -9px;
+	}
+	#Summary {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#Summary button {
+		margin-top: 16px;
+		margin-left: -9px;
+	}
+	#RPX {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#RPX button {
+		margin-top: 16px;
+		margin-left: -9px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
+		margin-top: 16px;
+		margin-left: -9px;
+	}
+	#Label2 {
+		margin-top: 20px;
+	}
+	#reOpenTicketButton {
+		margin-left: 3px;
+	}
+}
+
+/* Half-Split */
+@media only screen and (max-width: 980px) and (min-width: 940px) {
+	#iGlass {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#iGlass button {
+		margin-top: -6px;
+		margin-left: -4px;
+	}
+	#Summary {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#Summary button {
+		margin-top: 13px;
+		margin-left: -4px;
+	}
+	#RPX {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#RPX button {
+		margin-top: 13px;
+		margin-left: -4px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
+		margin-top: 13px;
+		margin-left: -4px;
+	}
+	#Label2 {
+		margin-top: 20px;
+	}
+	#reOpenTicketButton {
+		margin-left: 3px;
+	}
+	#Button1 {
+		margin-top:5px;
+		margin-bottom: 5px;
+	}
+}
+
+/* Fullscreen */
+@media only screen and (max-width: 1920px) and (min-width: 1910px) { 
+	#iGlass {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#iGlass button {
+		margin-top: -3px;
+		margin-left: 36px;
+	}
+	#Summary {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#Summary button {
+		margin-top: 16px;
+		margin-left: 36px;
+	}
+	#RPX {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#RPX button {
+		margin-top: 16px;
+		margin-left: 36px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
+		margin-top: 16px;
+		margin-left: 36px;
+	}
+	#Label2 {
+		margin-top: 20px;
+	}
+	#reOpenTicketButton {
+		margin-left: 3px;
+	}
+}
