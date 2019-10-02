@@ -41,6 +41,11 @@ const mocaDict = {
     "linkUp": "Device(s) connected"
 }
 
+const frequencyDict = {
+    "n2dot4Ghz": "2.4 GHz",
+    "n5Ghz": "5 GHz"
+}
+
 // Variable names explain themselves. 
 const _docsisVersion = document.querySelectorAll("span[title='Docsis Version']")[0].textContent.trim();
 const docsisVersion = docsisDict[_docsisVersion];
@@ -363,17 +368,19 @@ function getAPInfo() {
             // They don't fill unresolved vendors with "unknown", they just wholly exclude the div :eyeroll:
             const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
             radioObj[currentRadio] = {};
-            radioObj[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+            radioObj[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+            radioObj[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
+            radioObj[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
-            const currentSSID = "ssid" + accessPointLegend.textContent.trim().split(" ")[1];
+            const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0];
             radioObj[currentSSID] = {};
             radioObj[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
         }
         else if(accessPointLegend.textContent.trim().substring(0,6) == "Client") {
             const currentClient = "client" + accessPointLegend.textContent.trim().split(" ")[1];
             radioObj[currentClient] = {};
-            radioObj[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
+            radioObj[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
         }
         else {
             console.log(accessPointLegend.textContent.trim());
