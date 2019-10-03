@@ -1,4 +1,3 @@
-// Helper object to convert weird iGlass DOCSIS designation to a usable version number
 const docsisDict = {
     "docsis31": "3.1",
     "docsis30": "3.0",
@@ -7,7 +6,6 @@ const docsisDict = {
     "docsis10": "1.0"
 }
 
-// Helper object to convert weird iGlass collection status designation to a usable collection status
 const collectionDict = {
     "onlineTekAssigned": "Online, service permitted",
     "onlineKekAssigned": "Almost online, awaiting Traffic Encryption Key",
@@ -15,7 +13,6 @@ const collectionDict = {
     "offline(1)": "Rebooting"
 }
 
-// Helper object to convert weird iGlass registration status designation to a usable registration status
 const registrationDict = {
     "registrationComplete": "Online",
     "other": "Rebooting",
@@ -46,7 +43,6 @@ const frequencyDict = {
     "n5Ghz": "5 GHz"
 }
 
-// Variable names explain themselves. 
 const _docsisVersion = document.querySelectorAll("span[title='Docsis Version']")[0].textContent.trim();
 const docsisVersion = docsisDict[_docsisVersion];
 const modemModel = document.querySelectorAll("span[title='Model']")[0].textContent.trim();
