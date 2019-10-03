@@ -1,0 +1,25 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #E7E7E7;
+    color: #000000;
+}
+
+a:visited, a:link, a:active {
+    text-decoration: underline;
+    color: #000000;
+    font-weight: bolder;
+}
+
+h1 {
+    color: #333333;
+    font-size: 32px;
+}
+
+h2 {
+    color: #000000;
+    font-size: 24px;
+}

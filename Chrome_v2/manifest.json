@@ -25,6 +25,14 @@
                 "include/jquery-3.4.1.min.js",
                 "/static/js/iglass.js"
             ]
+        },
+        {
+            "matches": ["http://*/*"],
+            "include_globs": ["10.*.*.*/*"],
+            "js": [
+                "include/jquery-3.4.1.min.js",
+                "/static/js/gateway.js"
+            ]
         }
     ],
     "manifest_version": 2

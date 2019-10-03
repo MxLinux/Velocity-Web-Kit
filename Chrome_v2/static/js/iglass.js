@@ -43,6 +43,17 @@ const frequencyDict = {
     "n5Ghz": "5 GHz"
 }
 
+const modelDict = {
+    "DG3450A": "3450",
+    "TG2472GP2": "2472",
+    "DG2470A": "2470",
+    "CM8200A": "8200",
+    "SB6190": "6190",
+    "SB6183": "6183",
+    "TM804G": "804",
+    "CM820A": "820"
+};
+
 const _docsisVersion = document.querySelectorAll("span[title='Docsis Version']")[0].textContent.trim();
 const docsisVersion = docsisDict[_docsisVersion];
 const modemModel = document.querySelectorAll("span[title='Model']")[0].textContent.trim();
@@ -321,6 +332,7 @@ function hasMoCA() {
 
 function getMocaNodeInfo() {
     const mocaObject = {};
+    // Needs an if or try statement of some sort
     const mocaFields = widgetMoCA.nextElementSibling.querySelectorAll("fieldset");
     const mocaStatus = mocaDict[mocaFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0]];
     if (mocaStatus === "Disabled") {
@@ -362,16 +374,20 @@ function getAPInfo() {
     for (i=0; i < accessPointFieldsets.length; i++) {
         const accessPointLegend = accessPointFieldsets[i].querySelectorAll("legend")[0];
         if(accessPointLegend.textContent.trim().substring(0,5) == "Radio") {
-            // Development tested only on 3450 modem
-            // Maybe keep an object that will translate our conditional statements appropriately for each gateway
-            // Or CommScope could have mercy on the masses and provide tools and equipment with ANY degree of conformity
-            // TODO: Additional note, for at least 3450, have to check whether or not iGlass is able to resolve a vendor based on MAC OUI
-            // They don't fill unresolved vendors with "unknown", they just wholly exclude the div :eyeroll:
             const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
             radioObject[currentRadio] = {};
             radioObject[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
-            radioObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
-            radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
+            if (modelDict[modemModel] === "3450") {
+                radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
+                radioObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
+            }
+            else if(modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
+                radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0] + "%";
+                radioObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
+            }
+            else {
+                radioObject[currentRadio]["power"] = "Unsupported modem model";
+            }
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
             const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0].split("SSID ")[1];
@@ -383,9 +399,16 @@ function getAPInfo() {
             const clientSSID = accessPointLegend.textContent.trim();
             const matchInParen = /\((.*)\)/;
             clientObject[currentClient] = {};
-            clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
-            clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
-            clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
+            if (modelDict[modemModel] === "3450") {
+                clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
+                clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
+                clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
+            }
+            else if(modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
+                clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0];
+                clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
+                clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
+            }
         }
         else {
             console.log(accessPointLegend.textContent.trim());
@@ -397,7 +420,7 @@ function getAPInfo() {
                 clientObject[client]["radionum"] = ssid.split("ssid")[1];
             }
             else {
-                //console.log(accessPointObject[ssid]["id"] + "+" + clientObject[client]["ssid"]);
+                //console.log(accessPointObject[ssid]["id"] + ", " + clientObject[client]["ssid"]);
             }
         }
     }
@@ -428,14 +451,32 @@ const modemObject = {
     "apdata": (isGateway() === "Yes") ? getAPInfo() : "N/A"
 };
 
+const modemData = {
+    "model": modelDict[modemObject["model"]],
+    "docsis": modemObject["docsis"],
+    "macaddr": modemObject["macaddr"],
+    "lanip": modemObject["lanip"],
+    "uptime": modemObject["uptime"],
+    "registration": modemObject["registration"]
+}
+
+const billingData = {
+    "billing": modemObject["billing"]
+}
+
 // DEBUG: Remove me
 console.log(modemObject);
-
-// Clear the page, let's vomit all this data back out
-//document.body.innerHTML = "";
-//JSON.stringify(modemObject);
-
 // Save the current page in case you want to switch back dynamically; need to fix this to load full <html>*</html>
-const currentPage = document.documentElement.innerHTML;
-console.log(currentPage);
-//$("html").load("chrome://mkpakmkbgannkngldgdncofdongmncpl/static/html/iglass_template.html");
+const currentPage = document.documentElement.outterHTML;
+
+var distributableData = '<html lang="en-US">';
+distributableData += '<head><title>iGlass [MODIFIED]</title></head>';
+distributableData += '<body>';
+distributableData += '<div id="content">';
+distributableData += '<div id="modemdata">' + JSON.stringify(modemData) + '<br /></div>';
+distributableData += '<div id="wirelessdata">' + JSON.stringify(modemObject["apdata"]) + '<br /></div>';
+distributableData += '<div id="registrationData">' + JSON.stringify() + '</div>';
+distributableData += '</div>'; // Close #content
+distributableData += '</body>';
+distributableData += '</html>';
+document.documentElement.innerHTML = distributableData;
