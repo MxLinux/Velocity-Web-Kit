@@ -1,9 +1,0 @@
-div.ui-widget-content.ui-corner-bottom.ui-helper-clearfix span {
-    border: 2px solid var(--color10) !important;
-    font-size: 14px !important;
-    padding: 5px !important;
-    margin-bottom: -20px !important;
-    margin-left: 10px !important;
-    margin-right: 10px !important;
-    display: block !important;
-}
