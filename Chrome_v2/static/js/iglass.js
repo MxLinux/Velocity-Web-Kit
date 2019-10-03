@@ -432,4 +432,10 @@ const modemObject = {
 console.log(modemObject);
 
 // Clear the page, let's vomit all this data back out
-document.body.innerHTML = JSON.stringify(modemObject);
+//document.body.innerHTML = "";
+//JSON.stringify(modemObject);
+
+// Save the current page in case you want to switch back dynamically; need to fix this to load full <html>*</html>
+const currentPage = document.documentElement.innerHTML;
+console.log(currentPage);
+//$("html").load("chrome://mkpakmkbgannkngldgdncofdongmncpl/static/html/iglass_template.html");
