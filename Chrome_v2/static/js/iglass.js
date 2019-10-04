@@ -474,9 +474,8 @@ distributableData += '<head><title>iGlass [MODIFIED]</title></head>';
 distributableData += '<body>';
 distributableData += '<div id="content">';
 distributableData += '<div id="modemdata">' + JSON.stringify(modemData) + '<br /></div>';
-distributableData += '<div id="wirelessdata">' + JSON.stringify(modemObject["apdata"]) + '<br /></div>';
-distributableData += '<div id="registrationData">' + JSON.stringify() + '</div>';
+distributableData += '<div id="wirelessdata">' +  + '<br /></div>';
 distributableData += '</div>'; // Close #content
 distributableData += '</body>';
 distributableData += '</html>';
-document.documentElement.innerHTML = distributableData;
+//document.documentElement.innerHTML = distributableData;
