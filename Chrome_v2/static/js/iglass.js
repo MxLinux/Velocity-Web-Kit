@@ -461,21 +461,56 @@ const modemData = {
 }
 
 const billingData = {
-    "billing": modemObject["billing"]
+    "name": modemObject["billing"]["customername"],
+    "address": modemObject["billing"]["customeraddress"],
+    "location": modemObject["billing"]["customerlocation"],
+    "node": modemObject["billing"]["customernode"]
+}
+
+const upstreamData = {
+
+}
+
+const downstreamData = {
+
+}
+
+const emtaData = {
+
+}
+
+const wirelessData = {
+    "radiodata": modemObject["apdata"]["radioObject"],
+    "ssiddata": modemObject["apdata"]["accessPointObject"],
+    "clientdata": modemObject["apdata"]["clientObject"]
 }
 
 // DEBUG: Remove me
 console.log(modemObject);
-// Save the current page in case you want to switch back dynamically; need to fix this to load full <html>*</html>
+// Save the current page in case you want to switch back dynamically; need to incorporate message passing API for this I think
 const currentPage = document.documentElement.outterHTML;
+
+function prepFieldData(fieldObject) {
+    var fieldSpans = "<div id='" + fieldObject.constructor.name + "'>";
+    for (i = 0; i < Object.keys(fieldObject).length; i++) {
+        fieldSpans += "<span id='" + Object.keys(fieldObject)[i] + "'>" + Object.values(fieldObject)[i] + "</span>";
+    }
+    fieldSpans += "</div>";
+    return(fieldSpans);
+}
 
 var distributableData = '<html lang="en-US">';
 distributableData += '<head><title>iGlass [MODIFIED]</title></head>';
 distributableData += '<body>';
 distributableData += '<div id="content">';
-distributableData += '<div id="modemdata">' + JSON.stringify(modemData) + '<br /></div>';
-distributableData += '<div id="wirelessdata">' + JSON.stringify(modemObject["apdata"]) + '<br /></div>';
+distributableData += prepFieldData(modemData);
+distributableData += prepFieldData(billingData);
+distributableData += prepFieldData(wirelessData);
+if(isGateway === "Yes") {
+    distributableData += prepFieldData(wirelessData);
+}
 distributableData += '</div>'; // Close #content
 distributableData += '</body>';
 distributableData += '</html>';
+console.log(distributableData);
 //document.documentElement.innerHTML = distributableData;
