@@ -386,7 +386,7 @@ function getAPInfo() {
                 radioObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
             }
             else {
-                radioObject[currentRadio]["power"] = "Unsupported modem model";
+                radioObject[currentRadio]["unsupported"] = "Unsupported modem model";
             }
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
@@ -490,10 +490,23 @@ console.log(modemObject);
 // Save the current page in case you want to switch back dynamically; need to incorporate message passing API for this I think
 const currentPage = document.documentElement.outterHTML;
 
-function prepFieldData(fieldObject) {
+function prepFieldData(fieldObject, requiredParse) {
     var fieldSpans = "<div id='" + fieldObject.constructor.name + "'>";
-    for (i = 0; i < Object.keys(fieldObject).length; i++) {
-        fieldSpans += "<span id='" + Object.keys(fieldObject)[i] + "'>" + Object.values(fieldObject)[i] + "</span>";
+    if (requiredParse == null) {
+        console.log("null or no");
+        for (i = 0; i < Object.keys(fieldObject).length; i++) {
+            fieldSpans += "<span id='" + Object.keys(fieldObject)[i] + "'>" + Object.values(fieldObject)[i] + "</span>";
+        }
+    }
+    else {
+        var fieldSpans = "<div id='" + fieldObject.constructor.name + "'>";
+        for (i = 0; i < Object.keys(fieldObject).length; i++) {
+            console.log(i);
+            for (n = 0; n < Object.keys(fieldObject[i]).length; i++) {
+                console.log(n);
+                fieldSpans += "span id='" + Object.keys(fieldObject[i]) + "'>" + Object.values(fieldObject[i]) + "</span>";
+            }
+        }
     }
     fieldSpans += "</div>";
     return(fieldSpans);
@@ -507,10 +520,10 @@ distributableData += prepFieldData(modemData);
 distributableData += prepFieldData(billingData);
 distributableData += prepFieldData(wirelessData);
 if(isGateway === "Yes") {
-    distributableData += prepFieldData(wirelessData);
+    distributableData += prepFieldData(wirelessData, "Yes");
 }
 distributableData += '</div>'; // Close #content
 distributableData += '</body>';
 distributableData += '</html>';
 console.log(distributableData);
-//document.documentElement.innerHTML = distributableData;
+document.documentElement.innerHTML = distributableData;
