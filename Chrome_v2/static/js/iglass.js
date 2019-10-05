@@ -366,66 +366,106 @@ function isGateway() {
 }
 
 function getAPInfo() {
-    const accessPointObject = {};
-    const radioObject = {};
-    const clientObject = {}
+    const ssidLegendObject = {};
+    const radioLegendObject = {};
+    const clientLegendObject = {}
     const accessPointDiv = document.querySelectorAll("#wirelessToggle")[0].nextElementSibling;
     const accessPointFieldsets = accessPointDiv.querySelectorAll("fieldset");
     for (i=0; i < accessPointFieldsets.length; i++) {
         const accessPointLegend = accessPointFieldsets[i].querySelectorAll("legend")[0];
         if(accessPointLegend.textContent.trim().substring(0,5) == "Radio") {
             const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
-            radioObject[currentRadio] = {};
-            radioObject[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+            radioLegendObject[currentRadio] = {};
+            radioLegendObject[currentRadio]["channel"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
             if (modelDict[modemModel] === "3450") {
-                radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
-                radioObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
+                radioLegendObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
+                radioLegendObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
             }
             else if(modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
-                radioObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0] + "%";
-                radioObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
+                radioLegendObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0] + "%";
+                radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
             }
             else {
-                radioObject[currentRadio]["power"] = "Unsupported modem model";
+                radioLegendObject[currentRadio]["power"] = "Unsupported modem model";
             }
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
             const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0].split("SSID ")[1];
-            accessPointObject[currentSSID] = {};
-            accessPointObject[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split("\n")[0].split(" ID")[0];
+            ssidLegendObject[currentSSID] = {};
+            ssidLegendObject[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split("\n")[0].split(" ID")[0];
         }
         else if(accessPointLegend.textContent.trim().substring(0,6) == "Client") {
             const currentClient = "client" + accessPointLegend.textContent.trim().split(" ")[1];
             const clientSSID = accessPointLegend.textContent.trim();
             const matchInParen = /\((.*)\)/;
-            clientObject[currentClient] = {};
+            clientLegendObject[currentClient] = {};
             if (modelDict[modemModel] === "3450") {
-                clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
-                clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
-                clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
+                clientLegendObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
+                clientLegendObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
+                clientLegendObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
             }
             else if(modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
-                clientObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0];
-                clientObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
-                clientObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
+                clientLegendObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0];
+                clientLegendObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
+                clientLegendObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
             }
         }
         else {
             console.log(accessPointLegend.textContent.trim());
         }
     }
-    for (var client in clientObject) {
-        for (var ssid in accessPointObject) {
-            if (clientObject[client]["ssid"] === accessPointObject[ssid]["id"]) {
-                clientObject[client]["radionum"] = ssid.split("ssid")[1];
+    for (var client in clientLegendObject) {
+        for (var ssid in ssidLegendObject) {
+            if (clientLegendObject[client]["ssid"] === ssidLegendObject[ssid]["id"]) {
+                clientLegendObject[client]["radionum"] = ssid.split("ssid")[1];
             }
             else {
-                //console.log(accessPointObject[ssid]["id"] + ", " + clientObject[client]["ssid"]);
+                //console.log(ssidLegendObject[ssid]["id"] + ", " + clientLegendObject[client]["ssid"]);
             }
         }
     }
-    const dataObject = {radioObject, accessPointObject, clientObject};
-    return(dataObject);
+
+    const wirelessClientObject = {};
+
+    if (Object.keys(radioLegendObject).length == 2 && Object.keys(ssidLegendObject).length == 2) {
+        for (i = 0; i < Object.keys(clientLegendObject).length; i++) {
+            currentClient = "client" + (i + 1);
+            for (n = 0; n < Object.keys(ssidLegendObject).length; n++) {
+                currentSSID = "ssid" + (n + 1);
+                currentRadio = n;
+                if(clientLegendObject[currentClient]["ssid"] == ssidLegendObject[currentSSID]["id"]) {
+                    wirelessClientObject[currentClient] = {};
+                    wirelessClientObject[currentClient]["macaddr"] = clientLegendObject[currentClient]["macaddr"];
+                    wirelessClientObject[currentClient]["frequency"] = radioLegendObject[currentRadio["frequency"]];
+                    wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[currentSSID]["id"];
+                    wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
+                }
+                else {
+                    // Stuff
+                }
+            }
+        }
+    }
+    else if (Object.keys(radioLegendObject).length == 1 && Object.keys(ssidLegendObject).length == 1) {
+        for (i = 0; i < Object.keys(clientLegendObject).length; i++) {
+            for (n = 0; n < Object.keys(radioLegendObject).length; n++) {
+                if(clientLegendObject[i]["ssid"] === ssidLegendObject[n]["id"]) {
+                    currentClient = i;
+                    wirelessClientObject[currentClient] = {};
+                    wirelessClientObject[currentClient]["macaddr"] = clientLegendObject[currentClient]["macaddr"];
+                    wirelessClientObject[currentClient]["frequency"] = radioLegendObject[n]["frequency"];
+                    wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[n]["id"];
+                    wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
+                }
+            }
+        }
+    }
+    else {
+        // Tell the world we can't process this
+        // Either both bands have the same name, or one/both bands are disabled
+        // It's also possible that additional SSIDs have been enabled. I believe all of our gateways support this via Web GUI. 
+    }
+    return(wirelessClientObject);
 }
 
 const modemObject = {
@@ -467,50 +507,39 @@ const billingData = {
     "node": modemObject["billing"]["customernode"]
 }
 
-const upstreamData = {
-
-}
-
-const downstreamData = {
-
-}
-
-const emtaData = {
-
-}
-
-const wirelessData = {
-    "radiodata": modemObject["apdata"]["radioObject"],
-    "ssiddata": modemObject["apdata"]["accessPointObject"],
-    "clientdata": modemObject["apdata"]["clientObject"]
-}
-
 // DEBUG: Remove me
-console.log(modemObject);
+//console.log(modemObject);
 // Save the current page in case you want to switch back dynamically; need to incorporate message passing API for this I think
 const currentPage = document.documentElement.outterHTML;
 
-function prepFieldData(fieldObject) {
-    var fieldSpans = "<div id='" + fieldObject.constructor.name + "'>";
-    for (i = 0; i < Object.keys(fieldObject).length; i++) {
-        fieldSpans += "<span id='" + Object.keys(fieldObject)[i] + "'>" + Object.values(fieldObject)[i] + "</span>";
+function prepData(dataObject) {
+    var dataSpans = "";
+    for (i = 0; i < Object.keys(dataObject).length; i++) {
+        dataSpans += "<span id='" + Object.keys(dataObject)[i] + "'>" + Object.values(dataObject)[i] + "</span><br />";
     }
-    fieldSpans += "</div>";
-    return(fieldSpans);
+    return(dataSpans);
 }
 
-var distributableData = '<html lang="en-US">';
+let distributableData = '<html lang="en-US">';
 distributableData += '<head><title>iGlass [MODIFIED]</title></head>';
 distributableData += '<body>';
 distributableData += '<div id="content">';
-distributableData += prepFieldData(modemData);
-distributableData += prepFieldData(billingData);
-distributableData += prepFieldData(wirelessData);
-if(isGateway === "Yes") {
-    distributableData += prepFieldData(wirelessData);
+distributableData += '<div id="modem">';
+distributableData += prepData(modemData);
+distributableData += '</div>';
+distributableData += '<div id="billing">';
+distributableData += prepData(billingData);
+distributableData += '</div>';
+distributableData += '<div id="wireless">';
+if (isGateway() === "Yes") {
+    console.log("Yes");
+    distributableData += prepData(getAPInfo());
+    console.log(prepData(getAPInfo()));
+    distributableData += '</div>';
 }
-distributableData += '</div>'; // Close #content
+distributableData += '</div>';
 distributableData += '</body>';
 distributableData += '</html>';
-console.log(distributableData);
-//document.documentElement.innerHTML = distributableData;
+document.documentElement.innerHTML = distributableData;
+
+// Need to combine wireless clients by MAC address 
