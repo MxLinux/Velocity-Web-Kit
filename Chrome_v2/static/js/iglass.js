@@ -439,9 +439,13 @@ function getAPInfo() {
                     wirelessClientObject[currentClient]["frequency"] = radioLegendObject[currentRadio["frequency"]];
                     wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[currentSSID]["id"];
                     wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
+                    console.log("mac is " + wirelessClientObject[currentClient]["macaddr"]);
+                    console.log("freq is" + wirelessClientObject[currentClient]["frequency"]);
+                    console.log("ssid is " + wirelessClientObject[currentClient]["ssid"]);
+                    console.log("rssi is " + wirelessClientObject[currentClient]["rssi"]);
                 }
                 else {
-                    // Stuff
+                    // This problably doesn't matter it just means that the nth ssid we have stored didn't match the current client's ssid
                 }
             }
         }
@@ -453,7 +457,7 @@ function getAPInfo() {
                     currentClient = i;
                     wirelessClientObject[currentClient] = {};
                     wirelessClientObject[currentClient]["macaddr"] = clientLegendObject[currentClient]["macaddr"];
-                    wirelessClientObject[currentClient]["frequency"] = radioLegendObject[n]["frequency"];
+                    wirelessClientObject[currentClient]["frequency"] = Object.values(radioLegendObject[n])["frequency"];
                     wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[n]["id"];
                     wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
                 }
@@ -515,7 +519,16 @@ const currentPage = document.documentElement.outterHTML;
 function prepData(dataObject) {
     var dataSpans = "";
     for (i = 0; i < Object.keys(dataObject).length; i++) {
-        dataSpans += "<span id='" + Object.keys(dataObject)[i] + "'>" + Object.values(dataObject)[i] + "</span><br />";
+        if (typeof(Object.values(dataObject)[i]) === 'object') {
+            currentClient = i;
+            for (n = 0; n < Object.keys(Object.keys(dataObject)[i]).length; n++) {
+                // For every propery of wireless client
+                dataSpans += "<span id='" + Object.keys(Object.values(dataObject)[i])[n] + "'>" + Object.values(Object.values(dataObject)[i])[n] + "</span><br />";
+            }
+        }
+        else {
+            dataSpans += "<span id='" + Object.keys(dataObject)[i] + "'>" + Object.values(dataObject)[i] + "</span><br />";
+        }
     }
     return(dataSpans);
 }
@@ -532,9 +545,9 @@ distributableData += prepData(billingData);
 distributableData += '</div>';
 distributableData += '<div id="wireless">';
 if (isGateway() === "Yes") {
-    console.log("Yes");
     distributableData += prepData(getAPInfo());
-    console.log(prepData(getAPInfo()));
+    //console.log(getAPInfo());
+    //console.log(prepData(getAPInfo()));
     distributableData += '</div>';
 }
 distributableData += '</div>';
