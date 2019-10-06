@@ -472,6 +472,7 @@ function getAPInfo() {
         // Tell the world we can't process this
         // Either both bands have the same name, or one/both bands are disabled
         // It's also possible that additional SSIDs have been enabled. I believe all of our gateways support this via Web GUI. 
+        console.log("bad");
     }
     return(wirelessClientObject);
 }
