@@ -386,11 +386,7 @@ function getAPInfo() {
                 radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
             }
             else {
-<<<<<<< HEAD
                 radioObject[currentRadio]["unsupported"] = "Unsupported modem model";
-=======
-                radioLegendObject[currentRadio]["power"] = "Unsupported modem model";
->>>>>>> work_changes
             }
         }
         else if(accessPointLegend.textContent.trim().substring(0,4) == "SSID") {
