@@ -323,15 +323,16 @@ function getCPEInfo() {
     return(cpeObject);
 }
 
-const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
 
 function hasMoCA() {
+    const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
     const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
     return(ifMoCA);
 }
 
 function getMocaNodeInfo() {
     const mocaObject = {};
+    const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
     // Needs an if or try statement of some sort
     const mocaFields = widgetMoCA.nextElementSibling.querySelectorAll("fieldset");
     const mocaStatus = mocaDict[mocaFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0]];
@@ -350,7 +351,7 @@ function getMocaNodeInfo() {
             mocaObject[currentField]["rxpackets"] = mocaElements[2].textContent.trim().split(" ")[0];
             mocaObject[currentField]["rxdrops"] = mocaElements[3].textContent.trim().split(" ")[0];
         }
-        if (typeof(mocaObject) != "undefined") {
+        if (mocaObject !== "undefined") {
             return(mocaObject);
         }
         else {
@@ -554,6 +555,6 @@ if (isGateway() === "Yes") {
 distributableData += '</div>';
 distributableData += '</body>';
 distributableData += '</html>';
-document.documentElement.innerHTML = distributableData;
+//document.documentElement.innerHTML = distributableData;
 
 // Need to combine wireless clients by MAC address 
