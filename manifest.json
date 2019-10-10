@@ -13,6 +13,10 @@
     ],
     "content_scripts": [
         {
+            "matches": ["http://eusvr41/internettechsupport/Overview.aspx"],
+            "js": ["static/js/vtt.js"]
+        },
+        {
             "matches": ["http://eusvr41/internettechsupport/SearchTicket.aspx?TicketID=*"],
             "css": ["static/css/tickets.css"],
             "js": ["static/js/tickets.js"]
