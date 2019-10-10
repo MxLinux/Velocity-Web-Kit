@@ -74,7 +74,12 @@ function isMTA() {
     }
 }
 
-const eMTACapable = document.querySelectorAll("label[for='status']")[3].parentElement.textContent ? isMTA() : "No";
+try {
+    const eMTACapable = document.querySelectorAll("label[for='status']")[3].parentElement.textContent ? isMTA() : "No";
+}
+catch (err) {
+    const eMTACapable = "No";
+}
 const eMTAStatus = (eMTACapable === "Yes") ? eMTADict[document.querySelectorAll("label[for='status']")[3].parentElement.textContent.trim().split("\n")[0].split("MTA")[0].trim()] : "N/A"
 const flapTotal = (document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim() === "Not on list") ? 0 : document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim();
 const flapLast = (flapTotal instanceof String) ? document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[1].trim().split("(")[1].split(" ")[0] : "0";
@@ -325,39 +330,50 @@ function getCPEInfo() {
 
 
 function hasMoCA() {
-    const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
-    const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
-    return(ifMoCA);
+    try {
+        const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
+        const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
+        return(ifMoCA);
+    }
+    catch(err) {
+        return("No")
+    }
+    
 }
 
 function getMocaNodeInfo() {
-    const mocaObject = {};
-    const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
-    // Needs an if or try statement of some sort
-    const mocaFields = widgetMoCA.nextElementSibling.querySelectorAll("fieldset");
-    const mocaStatus = mocaDict[mocaFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0]];
-    if (mocaStatus === "Disabled") {
-        mocaObject["mocastatus"] = mocaStatus;
-        return(mocaObject);
-    }
-    else {
-        mocaObject["mocastatus"] = mocaStatus;
-        for (i = 1; i < mocaFields.length; i++) {
-            const currentField = "node" + i;
-            mocaObject[currentField] = {};
-            const mocaElements = mocaFields[i].querySelectorAll(".display-elem");
-            mocaObject[currentField]["macaddress"] = mocaElements[0].textContent.trim().split(" ")[0];
-            mocaObject[currentField]["snr"] = mocaElements[1].textContent.trim().split(" ")[0];
-            mocaObject[currentField]["rxpackets"] = mocaElements[2].textContent.trim().split(" ")[0];
-            mocaObject[currentField]["rxdrops"] = mocaElements[3].textContent.trim().split(" ")[0];
-        }
-        if (mocaObject !== "undefined") {
+    try {
+        const mocaObject = {};
+        const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
+        const mocaFields = widgetMoCA.nextElementSibling.querySelectorAll("fieldset");
+        const mocaStatus = mocaDict[mocaFields[0].querySelectorAll(".display-elem")[1].textContent.trim().split(" ")[0]];
+        if (mocaStatus === "Disabled") {
+            mocaObject["mocastatus"] = mocaStatus;
             return(mocaObject);
         }
         else {
-            return("N/A");
+            mocaObject["mocastatus"] = mocaStatus;
+            for (i = 1; i < mocaFields.length; i++) {
+                const currentField = "node" + i;
+                mocaObject[currentField] = {};
+                const mocaElements = mocaFields[i].querySelectorAll(".display-elem");
+                mocaObject[currentField]["macaddress"] = mocaElements[0].textContent.trim().split(" ")[0];
+                mocaObject[currentField]["snr"] = mocaElements[1].textContent.trim().split(" ")[0];
+                mocaObject[currentField]["rxpackets"] = mocaElements[2].textContent.trim().split(" ")[0];
+                mocaObject[currentField]["rxdrops"] = mocaElements[3].textContent.trim().split(" ")[0];
+            }
+            if (mocaObject !== "undefined") {
+                return(mocaObject);
+            }
+            else {
+                return("N/A");
+            }
         }
     }
+    catch(err) {
+        return("N/A");
+    }
+
 }
 
 function isGateway() {

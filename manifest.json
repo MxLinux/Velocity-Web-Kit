@@ -18,6 +18,10 @@
             "js": ["static/js/tickets.js"]
         },
         {
+            "matches": ["http://eusvr70/customersummary/CustomerPage.aspx?*"],
+            "js": ["static/js/summary.js"]
+        },
+        {
             "matches": ["https://noc.iglass.net/jglass/igo/devInfo.htm*"],
             "css": ["/static/css/iglass.css"],
             "js": [
