@@ -26,7 +26,10 @@
         },
         {
             "matches": ["<all_urls>"],
-            "include_globs": ["10.*"],
+            "include_globs": [
+                "http://10.*:8080/*",
+                "https://10.*/login.php"
+            ],
             "js": [
                 "/static/js/gateway.js"
             ]

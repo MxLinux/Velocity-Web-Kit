@@ -4,6 +4,8 @@ var site = location.hostname;
 var regex = new RegExp("(10)(\.([2]([0-5][0-5]|[01234][6-9])|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}");
 var match = site.match(regex);
 
+console.log("Uhhh");
+
 if (match != null) {
     // Wait 1 second before trying, elements on page take a while to load
     setTimeout(function() {
@@ -30,7 +32,8 @@ if (match != null) {
             xhttp.open("GET", "http://127.0.0.1/potd", true);
             xhttp.send();
         }
-        else if (document.getElementById("login-block") != 'undefined' && document.getElementById("login-block") != null) {
+        else if (typeof(document.getElementById("login-block")) !== 'undefined' && typeof(document.getElementById("login-block") !== null)) {
+            console.log("Uhhh again");
             var loginNode_new = document.getElementsByClassName("login-block");
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
