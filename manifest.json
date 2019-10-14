@@ -3,15 +3,16 @@
     "version": "0.0.1",
     "description": "Modifications for Easton Velocity web-based tools",
     "background": {
-        "scripts": [
-            "static/js/background.js"
-        ],
+        "scripts": ["static/js/background.js"],
         "persistent": false
     },
-    "page_action": {
+    "browser_action": {
         "default_popup": "static/html/popup.html"
     },
     "permissions": [
+        "activeTab",
+        "declarativeContent",
+        "clipboardWrite",
         "storage"
     ],
     "content_scripts": [
@@ -31,9 +32,7 @@
         {
             "matches": ["https://noc.iglass.net/jglass/igo/devInfo.htm*"],
             "css": ["/static/css/iglass.css"],
-            "js": [
-                "/static/js/iglass.js"
-            ]
+            "js": ["/static/js/iglass.js"]
         },
         {
             "matches": ["<all_urls>"],
