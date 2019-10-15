@@ -375,7 +375,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
 
         function isGateway() {
             const wirelessToggle = document.querySelectorAll("#wirelessToggle")[0];
-            const ifGateway = (wirelessToggle !== "undefined") ? "Yes" : "No";
+            const ifGateway = (wirelessToggle !== "undefined") ? "No" : "Yes";
             return (ifGateway);
         }
 
