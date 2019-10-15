@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     }
     chrome.storage.sync.set({"iGlassEnabled": "Yes"}, function() {
     })
-    chrome.storage.sync.set({"iGlassThemeEnabled": "No"}, function() {
+    chrome.storage.sync.set({"iGlassThemeEnabled": "Yes"}, function() {
     })
     chrome.storage.sync.set({"iGlassSignalFormat": "TX: %tx, UpSNR: %usnr, RX: %rx, DownSNR: %dsnr, Micro: %micro"}, function() {
     })

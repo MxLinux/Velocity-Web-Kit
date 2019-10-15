@@ -387,6 +387,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             const accessPointFieldsets = accessPointDiv.querySelectorAll("fieldset");
             for (i = 0; i < accessPointFieldsets.length; i++) {
                 const accessPointLegend = accessPointFieldsets[i].querySelectorAll("legend")[0];
+                // Radio info
                 if (accessPointLegend.textContent.trim().substring(0, 5) == "Radio") {
                     const currentRadio = "radio" + accessPointLegend.textContent.trim().split(" ")[1];
                     radioLegendObject[currentRadio] = {};
@@ -397,17 +398,19 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     }
                     else if (modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
                         radioLegendObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0] + "%";
-                        radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split("\n")[0];
+                        radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" Frequency Band")[0];
                     }
                     else {
                         radioObject[currentRadio]["unsupported"] = "Unsupported modem model";
                     }
                 }
+                // SSID info
                 else if (accessPointLegend.textContent.trim().substring(0, 4) == "SSID") {
                     const currentSSID = "ssid" + accessPointLegend.textContent.trim().split("\n")[0].split("SSID ")[1];
                     ssidLegendObject[currentSSID] = {};
                     ssidLegendObject[currentSSID]["id"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split("\n")[0].split(" ID")[0];
                 }
+                // Client info
                 else if (accessPointLegend.textContent.trim().substring(0, 6) == "Client") {
                     const currentClient = "client" + accessPointLegend.textContent.trim().split(" ")[1];
                     const clientSSID = accessPointLegend.textContent.trim();
@@ -436,17 +439,13 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     currentClient = "client" + (i + 1);
                     for (n = 0; n < Object.keys(ssidLegendObject).length; n++) {
                         currentSSID = "ssid" + (n + 1);
-                        currentRadio = n;
+                        currentRadio = "radio" + (n + 1);
                         if (clientLegendObject[currentClient]["ssid"] == ssidLegendObject[currentSSID]["id"]) {
                             wirelessClientObject[currentClient] = {};
                             wirelessClientObject[currentClient]["macaddr"] = clientLegendObject[currentClient]["macaddr"];
-                            wirelessClientObject[currentClient]["frequency"] = radioLegendObject[currentRadio["frequency"]];
+                            wirelessClientObject[currentClient]["frequency"] = radioLegendObject[currentRadio]["frequency"];
                             wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[currentSSID]["id"];
                             wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
-                            console.log("mac is " + wirelessClientObject[currentClient]["macaddr"]);
-                            console.log("freq is" + wirelessClientObject[currentClient]["frequency"]);
-                            console.log("ssid is " + wirelessClientObject[currentClient]["ssid"]);
-                            console.log("rssi is " + wirelessClientObject[currentClient]["rssi"]);
                         }
                         else {
                             // This problably doesn't matter it just means that the nth ssid we have stored didn't match the current client's ssid
@@ -528,7 +527,12 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     currentClient = i;
                     for (n = 0; n < Object.keys(Object.keys(dataObject)[i]).length; n++) {
                         // For every propery of wireless client
-                        dataSpans += "<span id='" + Object.keys(Object.values(dataObject)[i])[n] + "'>" + Object.values(Object.values(dataObject)[i])[n] + "</span><br />";
+                        if(Object.values(Object.values(dataObject)[i])[n] === undefined) {
+                            // Do nothing
+                        }
+                        else {
+                            dataSpans += "<span id='" + Object.keys(Object.values(dataObject)[i])[n] + "'>" + Object.values(Object.values(dataObject)[i])[n] + "</span><br />";
+                        }
                     }
                 }
                 else {
@@ -551,7 +555,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         distributableData += '<div id="wireless">';
         if (isGateway() === "Yes") {
             distributableData += prepData(getAPInfo());
-            //console.log(getAPInfo());
+            console.log(getAPInfo());
             //console.log(prepData(getAPInfo()));
             distributableData += '</div>';
         }
@@ -572,7 +576,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         // If the collection of constants is kept specifically with functions, and modemObject is populated exclusively with these functions    
     }
     else {
-        console.log("Easton Velocity Webkit: iGlass modifications are disabled.");
-        console.log("Enabled: " + Object.values(value));
+        console.log("Easton Velocity Web Kit: iGlass modifications are disabled.");
     }
 });

@@ -60,4 +60,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             }, 1000);
         }
     }
+    else {
+        console.log("Easton Velocity Web Kit: Gateway modifications are disabled.");
+    }
 });
