@@ -1,4 +1,18 @@
-chrome.storage.sync.get(["iGlassEnabled"], function (value) {
+function getPOTDFiles() {
+    const url = chrome.runtime.getURL("//Euserver_5/isp/Arris Files/*.txt");
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+}
+
+getPOTDFiles();
+
+function parsePOTDFiles() {
+
+}
+
+chrome.storage.sync.get(["GatewayEnabled"], function (value) {
     if (Object.values(value) == "Yes") {
         var user = "technician";
         var site = location.hostname;

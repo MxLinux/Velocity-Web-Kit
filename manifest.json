@@ -11,8 +11,8 @@
     },
     "permissions": [
         "activeTab",
-        "declarativeContent",
         "clipboardWrite",
+        "declarativeContent",
         "storage"
     ],
     "content_scripts": [
