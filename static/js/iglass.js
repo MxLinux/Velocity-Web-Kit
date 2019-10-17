@@ -527,7 +527,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     currentClient = i;
                     for (n = 0; n < Object.keys(Object.keys(dataObject)[i]).length; n++) {
                         // For every propery of wireless client
-                        if(Object.values(Object.values(dataObject)[i])[n] === undefined) {
+                        if (Object.values(Object.values(dataObject)[i])[n] === undefined) {
                             // Do nothing
                         }
                         else {
@@ -568,7 +568,16 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                 document.documentElement.innerHTML = distributableData;
             }
             else {
-                // Maybe listen for message here? Further reading required
+                chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+                    if (sender.id === "kagfejhpjggfmhakdfmpejbaniabofin") {
+                        if (request.greeting == "hello") {
+                            document.documentElement.innerHTML = distributableData;
+                        }
+                    }
+                    else {
+                        console.log(JSON.stringify(sender.id) + " attempted to send us illegitimate message: " + request.greeting);
+                    }
+                });
             }
         })
 
