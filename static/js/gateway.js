@@ -22,7 +22,7 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
 
         if (match != null) {
             // Wait 1 second before trying, elements on page take a while to load
-            setTimeout(function () {
+            document.addEventListener("DOMContentLoaded", function () {
                 if (document.getElementById("Login") != 'undefined' && document.getElementById("Login") != null) {
                     var loginNode_old = document.getElementById("Login");
                     // Make sure login div exists on this page/has loaded
@@ -50,7 +50,6 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
                     var loginNode_new = document.getElementsByClassName("login-block");
                     const xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = () => {
-                        // Checks XHR status to determine that we have successfully loaded the POTD page
                         if (xhttp.readyState === 4) {
                             xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error.')
                             // Fill out credentials 
@@ -71,7 +70,7 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
                     // Not a login page, do nothing
                     void 0;
                 }
-            }, 1000);
+            })
         }
     }
     else {

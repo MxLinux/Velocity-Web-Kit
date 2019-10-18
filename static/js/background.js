@@ -16,7 +16,6 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     })
     chrome.storage.sync.set({"SummaryEnabled": "Yes"}, function() {
     })
-    chrome.storage.sync.set({"GatewayEnabled": "Yes"}, function() {
+    chrome.storage.sync.set({"GatewayEnabled": "Yes"}, function() { 
     })
 });
-
