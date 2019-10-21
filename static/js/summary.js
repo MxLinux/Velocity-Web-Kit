@@ -7,12 +7,13 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
             }).join(" ");
         }
 
-        function fixAddrState(address) {
+        function fixAddress(address) {
             const isolatedStreetAddr = address.split(", ")[0];
             const isolatedState = address.split(", ")[1].split(" ")[0];
             const isolatedZIP = address.split(", ")[1].split(" ")[1];
+            const fixedZIP = isolatedZIP.substring(0,5) + "-" + isolatedZIP.substring(5);
             const fixedState = isolatedState.toUpperCase();
-            return(isolatedStreetAddr + ", " + fixedState + " " + isolatedZIP);
+            return(isolatedStreetAddr + ", " + fixedState + " " + fixedZIP);
         }
 
         function copyData() {
@@ -24,7 +25,7 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
                 if (textareaDiv === null) {
                     var infoArea = document.createElement('textarea');
                     infoArea.id = "stuff";
-                    infoArea.value = customerName + "\n" + customerAcct + "\n" + fixAddrState(customerAddr);
+                    infoArea.value = customerName + "\n" + customerAcct + "\n" + fixAddress(customerAddr);
                     document.querySelectorAll("#customerHeader")[0].appendChild(infoArea);
                     infoArea.style.height = "0px";
                     infoArea.style.width = "0px";
