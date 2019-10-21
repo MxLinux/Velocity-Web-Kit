@@ -1,4 +1,53 @@
 /* Window Default */
+@media only screen and (max-width: 800px) and (min-width: 450px) {
+	#iGlass {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#iGlass button {
+		margin-top: -3px;
+		margin-left: -10px;
+	}
+	#Summary {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#Summary button {
+		margin-top: 16px;
+		margin-left: -10px;
+	}
+	#RPX {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#RPX button {
+		margin-top: 16px;
+		margin-left: -10px;
+	}
+	#OMS {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 45px;
+		margin-top: -30px;
+	}
+	#OMS button {
+		margin-top: 16px;
+		margin-left: -10px;
+	}
+	#Label2 {
+		margin-top: 20px;
+	}
+	#reOpenTicketButton {
+		margin-left: 3px;
+	}
+}
+
 @media only screen and (max-width: 830px) and (min-width: 830px) {
 	#iGlass {
 		padding-top: 10px;

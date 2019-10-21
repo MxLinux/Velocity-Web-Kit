@@ -1,17 +1,3 @@
-function getPOTDFiles() {
-    const url = chrome.runtime.getURL("//Euserver_5/isp/Arris Files/*.txt");
-
-    fetch(url)
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-}
-
-getPOTDFiles();
-
-function parsePOTDFiles() {
-
-}
-
 chrome.storage.sync.get(["GatewayEnabled"], function (value) {
     if (Object.values(value) == "Yes") {
         var user = "technician";
@@ -22,7 +8,7 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
 
         if (match != null) {
             // Wait 1 second before trying, elements on page take a while to load
-            document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function() {
                 if (document.getElementById("Login") != 'undefined' && document.getElementById("Login") != null) {
                     var loginNode_old = document.getElementById("Login");
                     // Make sure login div exists on this page/has loaded
@@ -46,7 +32,7 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
                     xhttp.open("GET", "http://127.0.0.1/potd", true);
                     xhttp.send();
                 }
-                else if (typeof (document.getElementById("login-block")) !== 'undefined' && typeof (document.getElementById("login-block") !== null)) {
+                else if (document.querySelector(".login-block")) {
                     var loginNode_new = document.getElementsByClassName("login-block");
                     const xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = () => {
@@ -70,7 +56,7 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
                     // Not a login page, do nothing
                     void 0;
                 }
-            })
+            }, 1000);
         }
     }
     else {
