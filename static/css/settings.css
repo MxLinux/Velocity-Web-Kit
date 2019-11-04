@@ -42,14 +42,13 @@ h2 {
 }
 
 #content {
-    position: absolute;
+    position: static;
     text-align: center;
     font-size: 16px;
     height: 80%;
     width: 100%;
-    margin: auto;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .container {

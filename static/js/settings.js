@@ -19,15 +19,52 @@ chrome.storage.sync.get([
     "SortByCallbackEnabled",
     "SortByCallbackShortcut",
 ], function(settingObject) {
+
+    function getCustInfoFormat() {
+        return document.querySelector("#custinfocopyformat").value;
+    }
+    
+    function getSignalFormat() {
+        return document.querySelector("#signalformat").value;
+    }
+    
+    function checkboxClicked(obj) {
+        const className = obj.className;
+        const objChecked = obj.checked;
+        if (objChecked === false) {
+            chrome.storage.sync.set({[className]: "No"}, function() {
+                document.querySelector("." + className).checked = false;
+                console.log("Turned off");
+            });
+        }
+        else if (objChecked == true) {
+            chrome.storage.sync.set({[className]: "Yes"}, function() {
+                document.querySelector("." + className).checked = true;
+                console.log("Turned on");
+            });        
+        }
+        else {
+            console.log(objChecked);
+            console.log("Bad");
+        }
+    }
+
     for (i = 0; i < Object.keys(settingObject).length; i++) {
         switch (Object.keys(settingObject)[i]) {
             case "iGlassEnabled":
+                const boxOwner = Object.keys(settingObject)[i];
+                const div = document.querySelector(".iGlassEnabled");
                 if (Object.values(settingObject)[i] == "Yes") {
                     document.querySelector("#iglasstoggle").click();
-                    console.log(Object.keys(settingObject)[i], Object.values(settingObject)[i]);
+                    document.querySelector("#iglasstoggle").addEventListener("click", function() {
+                        checkboxClicked(this);
+                    }, true);
                     break;
                 } else {
-
+                    document.querySelector("#iglasstoggle").click();
+                    document.querySelector("#iglasstoggle").addEventListener("click", function() {
+                        checkboxClicked(this);
+                    }, true);
                     break;
                 }
             case "iGlassThemeEnabled":
@@ -52,7 +89,7 @@ chrome.storage.sync.get([
                 }
             case "iGlassSignalFormat":
                 document.querySelector("#signalformat").value = Object.values(settingObject)[i];
-                document.querySelector("#savesignalformat").addEventListener("click", function() {
+                document.querySelector("#savesignalformat").addEventListener("change", function() {
                     chrome.storage.sync.set({ "iGlassSignalFormat": getSignalFormat() }, function() {});
                 });
                 break;
@@ -91,7 +128,7 @@ chrome.storage.sync.get([
                     // Add a click listener probably
                     break;
                 }
-            case "CustInfoCopyToggle":
+            case "CustInfoCopyEnabled":
                 if (Object.values(settingObject)[i] == "Yes") {
                     document.querySelector("#custinfocopytoggle").click();
                     break;
@@ -184,35 +221,4 @@ chrome.storage.sync.get([
                 break;
         }
     }
-});
-
-function getCustInfoFormat() {
-    return document.querySelector("#custinfocopyformat").value;
-}
-
-function getSignalFormat() {
-    return document.querySelector("#signalformat").value;
-}
-
-function checkboxListener(boxOwner, checked) {
-    console.log(boxOwner)
-    console.log("Checked " + checked);
-
-    if (checked == "No") {
-        chrome.storage.sync.set({ boxOwner: "Yes" }, function() {
-            console.log(boxOwner + " set to Yes");
-        });
-    } else if (checked == "Yes") {
-        chrome.storage.sync.set({ boxOwner: "No" }, function() {
-            console.log(boxOwner + " set to No");
-        });
-    } else {
-        console.log("Checked " + checked);
-        console.log("owner" + boxOwner);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("Loaded");
-    document.querySelector("#iglasstoggle").addEventListener("click", checkboxListener(Object.keys(settingObject)[i], Object.values(settingObject)[i]));
 });

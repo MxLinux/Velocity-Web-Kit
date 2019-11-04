@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     chrome.storage.sync.set({ "GatewayEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "AutoLogin": "Yes" }, function() {});
     chrome.storage.sync.set({ "SummaryEnabled": "Yes" }, function() {});
-    chrome.storage.sync.set({ "CustInfoCopyToggle": "Yes" }, function() {});
+    chrome.storage.sync.set({ "CustInfoCopyEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "CustInfoCopyFormat": "%fullname %nl %accnumber %nl %fulladdress" }, function() {});
     chrome.storage.sync.set({ "CustInfoCopyShortcut": ["Alt", "C"] }, function() {});
     chrome.storage.sync.set({ "TicketEnabled": "Yes" }, function() {});
@@ -23,4 +23,14 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     chrome.storage.sync.set({ "VTTEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "SortByCallbackEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "SortByCallbackShortcut": ["Alt", "C"] }, function() {});
+});
+
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+    for (var key in changes) {
+        var storageChange = changes[key];
+        console.log('Storage key "%s" in namespace "%s" changed. ' + 'Value is now "%s"', key, namespace, storageChange.newValue);
+        const storageKey = changes[key];
+        const newValue = storageChange.newValue;
+        chrome.storage.sync.set({[storageKey]: [newValue]}, function() {console.log("Yep")});
+    }
 });
