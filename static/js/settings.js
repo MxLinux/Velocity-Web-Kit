@@ -19,23 +19,15 @@ chrome.storage.sync.get([
     "SortByCallbackEnabled",
     "SortByCallbackShortcut",
 ], function(settingObject) {
-
-    function getCustInfoFormat() {
-        return document.querySelector("#custinfocopyformat").value;
-    }
-
-    function getSignalFormat() {
-        return document.querySelector("#signalformat").value;
-    }
-
     for (i = 0; i < Object.keys(settingObject).length; i++) {
         switch (Object.keys(settingObject)[i]) {
             case "iGlassEnabled":
                 if (Object.values(settingObject)[i] == "Yes") {
                     document.querySelector("#iglasstoggle").click();
+                    console.log(Object.keys(settingObject)[i], Object.values(settingObject)[i]);
                     break;
                 } else {
-                    // Add a click listener probably
+
                     break;
                 }
             case "iGlassThemeEnabled":
@@ -192,4 +184,35 @@ chrome.storage.sync.get([
                 break;
         }
     }
+});
+
+function getCustInfoFormat() {
+    return document.querySelector("#custinfocopyformat").value;
+}
+
+function getSignalFormat() {
+    return document.querySelector("#signalformat").value;
+}
+
+function checkboxListener(boxOwner, checked) {
+    console.log(boxOwner)
+    console.log("Checked " + checked);
+
+    if (checked == "No") {
+        chrome.storage.sync.set({ boxOwner: "Yes" }, function() {
+            console.log(boxOwner + " set to Yes");
+        });
+    } else if (checked == "Yes") {
+        chrome.storage.sync.set({ boxOwner: "No" }, function() {
+            console.log(boxOwner + " set to No");
+        });
+    } else {
+        console.log("Checked " + checked);
+        console.log("owner" + boxOwner);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Loaded");
+    document.querySelector("#iglasstoggle").addEventListener("click", checkboxListener(Object.keys(settingObject)[i], Object.values(settingObject)[i]));
 });
