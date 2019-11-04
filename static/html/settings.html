@@ -1,47 +1,203 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/install.css">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/settings.css">
+    <script src="/static/js/settings.js"></script>
     <title>Velocity Web Toolkit - Settings</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="content">
-      <div id="iGlass Settings">
-        <h1>iGlass Settings</h1>
-        <h2>Toggle iGlass Features</h2>
-        <h2>Toggle iGlass Theme</h2>
-        <h2>Signal Copy</h2>
-        <h2>Signal Copy Format</h2>
-        <h2>Signal Copy Keybind</h2>
-      </div>
-      <div id="Gateway Settings">
-        <h1>Gateway Settings</h1>
-        <h2>Toggle Gateway Feature</h2>
-        <h2>Toggle Gateway Auto-Login</h2>
-        <h2>Enter Credentials, Don't Login</h2>
-        <!-- possible implementation; updating SSID/Password carries over between wireless bands
-        i.e., Changing 2.4GHz SSID results in {SSID Value}-5G being simultaneously entered into 5GHz SSID input field -->
-      </div>
-      <div id="Summary Settings">
-        <h1>Summary Settings</h1>
-        <h2>Toggle Summary Features</h2>
-        <h2>Customer Info Copy Keybind</h2>
-        <h2>Customer Info Copy Content</h2>
-      </div>
-      <div id="Ticket Settings">
-        <h1>Ticket Settings</h1>
-        <h2>iGlass Toggle</h2>
-        <h2>Summary Toggle</h2>
-        <h2>RPX Toggle</h2>
-        <h2>OMS Toggle</h2>
-      </div>
-      <div id="VTT Settings">
-        <h1>VTT Settings</h1>
-      </div>
+        <div class="container">
+            <div id="iglass">
+                <div class="header">
+                    <span class="title">iGlass Settings</span>
+                </div>
+                <div class="settings">
+                    <div class="settingsitem">
+                        <span class="label">Enable iGlass Features</span>
+                        <span class="switch">
+                            <input type="checkbox" id="iglasstoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable iGlass Theme</span>
+                        <span class="switch">
+                            <input type="checkbox" id="iglassthemetoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable Signal Copy</span>
+                        <span class="switch">
+                            <input type="checkbox" id="iglasscopytoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">iGlass Signal Format</span>
+                        <div class="editable">
+                            <span class="button">
+                                <button id="savesignalformat">Save</button>
+                            </span>
+                            <span class="inputfield">
+                                <input type="text" id="signalformat">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">iGlass Signal Copy Shortcut</span>
+                        <div class="editable">
+                            <span class="button">
+                                <button>Edit</button>
+                            </span>
+                            <span class="inputfield">
+                                <input type="text" id="signalcopyshortcut" disabled>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="gateway">
+                <div class="header">
+                    <span class="title">Gateway Settings</span>
+                </div>
+                <div class="settings">
+                    <div class="settingsitem">
+                        <span class="label">Enable Gateway Features</span>
+                        <span class="switch">
+                            <input type="checkbox" id="gatewaytoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Auto Log-in</span>
+                        <span class="switch">
+                            <input type="checkbox" id="autologintoggle">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="summary">
+                <div class="header">
+                    <span class="title">Summary Settings</span>
+                </div>
+                <div class="settings">
+                    <div class="settingsitem">
+                        <span class="label">Enable Summary Features</span>
+                        <span class="switch">
+                            <input type="checkbox" id="summarytoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable Customer Info Copy</span>
+                        <span class="switch">
+                            <input type="checkbox" id="custinfocopytoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Customer Info Format</span>
+                        <div class="editable">
+                            <span class="button">
+                                <button id="saveciformat">Save</button>
+                            </span>
+                            <span class="inputfield">
+                                <input type="text" id="custinfocopyformat">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Customer Info Copy Shortcut</span>
+                        <div class="editable">
+                            <span class="button">
+                                <button>Edit</button>
+                            </span>
+                            <span class="inputfield">
+                                <input type="text" id="custinfocopyshortcut" disabled>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="ticket">
+                <div class="header">
+                    <span class="title">Ticket Settings</span>
+                </div>
+                <div class="settings">
+                    <div class="settingsitem">
+                        <span class="label">Enable Ticket Features</span>
+                        <span class="switch">
+                            <input type="checkbox" id="tickettoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable iGlass Button</span>
+                        <span class="switch">
+                            <input type="checkbox" id="iglassbtntoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable Summary Button</span>
+                        <span class="switch">
+                            <input type="checkbox" id="summarybtntoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable RPX Button</span>
+                        <span class="switch">
+                            <input type="checkbox" id="rpxbtntoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable OMS Button</span>
+                        <span class="switch">
+                            <input type="checkbox" id="omsbtntoggle">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="vtt">
+                <div class="header">
+                    <span class="title">VTT Settings</span>
+                </div>
+                <div class="settings">
+                    <div class="settingsitem">
+                        <span class="label">Enable VTT Features</span>
+                        <span class="switch">
+                            <input type="checkbox" id="vtttoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Enable Sort By Callback Shortcut</span>
+                        <span class="switch">
+                            <input type="checkbox" id="cbshortcuttoggle">
+                        </span>
+                    </div>
+                    <div class="settingsitem">
+                        <span class="label">Sort By Callback Shortcut</span>
+                        <div class="editable">
+                            <span class="button">
+                                <button>Edit</button>
+                            </span>
+                            <span class="inputfield">
+                                <input type="text" id="sortbycbshortcut" disabled>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <footer>
-      Made for Easton Velocity Technical Support by Thomas Ramage
-      <!-- github -->
+        Made for Easton Velocity Technical Support by Thomas Ramage
+        <!-- github -->
     </footer>
-  </body>
+</body>
+
 </html>

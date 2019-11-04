@@ -1,8 +1,8 @@
-chrome.storage.sync.get(["SummaryEnabled"], function (value) {
+chrome.storage.sync.get(["SummaryEnabled"], function(value) {
     if (Object.values(value) == "Yes") {
 
         function titleCase(str) {
-            return str.toLowerCase().split(" ").map(function (word) {
+            return str.toLowerCase().split(" ").map(function(word) {
                 return (word.charAt(0).toUpperCase() + word.slice(1));
             }).join(" ");
         }
@@ -11,9 +11,9 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
             const isolatedStreetAddr = address.split(", ")[0];
             const isolatedState = address.split(", ")[1].split(" ")[0];
             const isolatedZIP = address.split(", ")[1].split(" ")[1];
-            const fixedZIP = isolatedZIP.substring(0,5) + "-" + isolatedZIP.substring(5);
+            const fixedZIP = isolatedZIP.substring(0, 5) + "-" + isolatedZIP.substring(5);
             const fixedState = isolatedState.toUpperCase();
-            return(isolatedStreetAddr + ", " + fixedState + " " + fixedZIP);
+            return (isolatedStreetAddr + ", " + fixedState + " " + fixedZIP);
         }
 
         function copyData() {
@@ -34,30 +34,26 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
                     document.execCommand("copy");
                     console.log("Copied");
                     return 0;
-                }
-                else {
+                } else {
                     textareaDiv.value = customerName + "\n" + customerAcct + "\n" + fixAddrState(customerAddr);
                     textareaDiv.select();
                     document.execCommand("copy");
                     console.log("Copied");
                     return 0;
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 console.log("summary.js copyData() Error: " + err);
             }
         }
 
-        document.onkeyup = function (e) {
+        document.onkeyup = function(e) {
             if (e.altKey && e.which == 67) {
                 copyData();
-            }
-            else {
+            } else {
                 void 0;
             }
         }
-    }
-    else {
+    } else {
         console.log("Easton Velocity Web Kit: Customer summary modifications are disabled.");
     }
 });

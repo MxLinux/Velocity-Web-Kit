@@ -1,4 +1,4 @@
-chrome.storage.sync.get(["iGlassEnabled"], function (value) {
+chrome.storage.sync.get(["iGlassEnabled"], function(value) {
     if (Object.values(value) == "Yes") {
         const docsisDict = {
             "docsis31": "3.1",
@@ -70,8 +70,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         function isMTA() {
             if (document.querySelectorAll("label[for='status']")[3].textContent == "MTA Status") {
                 return ("Yes");
-            }
-            else {
+            } else {
                 return ("No");
             }
         }
@@ -313,8 +312,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                 if (cpeMAC !== "N/A") {
                     cpeObject[currentDevice]["macaddress"] = cpeMAC;
                     cpeObject[currentDevice]["vendor"] = cpeVendor;
-                }
-                else {
+                } else {
                     // It's not impossible that another device may show "N/A" for MAC/Vendor but definitely unlikely, this should be safe
                     // We just want to have the same MAC address for IPv6 of the gateway/router/firewall/whatever as the MAC for IPv4 of first value
                     // Which has so far always been the CPE WAN IP
@@ -331,8 +329,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                 const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
                 const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
                 return (ifMoCA);
-            }
-            catch (err) {
+            } catch (err) {
                 return ("No")
             }
 
@@ -347,8 +344,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                 if (mocaStatus === "Disabled") {
                     mocaObject["mocastatus"] = mocaStatus;
                     return (mocaObject);
-                }
-                else {
+                } else {
                     mocaObject["mocastatus"] = mocaStatus;
                     for (i = 1; i < mocaFields.length; i++) {
                         const currentField = "node" + i;
@@ -361,13 +357,11 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     }
                     if (mocaObject !== "undefined") {
                         return (mocaObject);
-                    }
-                    else {
+                    } else {
                         return ("N/A");
                     }
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 return ("N/A");
             }
 
@@ -395,12 +389,10 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     if (modelDict[modemModel] === "3450") {
                         radioLegendObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[4].textContent.trim().split(" ")[0] + "%";
                         radioLegendObject[currentRadio]["frequency"] = frequencyDict[accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0]];
-                    }
-                    else if (modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
+                    } else if (modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
                         radioLegendObject[currentRadio]["power"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0] + "%";
                         radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" Frequency Band")[0];
-                    }
-                    else {
+                    } else {
                         radioObject[currentRadio]["unsupported"] = "Unsupported modem model";
                     }
                 }
@@ -420,14 +412,12 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                         clientLegendObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" ")[0];
                         clientLegendObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[0].textContent.trim().split(" ")[0];
                         clientLegendObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
-                    }
-                    else if (modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
+                    } else if (modelDict[modemModel] === "1670" || modelDict[modemModel] === "2470" || modelDict[modemModel] === "2472") {
                         clientLegendObject[currentClient]["rssi"] = accessPointFieldsets[i].querySelectorAll("div")[3].textContent.trim().split(" ")[0];
                         clientLegendObject[currentClient]["macaddr"] = accessPointFieldsets[i].querySelectorAll("div")[2].textContent.trim().split(" ")[0];
                         clientLegendObject[currentClient]["ssid"] = clientSSID.match(matchInParen)[1];
                     }
-                }
-                else {
+                } else {
                     console.log(accessPointLegend.textContent.trim());
                 }
             }
@@ -446,14 +436,12 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                             wirelessClientObject[currentClient]["frequency"] = radioLegendObject[currentRadio]["frequency"];
                             wirelessClientObject[currentClient]["ssid"] = ssidLegendObject[currentSSID]["id"];
                             wirelessClientObject[currentClient]["rssi"] = clientLegendObject[currentClient]["rssi"];
-                        }
-                        else {
+                        } else {
                             // This problably doesn't matter it just means that the nth ssid we have stored didn't match the current client's ssid
                         }
                     }
                 }
-            }
-            else if (Object.keys(radioLegendObject).length == 1 && Object.keys(ssidLegendObject).length == 1) {
+            } else if (Object.keys(radioLegendObject).length == 1 && Object.keys(ssidLegendObject).length == 1) {
                 for (i = 0; i < Object.keys(clientLegendObject).length; i++) {
                     for (n = 0; n < Object.keys(radioLegendObject).length; n++) {
                         if (clientLegendObject[i]["ssid"] === ssidLegendObject[n]["id"]) {
@@ -466,8 +454,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 // Tell the world we can't process this
                 // Either both bands have the same name, or one/both bands are disabled
                 // It's also possible that additional SSIDs have been enabled. I believe all of our gateways support this via Web GUI. 
@@ -523,19 +510,17 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         function prepData(dataObject) {
             var dataSpans = "";
             for (i = 0; i < Object.keys(dataObject).length; i++) {
-                if (typeof (Object.values(dataObject)[i]) === 'object') {
+                if (typeof(Object.values(dataObject)[i]) === 'object') {
                     currentClient = i;
                     for (n = 0; n < Object.keys(Object.keys(dataObject)[i]).length; n++) {
                         // For every propery of wireless client
                         if (Object.values(Object.values(dataObject)[i])[n] === undefined) {
                             // Do nothing
-                        }
-                        else {
+                        } else {
                             dataSpans += "<span id='" + Object.keys(Object.values(dataObject)[i])[n] + "'>" + Object.values(Object.values(dataObject)[i])[n] + "</span><br />";
                         }
                     }
-                }
-                else {
+                } else {
                     dataSpans += "<span id='" + Object.keys(dataObject)[i] + "'>" + Object.values(dataObject)[i] + "</span><br />";
                 }
             }
@@ -563,18 +548,16 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         distributableData += '</body>';
         distributableData += '</html>';
 
-        chrome.storage.sync.get(["iGlassThemeEnabled"], function (value) {
+        chrome.storage.sync.get(["iGlassThemeEnabled"], function(value) {
             if (Object.values(value) == "Yes") {
                 document.documentElement.innerHTML = distributableData;
-            }
-            else {
-                chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+            } else {
+                chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     if (sender.id === "kagfejhpjggfmhakdfmpejbaniabofin") {
                         if (request.greeting == "hello") {
                             document.documentElement.innerHTML = distributableData;
                         }
-                    }
-                    else {
+                    } else {
                         console.log(JSON.stringify(sender.id) + " attempted to send us illegitimate message: " + request.greeting);
                     }
                 });
@@ -583,8 +566,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
 
         // Need to combine wireless clients by MAC address 
         // If the collection of constants is kept specifically with functions, and modemObject is populated exclusively with these functions    
-    }
-    else {
+    } else {
         console.log("Easton Velocity Web Kit: iGlass modifications are disabled.");
     }
 });

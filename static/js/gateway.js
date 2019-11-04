@@ -1,4 +1,4 @@
-chrome.storage.sync.get(["GatewayEnabled"], function (value) {
+chrome.storage.sync.get(["GatewayEnabled"], function(value) {
     if (Object.values(value) == "Yes") {
         var user = "technician";
         var site = location.hostname;
@@ -15,51 +15,48 @@ chrome.storage.sync.get(["GatewayEnabled"], function (value) {
                     // Send XHR to the POTD-Web flask server
                     const xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = () => {
-                        // Checks XHR status to determine that we have successfully loaded the POTD page
-                        if (xhttp.readyState === 4) {
-                            xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error')
-                            // Fill out credentials 
-                            document.getElementById('Password').value = "" + xhttp.responseText;
-                            document.getElementById('UserName').value = "technician";
-                            // After filling out credentials, verify that our password has succesfully filled and is of proper length
-                            // If yes, click the login button to automatically sign in
-                            if (document.getElementById('Password').value != null && String(document.getElementById('Password').value).length == 10) {
-                                document.querySelector('.submitBtn').click();
+                            // Checks XHR status to determine that we have successfully loaded the POTD page
+                            if (xhttp.readyState === 4) {
+                                xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error')
+                                    // Fill out credentials 
+                                document.getElementById('Password').value = "" + xhttp.responseText;
+                                document.getElementById('UserName').value = "technician";
+                                // After filling out credentials, verify that our password has succesfully filled and is of proper length
+                                // If yes, click the login button to automatically sign in
+                                if (document.getElementById('Password').value != null && String(document.getElementById('Password').value).length == 10) {
+                                    document.querySelector('.submitBtn').click();
+                                }
                             }
                         }
-                    }
-                    // Actually send our XHR
+                        // Actually send our XHR
                     xhttp.open("GET", "http://127.0.0.1/potd", true);
                     xhttp.send();
-                }
-                else if (document.querySelector(".login-block")) {
+                } else if (document.querySelector(".login-block")) {
                     var loginNode_new = document.getElementsByClassName("login-block");
                     const xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = () => {
-                        if (xhttp.readyState === 4) {
-                            xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error.')
-                            // Fill out credentials 
-                            document.getElementById('password').value = "" + xhttp.responseText;
-                            document.getElementById('username').value = "technician";
-                            // After filling out credentials, verify that our password has succesfully filled and is of proper length
-                            // If yes, click the login button to automatically sign in
-                            if (document.getElementById('password').value != null && String(document.getElementById('password').value).length == 10) {
-                                document.querySelector('#loginbtn').click();
+                            if (xhttp.readyState === 4) {
+                                xhttp.status === 200 ? console.log(xhttp.responseText) : console.log('XHR error.')
+                                    // Fill out credentials 
+                                document.getElementById('password').value = "" + xhttp.responseText;
+                                document.getElementById('username').value = "technician";
+                                // After filling out credentials, verify that our password has succesfully filled and is of proper length
+                                // If yes, click the login button to automatically sign in
+                                if (document.getElementById('password').value != null && String(document.getElementById('password').value).length == 10) {
+                                    document.querySelector('#loginbtn').click();
+                                }
                             }
                         }
-                    }
-                    // Actually send our XHR request
+                        // Actually send our XHR request
                     xhttp.open("GET", "http://127.0.0.1/potd", true);
                     xhttp.send();
-                }
-                else {
+                } else {
                     // Not a login page, do nothing
                     void 0;
                 }
             }, 1000);
         }
-    }
-    else {
+    } else {
         console.log("Easton Velocity Web Kit: Gateway modifications are disabled.");
     }
 });
