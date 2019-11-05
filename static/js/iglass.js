@@ -160,13 +160,23 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         }
 
         function getReceiveChannelFrequency(downstreamChannel) {
-            const receiveChannelFrequency = downstreamChannel.querySelectorAll(".display-elem")[5].textContent.trim().split(" ")[0];
-            return (receiveChannelFrequency);
+            const regex = /\((.*)\)/;
+            try {
+                const receiveChannelFrequency = downstreamChannel.querySelector("legend").textContent.match(regex)[1];
+                return (receiveChannelFrequency);
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         function getReceiveChannelWidth(downstreamChannel) {
-            const receiveChannelWidth = downstreamChannel.querySelectorAll(".display-elem")[6].textContent.trim().split(" ")[0];
-            return (receiveChannelWidth);
+            try {
+                const receiveChannelWidth = downstreamChannel.querySelectorAll(".display-elem")[6].textContent.trim().split(" ")[0];
+                return (receiveChannelWidth);
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
 
         function getReceiveChannelMicro(downstreamChannel) {
@@ -551,19 +561,40 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         chrome.storage.sync.get(["iGlassThemeEnabled"], function(value) {
             if (Object.values(value) == "Yes") {
                 document.documentElement.innerHTML = distributableData;
+                chrome.storage.onChanged.addListener(function(changes) {
+                        console.log(Object.keys(changes));
+                        console.log(changes.newValue);
+                        if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)['newValue'] == "Yes") {
+                            document.documentElement.innerHTML = distributableData;
+                            console.log("iGlass Theme Enabled");
+                        }
+                        else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)['newValue'] == "No") {
+                            document.documentElement.innerHTML = currentPage;
+                            console.log("iGlass Theme Disabled");
+                        }
+                        else {
+                            // Nothing, we don't care.
+                        }
+                });
             } else {
-                chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-                    if (sender.id === "kagfejhpjggfmhakdfmpejbaniabofin") {
-                        if (request.greeting == "hello") {
+                chrome.storage.onChanged.addListener(function(changes) {
+                        console.log(Object.keys(changes));
+                        console.log(changes.newValue);
+                        if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)['newValue'] == "Yes") {
+                            console.log("On");
                             document.documentElement.innerHTML = distributableData;
                         }
-                    } else {
-                        console.log(JSON.stringify(sender.id) + " attempted to send us illegitimate message: " + request.greeting);
-                    }
+                        else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)['newValue'] == "No") {
+                            document.documentElement.innerHTML = currentPage;
+                            console.log("Off")
+                        }
+                        else {
+                            // Nothing, we don't care.
+                        }
                 });
             }
         })
-
+        console.log(modemObject);
         // Need to combine wireless clients by MAC address 
         // If the collection of constants is kept specifically with functions, and modemObject is populated exclusively with these functions    
     } else {

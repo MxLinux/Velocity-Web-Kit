@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
         })
     }
     chrome.storage.sync.set({ "iGlassEnabled": "Yes" }, function() {});
-    chrome.storage.sync.set({ "iGlassThemeEnabled": "Disabled" }, function() {});
+    chrome.storage.sync.set({ "iGlassThemeEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "iGlassSignalFormat": "TX: %tx, UpSNR: %usnr, RX: %rx, DownSNR: %dsnr, Micro: %micro" }, function() {});
     chrome.storage.sync.set({ "iGlassSignalCopyShortcut": ["Alt", "C"] }, function() {});
     chrome.storage.sync.set({ "iGlassCopyToggle": "Yes" }, function() {});

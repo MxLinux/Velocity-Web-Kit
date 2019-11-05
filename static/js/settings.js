@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 case "iGlassThemeEnabled":
                     if (Object.values(settingObject)[i] == "Yes") {
-                        document.querySelector("iglassthemetoggle").checked = true;
+                        document.querySelector("#iglassthemetoggle").checked = true;
                         document.querySelector("#iglassthemetoggle").addEventListener("click", function() {
                             checkboxClicked(this);
                         }, true);
