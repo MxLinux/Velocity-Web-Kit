@@ -45,6 +45,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 console.log("Bad");
             }
         }
+
         for (i = 0; i < Object.keys(settingObject).length; i++) {
             switch (Object.keys(settingObject)[i]) {
                 case "iGlassEnabled":
