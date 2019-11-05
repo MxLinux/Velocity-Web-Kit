@@ -1,5 +1,6 @@
 chrome.storage.sync.get(["TicketEnabled"], function(value) {
     if (Object.values(value) == "Yes") {
+        const toggleList = {};
         var tbl = document.getElementById('ticketDetailsView');
         var account = tbl.getElementsByTagName('td')[7];
         var locationNum = account.innerHTML.slice(-6);
@@ -16,3 +17,5 @@ chrome.storage.sync.get(["TicketEnabled"], function(value) {
         console.log("Easton Velocity Web Kit: Ticket modifications are disabled.");
     }
 });
+
+// Get a list of all possible toggles, cycle through them to determine which will work, then append them to each other.
