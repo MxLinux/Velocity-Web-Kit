@@ -24,13 +24,3 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     chrome.storage.sync.set({ "SortByCallbackEnabled": "Yes" }, function() {});
     chrome.storage.sync.set({ "SortByCallbackShortcut": ["Alt", "C"] }, function() {});
 });
-
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for (var key in changes) {
-        var storageChange = changes[key];
-        console.log('Storage key "%s" in namespace "%s" changed. ' + 'Value is now "%s"', key, namespace, storageChange.newValue);
-        const storageKey = changes[key];
-        const newValue = storageChange.newValue;
-        chrome.storage.sync.set({[storageKey]: [newValue]}, function() {console.log("Yep")});
-    }
-});
