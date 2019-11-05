@@ -35,15 +35,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (objChecked === true) {
                 chrome.storage.sync.set({
                     [className]: "Yes"
-                }, function() {
-                    console.log("???");
-                });
+                }, function() {});
             } else if (objChecked == false) {
                 chrome.storage.sync.set({
                     [className]: "No"
-                }, function() {
-                    console.log("???");
-                });
+                }, function() {});
             } else {
                 console.log(objChecked);
                 console.log("Bad");
@@ -52,18 +48,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         for (i = 0; i < Object.keys(settingObject).length; i++) {
             switch (Object.keys(settingObject)[i]) {
                 case "iGlassEnabled":
-                    const boxOwner = Object.keys(settingObject)[i];
                     const div = document.querySelector(".iGlassEnabled");
-                    console.log(Object.values(settingObject)[i]);
                     if (Object.values(settingObject)[i] == "Yes") {
-                        document.querySelector("#iglasstoggle").checked = true;
-                        document.querySelector("#iglasstoggle").addEventListener("click", function() {
+                        div.checked = true;
+                        div.addEventListener("click", function() {
                             checkboxClicked(this);
                         }, true);
                         break;
                     } else {
-                        document.querySelector("#iglasstoggle").checked = false;
-                        document.querySelector("#iglasstoggle").addEventListener("click", function() {
+                        div.checked = false;
+                        div.addEventListener("click", function() {
                             checkboxClicked(this);
                         }, true);
                         break;
