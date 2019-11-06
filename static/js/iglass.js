@@ -1,5 +1,9 @@
 chrome.storage.sync.get(["iGlassEnabled"], function(value) {
     if (Object.values(value) == "Yes") {
+
+        document.querySelector("#upToggle").click();
+        document.querySelector("#downToggle").click();
+
         const docsisDict = {
             "docsis31": "3.1",
             "docsis30": "3.0",
@@ -164,6 +168,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
             try {
                 const receiveChannelFrequency = downstreamChannel.querySelector("legend").textContent.match(regex)[1];
                 return (receiveChannelFrequency);
+                console.log(receiveChannelFrequency);
             } catch (e) {
                 console.log(e);
             }
@@ -209,7 +214,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                     const currentChannel = upstreamNodeList[i];
                     upstreamObject[channelIndex] = {};
                     upstreamObject[channelIndex]["transmitfrequency"] = getTransmitChannelFrequency(currentChannel);
-                    upstreamObject[channelIndex]["transmitwidth"] = getTransmitChannelWidth(currentChannel)
                     upstreamObject[channelIndex]["cmtsreceivepower"] = getCMTSReceivePower(currentChannel);
                     upstreamObject[channelIndex]["transmitchannelpower"] = getTransmitChannelPower(currentChannel);
                     upstreamObject[channelIndex]["transmitchannelsnr"] = getTransmitChannelSNR(currentChannel);
@@ -226,7 +230,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                     const currentChannel = downstreamNodeList[i];
                     downstreamObject[channelIndex] = {};
                     downstreamObject[channelIndex]["receivefrequency"] = getReceiveChannelFrequency(currentChannel);
-                    downstreamObject[channelIndex]["receivewidth"] = getReceiveChannelWidth(currentChannel)
                     downstreamObject[channelIndex]["receivechannelpower"] = getReceiveChannelPower(currentChannel);
                     downstreamObject[channelIndex]["receivechannelsnr"] = getReceiveChannelSNR(currentChannel);
                     downstreamObject[channelIndex]["receivechannelmicro"] = getReceiveChannelMicro(currentChannel);
@@ -557,6 +560,88 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         distributableData += '</div>';
         distributableData += '</body>';
         distributableData += '</html>';
+
+        function stripSymbols(input) {
+            return(input.replace(/\W/g, ""));
+        }
+
+        function copyData() {
+            try {
+                chrome.storage.sync.get(["iGlassSignalFormat"], function(response) {
+                    console.log(Object.values(response));
+                    const responseObj = Object.values(response);
+                    const formatArray = responseObj[0].split(" ");
+                    for (i = 0; i < formatArray.length; i++) {
+                        console.log(stripSymbols(formatArray[i]));
+                        switch(stripSymbols(formatArray[i])) {
+                            case "tx":
+                                formatArray[i] = document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0];
+                                break;
+                            case "usnr":
+                                formatArray[i] = document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0];
+                                break;
+                            case "rx":
+                                formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0];
+                                break;
+                            case "dsnr":
+                                formatArray[i] = formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0];;
+                                break;
+                            case "micro":
+                                formatArray[i] = formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[2].textContent.trim().split("\n")[0];
+                                break;
+                        }
+                    }
+
+                    function formattedText() {
+                        let textOutput;
+                        for (i = 0; i < formatArray.length; i++) {
+                            textOutput += formatArray[i] + " ";
+                        }
+                        return(textOutput);
+                    }
+
+                    const textareaDiv = document.querySelector("#wrap").querySelector("#stuff");
+
+                    if (textareaDiv === null) {
+                        var infoArea = document.createElement('textarea');
+                        infoArea.id = "stuff";
+                        infoArea.value = formattedText();
+                        document.querySelector("#wrap").appendChild(infoArea);
+                        infoArea.style.height = "0px";
+                        infoArea.style.width = "0px";
+                        infoArea.style.opacity = "0";
+                        infoArea.select();
+                        document.execCommand("copy");
+                        console.log("Copied");
+                        return 0;
+                    } else {
+                        textareaDiv.value = formattedText();
+                        textareaDiv.select();
+                        document.execCommand("copy");
+                        console.log("Copied");
+                        return 0;
+                    }
+                })
+                
+            } catch (err) {
+                console.log("summary.js copyData() Error: " + err);
+            }
+        }
+
+        chrome.storage.sync.get(["iGlassCopyToggle"], function (value) {
+            if (Object.values(value) == "Yes") {
+                document.addEventListener("keyup", function (e) {
+                    if (e.altKey && e.which == 67) {
+                        copyData();
+                    } else {
+                        // Not our combo, don't care
+                        void 0;
+                    }
+                });
+            }
+            else {
+            }
+        });
 
         chrome.storage.sync.get(["iGlassThemeEnabled"], function(value) {
             if (Object.values(value) == "Yes") {
