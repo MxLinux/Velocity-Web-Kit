@@ -19,7 +19,7 @@ a:active {
     font-weight: bolder;
 }
 
-footer {
+#footer {
     bottom: 0;
     font-size: 14px;
     height: 2%;
@@ -47,8 +47,6 @@ h2 {
     font-size: 16px;
     height: 80%;
     width: 100%;
-    margin-top: 5%;
-    margin-bottom: 5%;
 }
 
 .container {

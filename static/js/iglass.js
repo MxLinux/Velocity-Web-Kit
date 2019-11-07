@@ -563,11 +563,12 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             try {
                 chrome.storage.sync.get(["iGlassSignalFormat"], function (response) {
                     const responseObj = Object.values(response)[0];
-                    const txSymbol = new RegExp('%tx');
-                    const usnrSymbol = new RegExp('%usnr');
-                    const rxSymbol = new RegExp('%rx');
-                    const dsnrSymbol = new RegExp('%dsnr');
-                    const microSymbol = new RegExp('%micro');
+                    const txSymbol = new RegExp('%tx', 'g');
+                    const usnrSymbol = new RegExp('%usnr', 'g');
+                    const rxSymbol = new RegExp('%rx', 'g');
+                    const dsnrSymbol = new RegExp('%dsnr', 'g');
+                    const microSymbol = new RegExp('%micro', 'g');
+                    const flapsSymbol = new RegExp('%flaps', 'g');
                     const processTX = responseObj.replace(txSymbol, document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0]);
                     const processUSNR = processTX.replace(usnrSymbol, document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0]);
                     const processRX = processUSNR.replace(rxSymbol, document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0]);

@@ -194,6 +194,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 case "AddiGlassButton":
                     if (Object.values(settingObject)[i] == "Yes") {
+                        console.log("Yes to no");
                         document.querySelector("#iglassbtntoggle").checked = true;
                         document.querySelector("#iglassbtntoggle").addEventListener("click", function() {
                             checkboxClicked(this);
@@ -201,6 +202,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         break;
                     } else {
                         document.querySelector("#iglassbtntoggle").addEventListener("click", function() {
+                            console.log("No to yes");
                             checkboxClicked(this);
                         }, true);
                         break;

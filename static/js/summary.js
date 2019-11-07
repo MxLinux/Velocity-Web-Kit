@@ -18,15 +18,15 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
 
         function copyData() {
             try {
-                chrome.storage.get("CustInfoCopyEnabled", function (response) {
-                    if (Object.values("response")[0] == "Yes") {
+                chrome.storage.sync.get("CustInfoCopyEnabled", function (response) {
+                    if (Object.values(response)[0] == "Yes") {
                         //listener
                         chrome.storage.sync.get("CustInfoCopyFormat", function (response) {
                             const responseObj = Object.values(response)[0];
-                            const newLineMatch = new RegExp("%nl");
-                            const fullNameMatch = new RegExp("%fullname");
-                            const accNumMatch = new RegExp("%accnumber");
-                            const fullAddrMatch = new RegExp("%fulladdress");
+                            const newLineMatch = new RegExp("%nl", "g");
+                            const fullNameMatch = new RegExp("%fullname", "g");
+                            const accNumMatch = new RegExp("%accnumber", "g");
+                            const fullAddrMatch = new RegExp("%fulladdress", "g");
                             const customerName = document.querySelectorAll("#customerHeader")[0].querySelectorAll("div")[3].querySelectorAll("label")[0].textContent.trim(); // NAME
                             const customerAcct = document.querySelectorAll("#customerHeader")[0].querySelectorAll(".large")[1].textContent.trim(); // ACCOUNT NUM
                             const customerAddr = titleCase(document.querySelectorAll("#customerHeader")[0].querySelectorAll("div")[1].querySelectorAll(".detail")[0].textContent.split(" |")[0]); // Address (Check for content 1 NO ADDRESS), may want to check for state 2-char string as well, as this is being title-cased with the rest of the str

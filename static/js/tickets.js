@@ -19,18 +19,33 @@ chrome.storage.sync.get(["TicketEnabled"], function(value) {
                 toggleLength = toggleList.length;
                 formNode.insertAdjacentHTML('afterend', '<div id="extrabuttons"></div>');
                 for (i = 0; i < toggleLength; i++) {
-                    console.log(toggleList[i]);
                     chrome.storage.sync.get([toggleList[i]], function(response) {
                         var buttonNode = document.querySelector("#extrabuttons");
-                        console.log(Object.values(response)[0]);
                         switch (Object.keys(response)[0]) {
                             case "AddiGlassButton":
                                 if (Object.values(response)[0] == "Yes") {
+                                    console.log("if");
                                     buttonNode.insertAdjacentHTML('beforeend', '<div id="iGlass"><button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button></div>');
+                                    chrome.storage.onChanged.addListener(function(response) {
+                                        if (Object.values(response)[0].newValue == undefined) {
+                                            buttonNode.insertAdjacentHTML('beforeend', '<div id="iGlass"><button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button></div>');
+                                        }
+                                        else {
+                                            buttonNode.insertAdjacentHTML('beforeend', '<button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button>');
+                                        }
+                                    });
                                     break;
                                 }
                                 else {
-                                    // User disabled
+                                    chrome.storage.onChanged.addListener(function(response) {
+                                        console.log("else");
+                                        if (Object.values(response)[0].newValue == undefined) {
+                                            buttonNode.insertAdjacentHTML('beforeend', '<div id="iGlass"><button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button></div>');
+                                        }
+                                        else {
+                                            buttonNode.querySelector("iGlass").innerHTML = "";
+                                        }
+                                    });
                                     break;
                                 }
                             case "AddSummaryButton":
