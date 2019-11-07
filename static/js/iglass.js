@@ -1,8 +1,11 @@
-chrome.storage.sync.get(["iGlassEnabled"], function(value) {
+chrome.storage.sync.get(["iGlassEnabled"], function (value) {
     if (Object.values(value) == "Yes") {
 
-        document.querySelector("#upToggle").click();
-        document.querySelector("#downToggle").click();
+        function titleCase(str) {
+            return str.toLowerCase().split(" ").map(function (word) {
+                return (word.charAt(0).toUpperCase() + word.slice(1));
+            }).join(" ");
+        }
 
         const docsisDict = {
             "docsis31": "3.1",
@@ -41,6 +44,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
 
         const mocaDict = {
             "disabled": "Disabled",
+            "noLink": "On, no known MoCA nodes",
             "linkUp": "Device(s) connected"
         }
 
@@ -84,12 +88,15 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         const batteryStatus = (eMTACapable === "Yes") ? batteryDict[document.querySelectorAll("label[for='battery']")[0].parentElement.textContent.trim().split("\n")[0].trim()] : "N/A";
         const flapTotal = (document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim() === "Not on list") ? 0 : document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[0].trim();
         const flapLast = (flapTotal instanceof String) ? document.querySelectorAll("div[data-toggle='flapToggle']")[0].textContent.trim().split("\n")[1].trim().split("(")[1].split(" ")[0] : "0";
+        const splitPhrase = " out of ";
 
         // Upstream
+        // Need port utilization
         const upstreamDiv = document.querySelectorAll("#upstreamWidget")[0];
         const upstreamChannels = document.querySelectorAll("#upstreamWidget fieldset");
-        const usBWInUse = upstreamDiv.querySelectorAll(".display-elem")[3].textContent.trim().split("\n")[0];
-        const usBWAllowed = upstreamDiv.querySelectorAll(".display-elem")[4].textContent.trim().split(" ")[0];
+        const usBWArea = upstreamDiv.querySelectorAll(".display-elem")[3];
+        const usBWInUse = usBWArea.textContent.split(splitPhrase)[0].trim();
+        const usBWAllowed = usBWArea.textContent.split(splitPhrase)[1].trim().split(" ")[0];
         const upstreamObject = {
             "usbandwidth": usBWInUse,
             "usbandwidthallowed": usBWAllowed,
@@ -111,17 +118,18 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         }
 
         function getTransmitChannelFrequency(upstreamChannel) {
-            const transmitChannelFrequency = upstreamChannel.querySelectorAll(".display-elem")[7].textContent.trim().split(" ")[0];
-            return (transmitChannelFrequency);
-        }
-
-        function getTransmitChannelWidth(upstreamChannel) {
-            const transmitChannelWidth = upstreamChannel.querySelectorAll(".display-elem")[8].textContent.trim().split(" ")[0];
-            return (transmitChannelWidth);
+            const regex = /\((.*)\)/;
+            try {
+                const transmitChannelFrequency = upstreamChannel.querySelector("legend").textContent.match(regex)[1];
+                return (transmitChannelFrequency);
+                console.log(transmitChannelFrequency);
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         function getTransmitChannelMicro(upstreamChannel) {
-            const transmitChannelMicro = upstreamChannel.querySelectorAll(".display-elem")[10].textContent.trim().split(" ")[0];
+            const transmitChannelMicro = upstreamChannel.querySelectorAll(".display-elem")[9].textContent.trim().split(" ")[0];
             return (transmitChannelMicro);
         }
 
@@ -146,8 +154,9 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         // Downstream
         const downstreamDiv = document.querySelectorAll("#downstreamWidget")[0];
         const downstreamChannels = document.querySelectorAll("#downstreamWidget fieldset");
-        const dsBWInUse = downstreamDiv.querySelectorAll(".display-elem")[4].textContent.trim().split("\n")[0];
-        const dsBWAllowed = downstreamDiv.querySelectorAll(".display-elem")[5].textContent.trim().split(" ")[0];
+        const dsBWArea = downstreamDiv.querySelectorAll(".display-elem")[5];
+        const dsBWInUse = dsBWArea.textContent.split(splitPhrase)[0].trim();
+        const dsBWAllowed = dsBWArea.textContent.split(splitPhrase)[1].trim().split(" ")[0];
         const downstreamObject = {
             "dsbandwidth": dsBWInUse,
             "dsbandwidthallowed": dsBWAllowed
@@ -170,16 +179,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                 return (receiveChannelFrequency);
                 console.log(receiveChannelFrequency);
             } catch (e) {
-                console.log(e);
-            }
-        }
-
-        function getReceiveChannelWidth(downstreamChannel) {
-            try {
-                const receiveChannelWidth = downstreamChannel.querySelectorAll(".display-elem")[6].textContent.trim().split(" ")[0];
-                return (receiveChannelWidth);
-            }
-            catch (e) {
                 console.log(e);
             }
         }
@@ -209,8 +208,8 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
 
         function getChannelStats(upstreamNodeList, downstreamNodeList) {
             for (i = 0; i < upstreamNodeList.length; i++) {
-                if (i != 0) {
-                    const channelIndex = "upstream" + i; // Channel 0 isn't really a thing, so...
+                if (i != 0 && i != 1) {
+                    const channelIndex = "upstream" + (i - 1); // Otherwise we get downstream2 .. downstream25
                     const currentChannel = upstreamNodeList[i];
                     upstreamObject[channelIndex] = {};
                     upstreamObject[channelIndex]["transmitfrequency"] = getTransmitChannelFrequency(currentChannel);
@@ -225,8 +224,8 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
             }
 
             for (i = 0; i < downstreamNodeList.length; i++) {
-                if (i != 0) {
-                    const channelIndex = "downstream" + i; // Channel 0 isn't really a thing, so...
+                if (i != 0 && i != 1) {
+                    const channelIndex = "downstream" + (i - 1); // Channel 0 isn't really a thing, so...
                     const currentChannel = downstreamNodeList[i];
                     downstreamObject[channelIndex] = {};
                     downstreamObject[channelIndex]["receivefrequency"] = getReceiveChannelFrequency(currentChannel);
@@ -305,9 +304,9 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
             const _billingDiv = document.querySelectorAll("#billToggle")[0];
             const billingDiv = _billingDiv.nextElementSibling;
             const billingFieldset = billingDiv.querySelectorAll("fieldset")[0];
-            billingObject["customername"] = getCustomerName(billingFieldset);
+            billingObject["customername"] = titleCase(getCustomerName(billingFieldset));
             billingObject["customerlocation"] = getCustomerLocationNumber(billingFieldset);
-            billingObject["customeraddress"] = getCustomerAddress(billingFieldset);
+            billingObject["customeraddress"] = titleCase(getCustomerAddress(billingFieldset));
             billingObject["customernode"] = getCustomerNode(billingFieldset);
             return (billingObject);
         }
@@ -340,7 +339,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         function hasMoCA() {
             try {
                 const widgetMoCA = document.querySelectorAll("#mocaToggle")[0];
-                const ifMoCA = (widgetMoCA !== "undefined") ? "Yes" : "No";
+                const ifMoCA = (widgetMoCA !== undefined) ? "Yes" : "No";
                 return (ifMoCA);
             } catch (err) {
                 return ("No")
@@ -360,6 +359,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                 } else {
                     mocaObject["mocastatus"] = mocaStatus;
                     for (i = 1; i < mocaFields.length; i++) {
+
                         const currentField = "node" + i;
                         mocaObject[currentField] = {};
                         const mocaElements = mocaFields[i].querySelectorAll(".display-elem");
@@ -382,7 +382,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
 
         function isGateway() {
             const wirelessToggle = document.querySelectorAll("#wirelessToggle")[0];
-            const ifGateway = (wirelessToggle !== "undefined") ? "No" : "Yes";
+            const ifGateway = (wirelessToggle !== undefined) ? "Yes" : "No";
             return (ifGateway);
         }
 
@@ -471,7 +471,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                 // Tell the world we can't process this
                 // Either both bands have the same name, or one/both bands are disabled
                 // It's also possible that additional SSIDs have been enabled. I believe all of our gateways support this via Web GUI. 
-                console.log("bad");
+                return("Unsupported due to gateway configuration");
             }
             return (wirelessClientObject);
         }
@@ -523,7 +523,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         function prepData(dataObject) {
             var dataSpans = "";
             for (i = 0; i < Object.keys(dataObject).length; i++) {
-                if (typeof(Object.values(dataObject)[i]) === 'object') {
+                if (typeof (Object.values(dataObject)[i]) === 'object') {
                     currentClient = i;
                     for (n = 0; n < Object.keys(Object.keys(dataObject)[i]).length; n++) {
                         // For every propery of wireless client
@@ -553,59 +553,33 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
         distributableData += '<div id="wireless">';
         if (isGateway() === "Yes") {
             distributableData += prepData(getAPInfo());
-            console.log(getAPInfo());
-            //console.log(prepData(getAPInfo()));
             distributableData += '</div>';
         }
         distributableData += '</div>';
         distributableData += '</body>';
         distributableData += '</html>';
 
-        function stripSymbols(input) {
-            return(input.replace(/\W/g, ""));
-        }
-
         function copyData() {
             try {
-                chrome.storage.sync.get(["iGlassSignalFormat"], function(response) {
-                    console.log(Object.values(response));
-                    const responseObj = Object.values(response);
-                    const formatArray = responseObj[0].split(" ");
-                    for (i = 0; i < formatArray.length; i++) {
-                        console.log(stripSymbols(formatArray[i]));
-                        switch(stripSymbols(formatArray[i])) {
-                            case "tx":
-                                formatArray[i] = document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0];
-                                break;
-                            case "usnr":
-                                formatArray[i] = document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0];
-                                break;
-                            case "rx":
-                                formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0];
-                                break;
-                            case "dsnr":
-                                formatArray[i] = formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0];;
-                                break;
-                            case "micro":
-                                formatArray[i] = formatArray[i] = document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[2].textContent.trim().split("\n")[0];
-                                break;
-                        }
-                    }
-
-                    function formattedText() {
-                        let textOutput;
-                        for (i = 0; i < formatArray.length; i++) {
-                            textOutput += formatArray[i] + " ";
-                        }
-                        return(textOutput);
-                    }
+                chrome.storage.sync.get(["iGlassSignalFormat"], function (response) {
+                    const responseObj = Object.values(response)[0];
+                    const txSymbol = new RegExp('%tx');
+                    const usnrSymbol = new RegExp('%usnr');
+                    const rxSymbol = new RegExp('%rx');
+                    const dsnrSymbol = new RegExp('%dsnr');
+                    const microSymbol = new RegExp('%micro');
+                    const processTX = responseObj.replace(txSymbol, document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0]);
+                    const processUSNR = processTX.replace(usnrSymbol, document.querySelector("#upstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0]);
+                    const processRX = processUSNR.replace(rxSymbol, document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[0].textContent.trim().split("\n")[0]);
+                    const processDSNR = processRX.replace(dsnrSymbol, document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[1].textContent.trim().split("\n")[0]);
+                    const processMicro = processDSNR.replace(microSymbol, document.querySelector("#downstreamWidget").querySelector("fieldset").querySelectorAll("div")[2].textContent.trim().split("\n")[0]);
 
                     const textareaDiv = document.querySelector("#wrap").querySelector("#stuff");
 
                     if (textareaDiv === null) {
                         var infoArea = document.createElement('textarea');
                         infoArea.id = "stuff";
-                        infoArea.value = formattedText();
+                        infoArea.value = processMicro;
                         document.querySelector("#wrap").appendChild(infoArea);
                         infoArea.style.height = "0px";
                         infoArea.style.width = "0px";
@@ -615,16 +589,16 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
                         console.log("Copied");
                         return 0;
                     } else {
-                        textareaDiv.value = formattedText();
+                        textareaDiv.value = processMicro;
                         textareaDiv.select();
                         document.execCommand("copy");
                         console.log("Copied");
                         return 0;
                     }
                 })
-                
+
             } catch (err) {
-                console.log("summary.js copyData() Error: " + err);
+                console.log("iglass.js copyData() Error: " + err);
             }
         }
 
@@ -643,39 +617,33 @@ chrome.storage.sync.get(["iGlassEnabled"], function(value) {
             }
         });
 
-        chrome.storage.sync.get(["iGlassThemeEnabled"], function(value) {
+        chrome.storage.sync.get(["iGlassThemeEnabled"], function (value) {
             if (Object.values(value) == "Yes") {
                 document.documentElement.innerHTML = distributableData;
-                chrome.storage.onChanged.addListener(function(changes) {
-                        console.log(Object.keys(changes));
-                        console.log(Object.values(changes)[0].newValue);
-                        if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
-                            document.documentElement.innerHTML = distributableData;
-                            console.log("iGlass Theme Enabled");
-                        }
-                        else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
-                            document.documentElement.innerHTML = currentPage;
-                            console.log("iGlass Theme Disabled");
-                        }
-                        else {
-                            // Nothing, we don't care.
-                        }
+                chrome.storage.onChanged.addListener(function (changes) {
+                    if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
+                        document.documentElement.innerHTML = distributableData;
+                        console.log("iGlass Theme Enabled");
+                    }
+                    else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
+                        document.documentElement.innerHTML = currentPage;
+                        console.log("iGlass Theme Disabled");
+                    }
+                    else {
+                        // Nothing, we don't care.
+                    }
                 });
             } else {
-                chrome.storage.onChanged.addListener(function(changes) {
-                        console.log(Object.keys(changes));
-                        console.log(changes.newValue);
-                        if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
-                            console.log("On");
-                            document.documentElement.innerHTML = distributableData;
-                        }
-                        else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
-                            document.documentElement.innerHTML = currentPage;
-                            console.log("Off")
-                        }
-                        else {
-                            // Nothing, we don't care.
-                        }
+                chrome.storage.onChanged.addListener(function (changes) {
+                    if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
+                        document.documentElement.innerHTML = distributableData;
+                    }
+                    else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
+                        document.documentElement.innerHTML = currentPage;
+                    }
+                    else {
+                        // Nothing, we don't care.
+                    }
                 });
             }
         })

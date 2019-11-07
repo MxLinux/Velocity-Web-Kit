@@ -66,5 +66,20 @@ chrome.storage.sync.get(["TicketEnabled"], function(value) {
                 }
                 } else {
                     console.log("Easton Velocity Web Kit: Ticket modifications are disabled.");
+                    chrome.storage.onChanged.addListener(function(changes) {
+                        console.log(Object.keys(changes));
+                        console.log(Object.values(changes)[0].newValue);
+                        if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
+                            document.documentElement.innerHTML = distributableData;
+                            console.log("iGlass Theme Enabled");
+                        }
+                        else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
+                            document.documentElement.innerHTML = currentPage;
+                            console.log("iGlass Theme Disabled");
+                        }
+                        else {
+                            // Nothing, we don't care.
+                        }
+                });
                 }
             });
