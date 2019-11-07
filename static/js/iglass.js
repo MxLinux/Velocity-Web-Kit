@@ -649,7 +649,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         })
         console.log(modemObject);
         // Need to combine wireless clients by MAC address 
-        // If the collection of constants is kept specifically with functions, and modemObject is populated exclusively with these functions    
     } else {
         console.log("Easton Velocity Web Kit: iGlass modifications are disabled.");
     }
