@@ -27,10 +27,21 @@ chrome.storage.sync.get(["TicketEnabled"], function(value) {
                             case "AddiGlassButton":
                                 if (Object.values(response)[0] == "Yes") {
                                     buttonNode.insertAdjacentHTML('beforeend', '<div id="iGlass"><button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button></div>');
+                                    chrome.storage.onChanged.addListener(function(changedItems) {
+                                        if(Object.keys(changedItems)[0] =="AddiGlassButton") {
+                                            if(Object.values(changedItems)[0].oldValue == "Yes" && Object.values(changedItems)[0].newValue == "No") {
+                                                document.querySelector("#iGlass").innerHTML = "";
+                                            }
+                                            else if (Object.values(changedItems)[0].oldValue == "No" && Object.values(changedItems)[0].newValue == "Yes") {
+                                                document.querySelector("#iGlass").innerHTML = '<button onclick="window.open(`https://noc.iglass.net/jglass/cpe/accountView.htm?account=' + locationNum + '`, `_blank`)"> Open in iGlass </button>';
+                                            }
+                                        }
+                                    });
                                     break;
                                 }
                                 else {
-                                    // User disabled
+                                    // User disabled but we definitely still want iGlass div
+                                    buttonNode.insertAdjacentElement('beforeend', '<div id="iGlass"></div>');
                                     break;
                                 }
                             case "AddSummaryButton":
