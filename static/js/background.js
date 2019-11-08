@@ -24,20 +24,20 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("iGlassSignalFormat", function (response) {
-        if (Object.values(response) == undefined) {
-            // Nothing
+        if (Object.values(response).length < 1) {
+            chrome.storage.sync.set({ "iGlassSignalFormat": "TX: %tx, UpSNR: %usnr, RX: %rx, DownSNR: %dsnr, Micro: %micro" }, function() {});
         }
         else {
-            chrome.storage.sync.set({ "iGlassSignalFormat": "TX: %tx, UpSNR: %usnr, RX: %rx, DownSNR: %dsnr, Micro: %micro" }, function() {});
+            // Nothing
         }
     });
 
     chrome.storage.sync.get("iGlassSignalCopyShortcut", function (response) {
-        if (Object.values(response) == undefined) {
-            // Nothing
+        if (Object.values(response).length < 1) {
+            chrome.storage.sync.set({ "iGlassSignalCopyShortcut": ["Alt", "C"] }, function() {});        
         }
         else {
-            chrome.storage.sync.set({ "iGlassSignalCopyShortcut": ["Alt", "C"] }, function() {});        
+            // Nothing
         }
     });
 
@@ -87,20 +87,20 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
     
     chrome.storage.sync.get("CustInfoCopyFormat", function (response) {
-        if (Object.values(response) == undefined) {
-            // Nothing
+        if (Object.values(response).length < 1) {
+            chrome.storage.sync.set({ "CustInfoCopyFormat": "%fullname %nl %accnumber %nl %fulladdress" }, function() {});
         }
         else {
-            chrome.storage.sync.set({ "CustInfoCopyFormat": "%fullname %nl %accnumber %nl %fulladdress" }, function() {});
+            // Nothing
         }
     });
 
     chrome.storage.sync.get("CustInfoCopyShortcut", function (response) {
-        if (Object.values(response) == undefined) {
-            // Nothing
+        if (Object.values(response).length < 1) {
+            chrome.storage.sync.set({ "CustInfoCopyShortcut": ["Alt", "C"] }, function() {});
         }
         else {
-            chrome.storage.sync.set({ "CustInfoCopyShortcut": ["Alt", "C"] }, function() {});
+            // Nothing
         }
     });
 
@@ -168,11 +168,11 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("SortByCallbackShortcut", function (response) {
-        if (Object.values(response) == undefined) {
-            // Nothing
+        if (Object.values(response).length < 1) {
+            chrome.storage.sync.set({ "SortByCallbackShortcut": ["Alt", "C"] }, function() {});
         }
         else {
-            chrome.storage.sync.set({ "SortByCallbackShortcut": ["Alt", "C"] }, function() {});
+            // Nothing
         }
     });
 });
