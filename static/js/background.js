@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     }
 
     chrome.storage.sync.get("iGlassEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("iGlassThemeEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -42,7 +42,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("iGlassCopyToggle", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -51,7 +51,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("GatewayEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -60,7 +60,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("AutoLogin", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -69,7 +69,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("SummaryEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -78,7 +78,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("CustInfoCopyEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -105,7 +105,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("TicketEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -114,7 +114,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("AddiGlassButton", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -123,7 +123,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("AddSummaryButton", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -132,7 +132,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
     
     chrome.storage.sync.get("AddRPXButton", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -141,7 +141,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("AddOMSButton", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -150,7 +150,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("VTTEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
@@ -159,7 +159,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     });
 
     chrome.storage.sync.get("SortByCallbackEnabled", function (response) {
-        if (Object.values(response) == undefined) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
             // Nothing
         }
         else {
