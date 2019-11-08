@@ -88,7 +88,7 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
     
     chrome.storage.sync.get("CustInfoCopyFormat", function (response) {
         if (Object.values(response).length < 1) {
-            chrome.storage.sync.set({ "CustInfoCopyFormat": "%fullname %nl %accnumber %nl %fulladdress" }, function() {});
+            chrome.storage.sync.set({ "CustInfoCopyFormat": "%fullname %nl%accnumber %nl%fulladdress" }, function() {});
         }
         else {
             // Nothing
