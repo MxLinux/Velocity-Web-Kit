@@ -19,7 +19,7 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
         function copyData() {
             try {
                 chrome.storage.sync.get("CustInfoCopyEnabled", function (response) {
-                    if (Object.values(response)[0] == "Yes") {
+                    if (Object.values(response) == "Yes") {
                         //listener
                         chrome.storage.sync.get("CustInfoCopyFormat", function (response) {
                             const responseObj = Object.values(response)[0];
