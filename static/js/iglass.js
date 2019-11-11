@@ -515,12 +515,11 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             "node": modemObject["billing"]["customernode"]
         }
 
-        // DEBUG: Remove me
-        //console.log(modemObject);
         // Save the current page in case you want to switch back dynamically; need to incorporate message passing API for this I think
         const currentPage = document.documentElement.outterHTML;
 
         function prepData(dataObject) {
+            console.log("prepdata");
             var dataSpans = "";
             for (i = 0; i < Object.keys(dataObject).length; i++) {
                 if (typeof (Object.values(dataObject)[i]) === 'object') {
