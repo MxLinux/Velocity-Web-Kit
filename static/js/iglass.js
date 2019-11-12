@@ -56,6 +56,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         const modelDict = {
             "DG3450A": "3450",
             "TG2472GP2": "2472",
+            "TG2472G": "2472",
             "DG2470A": "2470",
             "CM8200A": "8200",
             "SB6190": "6190",
@@ -295,8 +296,8 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         }
 
         function getCustomerNode(billingFieldset) {
-            const customerNode = billingFieldset.querySelectorAll(".display-elem")[3].textContent.trim().split(":::")[1].split(" ")[0];
-            return (customerNode);
+            //const customerNode = billingFieldset.querySelectorAll(".display-elem")[3].textContent.trim().split(":::")[1].split(" ")[0];
+            return ("customerNode");
         }
 
         function getBillingStats() {
