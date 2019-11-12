@@ -311,23 +311,21 @@ chrome.storage.onChanged.addListener(function (changedItem) {
     switch (Object.keys(changedItem)[0]) {
         case "iGlassEnabled":
             console.log("...");
-            console.log(Object.values(changedItem));
-            if (Object.values(changedItem)[0] == "Yes") {
-                
-                if (Object.values(changedItem)[1] == "No") {
+            console.log(changedItem.iGlassEnabled.oldValue);
+            if (changedItem.iGlassEnabled.newValue == "Yes") {
+                if (changedItem.iGlassEnabled.oldValue == "No") {
                     document.querySelector(".iGlassTheme").style.display = "flex";
                     document.querySelector(".iGlassCopy").style.display = "flex";
                 }
             }
             else {
-                console.log("eee?");
                 document.querySelector(".iGlassTheme").style.display = "none";
                 document.querySelector(".iGlassCopy").style.display = "none";
             }
             break;
         case "iGlassCopyToggle":
-            if (Object.values(changedItem)[0] == "Yes") {
-                if (changedItem.oldValue == "No") {
+            if (changedItem.iGlassCopyToggle.newValue == "Yes") {
+                if (changedItem.iGlassCopyToggle.oldValue == "No") {
                     document.querySelector(".SignalFormat").style.display = "flex";
                     document.querySelector(".SignalShortcut").style.display = "flex";
                 }
