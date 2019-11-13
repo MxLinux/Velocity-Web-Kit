@@ -45,13 +45,15 @@ chrome.storage.sync.get([
             chrome.storage.sync.set({
                 [className]: "Yes"
             }, function () { });
-        } else if (objChecked == false) {
+        }
+        else if (objChecked == false) {
             chrome.storage.sync.set({
                 [className]: "No"
             }, function () { });
             switch (className) {
             }
-        } else {
+        }
+        else {
             console.log(objChecked);
         }
     }
@@ -72,6 +74,10 @@ chrome.storage.sync.get([
                     div.addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".iGlassTheme").style.display = "none";
+                    document.querySelector(".iGlassCopy").style.display = "none";
+                    document.querySelector(".SignalFormat").style.display = "none";
+                    document.querySelector(".SignalShortcut").style.display = "none";
                     break;
                 }
             case "iGlassThemeEnabled":
@@ -108,6 +114,8 @@ chrome.storage.sync.get([
                     document.querySelector("#iglasscopytoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".SignalFormat").style.display = "none";
+                    document.querySelector(".SignalShortcut").style.display = "none";
                     break;
                 }
             case "iGlassSignalFormat":
@@ -127,7 +135,8 @@ chrome.storage.sync.get([
                 for (n = 0; n < Object.values(settingObject)[i].length; n++) {
                     if (n < Object.values(settingObject)[i].length - 1) {
                         kbdShortcut += Object.values(settingObject)[i][n] + " + ";
-                    } else {
+                    }
+                    else {
                         kbdShortcut += Object.values(settingObject)[i][n];
                     }
                 }
@@ -140,10 +149,12 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#gatewaytoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".Login").style.display = "none";
                     break;
                 }
             case "AutoLogin":
@@ -153,7 +164,8 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#autologintoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
@@ -166,10 +178,14 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#summarytoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".InfoCopy").style.display = "none";
+                    document.querySelector(".InfoFormat").style.display = "none";
+                    document.querySelector(".InfoShortcut").style.display = "none";
                     break;
                 }
             case "CustInfoCopyEnabled":
@@ -179,10 +195,13 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#custinfocopytoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".InfoFormat").style.display = "none";
+                    document.querySelector(".InfoShortcut").style.display = "none";
                     break;
                 }
             case "CustInfoCopyFormat":
@@ -196,7 +215,8 @@ chrome.storage.sync.get([
                 for (n = 0; n < Object.values(settingObject)[i].length; n++) {
                     if (n < Object.values(settingObject)[i].length - 1) {
                         kbdShortcut += Object.values(settingObject)[i][n] + " + ";
-                    } else {
+                    }
+                    else {
                         kbdShortcut += Object.values(settingObject)[i][n];
                     }
                 }
@@ -209,10 +229,15 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#tickettoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".iGlassButton").style.display = "none";
+                    document.querySelector(".SummaryButton").style.display = "none";
+                    document.querySelector(".RPXButton").style.display = "none";
+                    document.querySelector(".OMSButton").style.display = "none";
                     break;
                 }
             case "AddiGlassButton":
@@ -222,7 +247,8 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#iglassbtntoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
@@ -235,7 +261,8 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#summarybtntoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
@@ -248,7 +275,8 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#rpxbtntoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
@@ -261,7 +289,8 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#omsbtntoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
@@ -274,10 +303,13 @@ chrome.storage.sync.get([
                         checkboxClicked(this);
                     }, true);
                     break;
-                } else {
+                }
+                else {
                     document.querySelector("#vtttoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".CBSort").style.display = "none";
+                    document.querySelector(".CBShortcut").style.display = "none";
                     break;
                 }
             case "SortByCallbackEnabled":
@@ -286,10 +318,12 @@ chrome.storage.sync.get([
                     document.querySelector("#cbshortcuttoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
-                } else {
+                }
+                else {
                     document.querySelector("#cbshortcuttoggle").addEventListener("click", function () {
                         checkboxClicked(this);
                     }, true);
+                    document.querySelector(".CBShortcut").style.display = "none";
                     break;
                 }
             case "SortByCallbackShortcut":
@@ -297,7 +331,8 @@ chrome.storage.sync.get([
                 for (n = 0; n < Object.values(settingObject)[i].length; n++) {
                     if (n < Object.values(settingObject)[i].length - 1) {
                         kbdShortcut += Object.values(settingObject)[i][n] + " + ";
-                    } else {
+                    }
+                    else {
                         kbdShortcut += Object.values(settingObject)[i][n];
                     }
                 }
@@ -310,18 +345,24 @@ chrome.storage.sync.get([
 chrome.storage.onChanged.addListener(function (changedItem) {
     switch (Object.keys(changedItem)[0]) {
         case "iGlassEnabled":
-            console.log("...");
-            console.log(changedItem.iGlassEnabled.oldValue);
-            if (changedItem.iGlassEnabled.newValue == "Yes") {
-                if (changedItem.iGlassEnabled.oldValue == "No") {
-                    document.querySelector(".iGlassTheme").style.display = "flex";
-                    document.querySelector(".iGlassCopy").style.display = "flex";
+            chrome.storage.sync.get("iGlassCopyToggle", function (response) {
+                if (changedItem.iGlassEnabled.newValue == "Yes") {
+                    if (changedItem.iGlassEnabled.oldValue == "No") {
+                        if (Object.values(response)[0] == "Yes") {
+                            document.querySelector(".SignalFormat").style.display = "flex";
+                            document.querySelector(".SignalShortcut").style.display = "flex";
+                        }
+                        document.querySelector(".iGlassTheme").style.display = "flex";
+                        document.querySelector(".iGlassCopy").style.display = "flex";
+                    }
                 }
-            }
-            else {
-                document.querySelector(".iGlassTheme").style.display = "none";
-                document.querySelector(".iGlassCopy").style.display = "none";
-            }
+                else {
+                    document.querySelector(".iGlassTheme").style.display = "none";
+                    document.querySelector(".iGlassCopy").style.display = "none";
+                    document.querySelector(".SignalFormat").style.display = "none";
+                    document.querySelector(".SignalShortcut").style.display = "none";
+                }
+            });
             break;
         case "iGlassCopyToggle":
             if (changedItem.iGlassCopyToggle.newValue == "Yes") {
@@ -336,51 +377,91 @@ chrome.storage.onChanged.addListener(function (changedItem) {
             }
             break;
         case "GatewayEnabled":
-            if (Object.values(changedItem)[0] == "Yes") {
-
+            if (changedItem.GatewayEnabled.newValue == "Yes") {
+                if (changedItem.GatewayEnabled.oldValue == "No") {
+                    document.querySelector(".Login").style.display = "flex";
+                }
             }
             else {
-
+                document.querySelector(".Login").style.display = "none";
             }
             break;
         case "SummaryEnabled":
-            if (Object.values(changedItem)[0] == "Yes") {
-
-            }
-            else {
-
-            }
+            chrome.storage.sync.get("CustInfoCopyEnabled", function (response) {
+                console.log(changedItem.SummaryEnabled.oldValue + " => " + changedItem.SummaryEnabled.newValue)
+                if (changedItem.SummaryEnabled.newValue == "Yes") {
+                    if (changedItem.SummaryEnabled.oldValue == "No") {
+                        console.log(Object.values(response)[0]);
+                        if (Object.values(response)[0] == "Yes") {
+                            document.querySelector(".InfoFormat").style.display = "flex";
+                            document.querySelector(".InfoShortcut").style.display = "flex";
+                        }
+                        document.querySelector(".InfoCopy").style.display = "flex";
+                    }
+                }
+                else {
+                    document.querySelector(".InfoCopy").style.display = "none";
+                    document.querySelector(".InfoFormat").style.display = "none";
+                    document.querySelector(".InfoShortcut").style.display = "none";
+                }
+            });
             break;
-        case "CustInfoCopyToggle":
-            if (Object.values(changedItem)[0] == "Yes") {
-
+        case "CustInfoCopyEnabled":
+            console.log(changedItem.CustInfoCopyEnabled.oldValue + " => " + changedItem.CustInfoCopyEnabled.newValue);
+            if (changedItem.CustInfoCopyEnabled.newValue == "Yes") {
+                if (changedItem.CustInfoCopyEnabled.oldValue == "No") {
+                    document.querySelector(".InfoFormat").style.display = "flex";
+                    document.querySelector(".InfoShortcut").style.display = "flex";
+                }
             }
             else {
-
+                document.querySelector(".InfoFormat").style.display = "none";
+                document.querySelector(".InfoShortcut").style.display = "none";
             }
             break;
         case "TicketEnabled":
-            if (Object.values(changedItem)[0] == "Yes") {
-
+            if (changedItem.TicketEnabled.newValue == "Yes") {
+                if (changedItem.TicketEnabled.oldValue == "No") {
+                    document.querySelector(".iGlassButton").style.display = "flex";
+                    document.querySelector(".SummaryButton").style.display = "flex";
+                    document.querySelector(".RPXButton").style.display = "flex";
+                    document.querySelector(".OMSButton").style.display = "flex";
+                }
             }
             else {
-
+                document.querySelector(".iGlassButton").style.display = "none";
+                document.querySelector(".SummaryButton").style.display = "none";
+                document.querySelector(".RPXButton").style.display = "none";
+                document.querySelector(".OMSButton").style.display = "none";
             }
             break;
         case "VTTEnabled":
-            if (Object.values(changedItem)[0] == "Yes") {
-
-            }
-            else {
-
-            }
+            chrome.storage.sync.get("SortByCallbackEnabled", function (response) {
+                if (changedItem.VTTEnabled.newValue == "Yes") {
+                    if (changedItem.VTTEnabled.oldValue == "No") {
+                        if (Object.values(response)[0] == "Yes") {
+                            document.querySelector(".CBShortcut").style.display = "flex";
+                        }
+                        document.querySelector(".CBSort").style.display = "flex";
+                    }
+                }
+                else {
+                    document.querySelector(".CBSort").style.display = "none";
+                    document.querySelector(".CBShortcut").style.display = "none";
+                }
+            });
             break;
         case "SortByCallbackEnabled":
-            if (Object.values(changedItem)[0] == "Yes") {
-
+            if (changedItem.SortByCallbackEnabled.newValue == "Yes") {
+                if (changedItem.SortByCallbackEnabled.oldValue == "No") {
+                    document.querySelector(".CBShortcut").style.display = "flex";
+                    document.querySelector(".CBShortcut").style.display = "flex";
+                }
+                console.log("On")
             }
             else {
-
+                document.querySelector(".CBShortcut").style.display = "none";
+                console.log("Off")
             }
             break;
     }
