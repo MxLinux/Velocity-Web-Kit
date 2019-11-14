@@ -519,7 +519,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         const currentPage = document.documentElement.outterHTML;
 
         function prepData(dataObject) {
-            console.log("prepdata");
             var dataSpans = "";
             for (i = 0; i < Object.keys(dataObject).length; i++) {
                 if (typeof (Object.values(dataObject)[i]) === 'object') {
@@ -618,14 +617,15 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
 
         chrome.storage.sync.get(["iGlassThemeEnabled"], function (value) {
             if (Object.values(value) == "Yes") {
-                document.documentElement.innerHTML = distributableData;
+                let iGlassHTMLObj = distributableData;
                 chrome.storage.onChanged.addListener(function (changes) {
                     if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
-                        document.documentElement.innerHTML = distributableData;
+                        document.documentElement.insertAdjacentHTML('afterend', 'Hello');
+                        document.querySelector("iGlassOverlay").style.visibility = "visible";
                         console.log("iGlass Theme Enabled");
                     }
                     else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
-                        document.documentElement.innerHTML = currentPage;
+                        document.querySelector("iGlassOverlay").style.visibility = "none";
                         console.log("iGlass Theme Disabled");
                     }
                     else {

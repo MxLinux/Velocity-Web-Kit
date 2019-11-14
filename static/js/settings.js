@@ -49,9 +49,7 @@ chrome.storage.sync.get([
         else if (objChecked == false) {
             chrome.storage.sync.set({
                 [className]: "No"
-            }, function () { });
-            switch (className) {
-            }
+            }, function () {});
         }
         else {
             console.log(objChecked);
