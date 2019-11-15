@@ -516,8 +516,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             "node": modemObject["billing"]["customernode"]
         }
 
-        // DEBUG: Remove me
-        //console.log(modemObject);
         // Save the current page in case you want to switch back dynamically; need to incorporate message passing API for this I think
         const currentPage = document.documentElement.outterHTML;
 
@@ -621,14 +619,15 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
 
         chrome.storage.sync.get(["iGlassThemeEnabled"], function (value) {
             if (Object.values(value) == "Yes") {
-                document.documentElement.innerHTML = distributableData;
+                let iGlassHTMLObj = distributableData;
                 chrome.storage.onChanged.addListener(function (changes) {
                     if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
-                        document.documentElement.innerHTML = distributableData;
+                        document.documentElement.insertAdjacentHTML('afterend', 'Hello');
+                        document.querySelector("iGlassOverlay").style.visibility = "visible";
                         console.log("iGlass Theme Enabled");
                     }
                     else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
-                        document.documentElement.innerHTML = currentPage;
+                        document.querySelector("iGlassOverlay").style.visibility = "none";
                         console.log("iGlass Theme Disabled");
                     }
                     else {

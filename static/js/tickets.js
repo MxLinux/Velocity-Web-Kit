@@ -1,6 +1,19 @@
 chrome.storage.sync.get(["TicketEnabled"], function(value) {
             if (Object.values(value) == "Yes") {
-
+                console.log("before listener");
+                chrome.storage.onChanged.addListener(function(changedItems) {
+                    console.log("listener")
+                    console.log(changedItems.TicketEnabled.newValue)
+                    if (changedItems.TicketEnabled.newValue == "No") {
+                        document.querySelector("#extrabuttons").style.display = "none";
+                        console.log("if")
+                    }
+                    else {
+                        document.querySelector("#extrabuttons").style.display = "block";
+                        console.log("else")
+                    }
+                });
+                console.log("after listener");
                 var tbl = document.getElementById('ticketDetailsView');
                 var account = tbl.getElementsByTagName('td')[7];
                 var locationNum = account.innerHTML.slice(-6);
@@ -139,5 +152,14 @@ chrome.storage.sync.get(["TicketEnabled"], function(value) {
                 }
                 } else {
                     console.log("Easton Velocity Web Kit: Ticket modifications are disabled.");
+                    chrome.storage.onChanged.addListener(function(changedItems) {
+                        console.log(changedItems.TicketEnabled.newValue)
+                        if (changedItems.TicketEnabled.newValue == "No") {
+                            document.querySelector("body").style.display = "none";
+                        }
+                        else {
+                            document.querySelector("body").style.display = "block";
+                        }
+                    });
                 }
             });

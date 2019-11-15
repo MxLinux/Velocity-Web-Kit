@@ -23,6 +23,15 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
         }
     });
 
+    chrome.storage.sync.get("iGlassCopyToggle", function (response) {
+        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
+            // Nothing
+        }
+        else {
+            chrome.storage.sync.set({ "iGlassCopyToggle": "Yes" }, function() {});
+        }
+    });
+
     chrome.storage.sync.get("iGlassSignalFormat", function (response) {
         if (Object.values(response).length < 1) {
             chrome.storage.sync.set({ "iGlassSignalFormat": "TX: %tx, UpSNR: %usnr, RX: %rx, DownSNR: %dsnr, Micro: %micro" }, function() {});
@@ -38,15 +47,6 @@ chrome.runtime.onInstalled.addListener(function(activeTab) {
         }
         else {
             // Nothing
-        }
-    });
-
-    chrome.storage.sync.get("iGlassCopyToggle", function (response) {
-        if (Object.values(response) == "Yes" || Object.values(response) == "No") {
-            // Nothing
-        }
-        else {
-            chrome.storage.sync.set({ "iGlassCopyToggle": "Yes" }, function() {});
         }
     });
 
