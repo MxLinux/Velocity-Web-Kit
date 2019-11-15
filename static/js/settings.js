@@ -123,7 +123,7 @@ chrome.storage.sync.get([
                 }
                 else {
                     document.querySelector("#signalformat").value = Object.values(settingObject)[i];
-                    document.querySelector("#savesignalformat").addEventListener("click", function () {
+                    document.querySelector("#signalformat").addEventListener("input", function () {
                         chrome.storage.sync.set({ "iGlassSignalFormat": getSignalFormat() }, function () { });
                     });
                 }
@@ -204,7 +204,7 @@ chrome.storage.sync.get([
                 }
             case "CustInfoCopyFormat":
                 document.querySelector("#custinfocopyformat").value = Object.values(settingObject)[i];
-                document.querySelector("#saveciformat").addEventListener("click", function () {
+                document.querySelector(".CustInfoCopyFormat").addEventListener("input", function () {
                     chrome.storage.sync.set({ "CustInfoCopyFormat": getCustInfoFormat() }, function () { });
                 });
                 break;
