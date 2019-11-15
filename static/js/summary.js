@@ -48,7 +48,8 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
                                 document.execCommand("copy");
                                 console.log("Copied");
                                 return 0;
-                            } else {
+                            }
+                            else {
                                 textareaDiv.value = matchAddress;
                                 textareaDiv.select();
                                 document.execCommand("copy");
@@ -70,11 +71,13 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
         document.onkeyup = function (e) {
             if (e.altKey && e.which == 67) {
                 copyData();
-            } else {
+            }
+            else {
                 void 0;
             }
         }
-    } else {
+    }
+    else {
         console.log("Easton Velocity Web Kit: Customer summary modifications are disabled.");
     }
 });
