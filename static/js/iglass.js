@@ -18,6 +18,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
         const collectionDict = {
             "onlineTekAssigned": "Online, service permitted",
             "onlineKekAssigned": "Almost online, awaiting Traffic Encryption Key",
+            "initTftpPacketRcvd": "Powering on, beginning of registration",
             "onlineNetAccessDisabled": "Online, collection disconnect",
             "offline(1)": "Rebooting"
         }
