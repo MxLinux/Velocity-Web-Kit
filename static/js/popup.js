@@ -1,14 +1,25 @@
 function setVTTView() {
-    location.href = "asdlfaskldjfa";
+    
 }
 
-function setTicketView() {
-    console.log("Stuff");
+function setCustSummaryView() {
+
+}
+
+function setiGlassView() {
+
+}
+
+function setGatewayView() {
+
+}
+
+function setNewGatewayView() {
+    
 }
 
 // Regex matching for various URLs
 const VTTRegex = /http:\/\/eusvr41\/internettechsupport\/Overview\.aspx*/g;
-const TicketRegex = /http:\/\/eusvr41\/internettechsupport\/SearchTicket\.aspx\?TicketID=*/g;
 const CustSummRegex = /http:\/\/eusvr70\/customersummary\/CustomerPage\.aspx\?/g;
 const iGlassRegex = /https:\/\/noc\.iglass\.net\/jglass\/igo\/devInfo.htm*/g;
 // Web applications matching older ARRIS models 1670/2470/2472/etc.
@@ -24,10 +35,6 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     if (tabURL.match(iGlassRegex)) {
         console.log("iGlass");
         document.querySelector("#title").innerText = "iGlass Settings";
-    }
-    else if (tabURL.match(TicketRegex)) {
-        console.log("Ticket");
-        document.querySelector("#title").innerText = "Ticket Settings";
     }
     else if (tabURL.match(VTTRegex)) {
         console.log("VTT");
