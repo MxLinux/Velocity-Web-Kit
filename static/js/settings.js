@@ -386,10 +386,8 @@ chrome.storage.onChanged.addListener(function (changedItem) {
             break;
         case "SummaryEnabled":
             chrome.storage.sync.get("CustInfoCopyEnabled", function (response) {
-                console.log(changedItem.SummaryEnabled.oldValue + " => " + changedItem.SummaryEnabled.newValue)
                 if (changedItem.SummaryEnabled.newValue == "Yes") {
                     if (changedItem.SummaryEnabled.oldValue == "No") {
-                        console.log(Object.values(response)[0]);
                         if (Object.values(response)[0] == "Yes") {
                             document.querySelector(".InfoFormat").style.display = "flex";
                             document.querySelector(".InfoShortcut").style.display = "flex";
@@ -405,7 +403,6 @@ chrome.storage.onChanged.addListener(function (changedItem) {
             });
             break;
         case "CustInfoCopyEnabled":
-            console.log(changedItem.CustInfoCopyEnabled.oldValue + " => " + changedItem.CustInfoCopyEnabled.newValue);
             if (changedItem.CustInfoCopyEnabled.newValue == "Yes") {
                 if (changedItem.CustInfoCopyEnabled.oldValue == "No") {
                     document.querySelector(".InfoFormat").style.display = "flex";
@@ -455,11 +452,9 @@ chrome.storage.onChanged.addListener(function (changedItem) {
                     document.querySelector(".CBShortcut").style.display = "flex";
                     document.querySelector(".CBShortcut").style.display = "flex";
                 }
-                console.log("On")
             }
             else {
                 document.querySelector(".CBShortcut").style.display = "none";
-                console.log("Off")
             }
             break;
     }

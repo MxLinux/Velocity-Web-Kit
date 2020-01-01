@@ -124,7 +124,6 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             try {
                 const transmitChannelFrequency = upstreamChannel.querySelector("legend").textContent.match(regex)[1];
                 return (transmitChannelFrequency);
-                console.log(transmitChannelFrequency);
             } catch (e) {
                 console.log(e);
             }
@@ -179,31 +178,30 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
             try {
                 const receiveChannelFrequency = downstreamChannel.querySelector("legend").textContent.match(regex)[1];
                 return (receiveChannelFrequency);
-                console.log(receiveChannelFrequency);
             } catch (e) {
                 console.log(e);
             }
         }
 
         function getReceiveChannelMicro(downstreamChannel) {
-            const receiveChannelMicro = downstreamChannel.querySelectorAll(".display-elem")[3].textContent.trim().split(" ")[0];
+            const receiveChannelMicro = downstreamChannel.querySelectorAll(".display-elem")[2].textContent.trim().split(" ")[0];
             return (receiveChannelMicro);
         }
 
         function getReceiveCorrected(downstreamChannel) {
-            const _transmitCorrected = downstreamChannel.querySelectorAll(".display-elem")[4];
-            const receiveCorrected = _transmitCorrected.querySelectorAll("span")[0].textContent.trim().split(" ")[0];
+            const _receiveCorrected = downstreamChannel.querySelectorAll(".display-elem")[3];
+            const receiveCorrected = _receiveCorrected.querySelectorAll("span")[0].textContent.trim().split(" ")[0];
             return (receiveCorrected);
         }
 
         function getReceiveErrored(downstreamChannel) {
-            const _receiveErrored = downstreamChannel.querySelectorAll(".display-elem")[4];
+            const _receiveErrored = downstreamChannel.querySelectorAll(".display-elem")[3];
             const receiveErrored = _receiveErrored.querySelectorAll("span")[1].textContent.trim().split(" ")[0];
             return (receiveErrored);
         }
 
         function getReceiveCodewords(downstreamChannel) {
-            const _receiveCodewords = downstreamChannel.querySelectorAll(".display-elem")[4];
+            const _receiveCodewords = downstreamChannel.querySelectorAll(".display-elem")[3];
             const receiveCodewords = _receiveCodewords.textContent.split("/")[2].trim().split(" ")[0];
             return (receiveCodewords);
         }
@@ -413,7 +411,7 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                         radioLegendObject[currentRadio]["frequency"] = accessPointFieldsets[i].querySelectorAll("div")[1].textContent.trim().split(" Frequency Band")[0];
                     }
                     else {
-                        radioObject[currentRadio]["unsupported"] = "Unsupported modem model";
+                        radioLegendObject[currentRadio]["unsupported"] = "Unsupported modem model";
                     }
                 }
                 // SSID info
@@ -599,14 +597,12 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                         infoArea.style.opacity = "0";
                         infoArea.select();
                         document.execCommand("copy");
-                        console.log("Copied");
                         return 0;
                     }
                     else {
                         textareaDiv.value = processMicro;
                         textareaDiv.select();
                         document.execCommand("copy");
-                        console.log("Copied");
                         return 0;
                     }
                 })
@@ -639,11 +635,9 @@ chrome.storage.sync.get(["iGlassEnabled"], function (value) {
                     if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "Yes") {
                         document.documentElement.insertAdjacentHTML('afterend', 'Hello');
                         document.querySelector("iGlassOverlay").style.visibility = "visible";
-                        console.log("iGlass Theme Enabled");
                     }
                     else if (Object.keys(changes) == "iGlassThemeEnabled" && Object.values(changes)[0].newValue == "No") {
                         document.querySelector("iGlassOverlay").style.visibility = "none";
-                        console.log("iGlass Theme Disabled");
                     }
                     else {
                         // Nothing, we don't care.

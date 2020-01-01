@@ -10,8 +10,14 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
         function fixAddress(address) {
             const isolatedStreetAddr = address.split(", ")[0];
             const isolatedState = address.split(", ")[1].split(" ")[0];
-            const isolatedZIP = address.split(", ")[1].split(" ")[1];
-            const fixedZIP = isolatedZIP.substring(0, 5) + "-" + isolatedZIP.substring(5);
+            const isolatedZIP = address.split(", ")[1].split(" ")[1].trim();
+            var fixedZIP;
+            if (isolatedZIP.length <= 5) {
+                fixedZIP = isolatedZIP;
+            }
+            else {
+                fixedZIP = isolatedZIP.substring(0, 5) + "-" + isolatedZIP.substring(5);
+            }
             const fixedState = isolatedState.toUpperCase();
             return (isolatedStreetAddr + ", " + fixedState + " " + fixedZIP);
         }
@@ -46,14 +52,12 @@ chrome.storage.sync.get(["SummaryEnabled"], function (value) {
                                 infoArea.style.opacity = "0";
                                 infoArea.select();
                                 document.execCommand("copy");
-                                console.log("Copied");
                                 return 0;
                             }
                             else {
                                 textareaDiv.value = matchAddress;
                                 textareaDiv.select();
                                 document.execCommand("copy");
-                                console.log("Copied");
                                 return 0;
                             }
                         })
