@@ -1,6 +1,7 @@
 chrome.storage.sync.get(["GatewayEnabled"], function (value) {
     if (Object.values(value) == "Yes") {
-        var user = "technician";
+
+	var user = "technician";
         var site = location.hostname;
         // Some regex I totally stole from SO to check against Class A addresses
         var regex = new RegExp("(10)(\.([2]([0-5][0-5]|[01234][6-9])|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}");
